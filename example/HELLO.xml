@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mtext [
+<!ELEMENT mtext (property* , body+)>
+<!ELEMENT property EMPTY>
+<!ELEMENT body (#PCDATA)>
+<!ATTLIST property key CDATA #REQUIRED>
+<!ATTLIST property value CDATA #REQUIRED>
+<!ATTLIST property from CDATA #REQUIRED>
+<!ATTLIST property to CDATA #REQUIRED>
+<!ATTLIST property control CDATA #REQUIRED>
+]>
+<mtext>
+<property key="language" value="el" from="174" to="183" control="0"/>
+<property key="language" value="ru" from="138" to="174" control="0"/>
+<property key="language" value="sk" from="106" to="138" control="0"/>
+<property key="language" value="de" from="64" to="106" control="0"/>
+<property key="language" value="fr" from="27" to="64" control="0"/>
+<property key="language" value="en" from="7" to="27" control="0"/>
+<property key="language" value="ka" from="233" to="267" control="0"/>
+<property key="language" value="hy" from="204" to="233" control="0"/>
+<property key="language" value="el" from="184" to="204" control="0"/>
+<property key="language" value="am" from="484" to="507" control="0"/>
+<property key="language" value="dv" from="436" to="484" control="0"/>
+<property key="language" value="fa" from="404" to="436" control="0"/>
+<property key="language" value="ar" from="352" to="404" control="0"/>
+<property key="language" value="he" from="321" to="352" control="0"/>
+<property key="language" value="tr" from="292" to="321" control="0"/>
+<property key="language" value="hi" from="530" to="567" control="0"/>
+<property key="language" value="gu" from="631" to="643" control="0"/>
+<property key="language" value="pa" from="596" to="631" control="0"/>
+<property key="language" value="bn" from="568" to="596" control="0"/>
+<property key="language" value="or" from="661" to="685" control="0"/>
+<property key="language" value="gu" from="650" to="661" control="0"/>
+<property key="language" value="km" from="1019" to="1061" control="0"/>
+<property key="language" value="my" from="986" to="1019" control="0"/>
+<property key="language" value="lo" from="948" to="986" control="0"/>
+<property key="language" value="th" from="907" to="948" control="0"/>
+<property key="language" value="bo" from="846" to="907" control="0"/>
+<property key="language" value="si" from="817" to="846" control="0"/>
+<property key="language" value="ml" from="770" to="817" control="0"/>
+<property key="language" value="kn" from="742" to="770" control="0"/>
+<property key="language" value="te" from="713" to="742" control="0"/>
+<property key="language" value="ta" from="686" to="713" control="0"/>
+<property key="language" value="vi" from="1074" to="1096" control="0"/>
+<property key="language" value="ko" from="1155" to="1177" control="0"/>
+<property key="language" value="ja" from="1130" to="1155" control="0"/>
+<property key="language" value="zh" from="1107" to="1130" control="0"/>
+<body>Europe
+  English					Hello
+  French (français)			Bonjour, Salut
+  German (Deutsch)			Guten Tag, Grüß Gott
+  Slovak (slovensky)		Dobrý deň
+  Russian (русский)			Здравствуйте!
+  Greek (ἑλληνικά)			Γειά σας
+  Armenian (հայերեն)		Բարեւ։
+  Georgian (ქართული)		გამარჯობათ!
+
+Middle Near East/Africa
+  Turkish (Türkçe)			Merhaba
+  Hebrew (עִבְרִית)‎			שָׁלוֹם
+  Arabic (اَلْعَرَبِيَّةُ)‎			اَلسَّلَامُ عَلَيْكُمْ
+  Persian (فارسی)‎			سلام عليکم
+  Dhivehi (ދިވެހިބަސް)‎			އައްސަލާމު އަލައިކުމް
+  Amharic (አማርኛ)			ሠላም
+
+South/South-East Asia
+  Hindi (हिन्दी)				नमस्ते, नमस्कार ।
+  Bengali (বাংলা)			নমস্কার
+  Punjabi (ਪੰਜਾਬੀ)			ਸਤਿ ਸ਼੍ਰੀ ਅਕਾਲ
+  Gujarati (ગુજરાતી)			નમસ્તે
+  Oriya (ଓଡ଼ିଆ)				ଶୁଣିବେ
+  Tamil (தமிழ்)				வணக்கம்
+  Telugu (తెలుగు)			నమస్కారం
+  Kannada (ಕನ್ನಡ)			ನಮಸ್ಕಾರ
+  Malayalam (മലയാളം)		നമസ്കാരം (ex: ന+്+ര=ന്ര)
+  Sinhala (සිංහල)			ආයුබෝවන්
+  Tibetan (བོད་སྐད་)			བཀྲ་ཤིས་བདེ་ལེགས༎ (ex: བསྒྲུབས, ཧཱུཾ)
+  Thai (ภาษาไทย)			สวัสดีครับ, สวัสดีค่ะ
+  Lao (ພາສາລາວ)			ສະບາຍດີ, ຂໍໃຫ້ໂຊກດີ
+  Myanmar (မ္ရန္‌မာ)			မင္‍ဂလာပာ
+  Khmer (ខ្មៃរ)				ជំរាបសួរ (ex: ក្ក្រឿ៌)
+  Vietnamese (Tiếng Việt)	Chào bạn
+
+East Asia
+  Chinese (汉语,普通话)		你好
+  Japanese (日本語)			こんにちは
+  Korean (한글)			안녕하세요
+</body></mtext>

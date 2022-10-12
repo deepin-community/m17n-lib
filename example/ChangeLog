@@ -1,0 +1,821 @@
+2018-02-08  K. Handa  <handa@gnu.org>
+
+	Version 1.8.0 released.
+
+2016-01-12  K. Handa  <handa@gnu.org>
+
+	* Makefile.am (INCLUDES): Delete it.  Make this value included in
+	AM_CPPFLAGS.
+
+2014-12-10  K. Handa  <handa@gnu.org>
+
+	* Version 1.7.0 released.
+
+2014-11-11  K. Handa  <handa@gnu.org>
+
+	* .gitignore: Converted from .cvsigore.
+
+	* .cvsignore: Delete it.
+
+2013-06-28  Kenichi Handa  <handa@gnu.org>
+
+	* mconv.c (main): Fix checking of command line arguments.
+
+2012-12-15  Kenichi Handa  <handa@gnu.org>
+
+	* mdump.c (help_exit): Fix typo.
+
+2012-09-18  Kenichi Handa  <handa@m17n.org>
+
+	* Version 1.6.4 released.
+
+2011-10-11  Kenichi Handa  <handa@m17n.org>
+
+	* Version 1.6.3 released.
+
+2010-10-05  Kenichi Handa  <handa@m17n.org>
+
+	* Version 1.6.2 released.
+
+2010-10-05  Kenichi Handa  <handa@m17n.org>
+
+	* Makefile.am (INCLUDES): Set -I$(top_srcdir)/src.
+
+2010-04-23  Kenichi Handa  <handa@m17n.org>
+
+	* Version 1.6.1 released.
+
+2010-04-23  Kenichi Handa  <handa@m17n.org>
+
+	* HELLO.utf8: Add Unicode 5.1 based Myanmar.
+
+2010-03-30  Kenichi Handa  <handa@m17n.org>
+
+	* Version 1.6.0 released.
+
+2010-02-18  Kenichi Handa  <handa@m17n.org>
+
+	* Makefile.am: Build modules dynamically loaded with
+	-avoid-version and no -version-info.
+
+2010-02-09  Kenichi Handa  <handa@m17n.org>
+
+	* HELLO.utf8 (Greek, Hindi): Fixed.
+
+2009-08-13  Kenichi Handa  <handa@m17n.org>
+
+	* Version 1.5.5 released.
+
+2009-03-02  Kenichi Handa  <handa@m17n.org>
+
+	* Version 1.5.4 released.
+
+2009-01-15  Kenichi Handa  <handa@m17n.org>
+
+	* mconv.c (suppress_warning, continue_on_error): Make them global
+	variables.
+	(check_invalid_bytes, check_unencoded_chars): Check
+	suppress_warning and continue_on_error.
+	(unknown_encoding): New function.
+	(FATAL_ERROR): Check suppress_warning.
+	(main): Use unknown_encoding.  Call check_invalid_bytes and
+	check_unencoded_chars unconditionally.
+
+2008-12-26  Kenichi Handa  <handa@m17n.org>
+
+	* mconv.c (main): Print a proper error message if the specified
+	encoding requires m17n-db.
+
+2008-10-30  Andreas Schwab <schwab@suse.de>  (tiny change)
+
+	* medit.c (FilterProc): Fix strict aliasing bug.
+
+2008-10-30  Kenichi Handa  <handa@m17n.org>
+
+	* medit.c (update_scroll_bar): Use XawScrollbarSetThumb.
+
+2008-10-20  Kenichi Handa  <handa@m17n.org>
+
+	* Version 1.5.3 released.
+
+2008-06-23  Kenichi Handa  <handa@m17n.org>
+
+	* Version 1.5.2 released.
+
+	* mview.c: (main): Copyright years updated.
+
+	* mdump.c (main): Copyright years updated.
+
+	* mdate.c: (main): Copyright years updated.
+
+	* medit.c: (main): Copyright years updated.
+
+	* mconv.c (main): Copyright years updated.
+
+2008-06-13  Kenichi Handa  <handa@m17n.org>
+
+	* M17NEdit.ja: Shinalese -> Shinhala.
+
+2008-04-04  Kenichi Handa  <handa@m17n.org>
+
+	* medit.c (unicode_input_method, saved_input_method): New
+	variables.
+	(KeyProc): Make `C-=' activate the unicode input method
+	temporarily.
+	(setup_input_methods): Set unicode_input_method if any.
+
+2008-04-03  Kenichi Handa  <handa@m17n.org>
+
+	* medit.c (update_cursor): Update control.cursor_pos at first.
+
+2008-01-31  Kenichi Handa  <handa@ni.aist.go.jp>
+
+	* Version 1.5.1 released.
+
+2008-01-31  Kenichi Handa  <handa@ni.aist.go.jp>
+
+	* mview.c: Include <stdlib.h>.
+
+2007-12-28  Kenichi Handa  <handa@ni.aist.go.jp>
+
+	* Version 1.5.0 released.
+
+2007-10-29  Kenichi Handa  <handa@m17n.org>
+
+	* Makefile.am (common_ldflags_gui): Add
+	${top_builddir}/src/libm17n-flt.la.
+
+	* .gdb.util (xgstring): Adjusted for the change of dump_gstring.
+	(xgtr): New command.
+
+2007-09-18  Kenichi Handa  <handa@m17n.org>
+
+	* mdump.c (main): Use "generic" fontset by default.
+
+2007-07-13  Kenichi Handa  <handa@m17n.org>
+
+	* Version 1.4.0 released.
+
+2007-05-21  Kenichi Handa  <handa@m17n.org>
+
+	* medit.c (show_cursor): Use msymbol_name (not mlanguage_name).
+
+2007-05-16  Kenichi Handa  <handa@m17n.org>
+
+	* mdate.c (VERSION): Delete it.
+	(main): Use M17NLIB_VERSION_NAME to print the version number.
+
+	* mconv.c (VERSION): Delete it.
+	(main): Use M17NLIB_VERSION_NAME to print the version number.
+
+	* mdump.c (PROGRAM_VERSION): Delete it.
+	(main): Use M17NLIB_VERSION_NAME to print the version number.
+
+	* medit.c (VERSION): Delete it.
+	(main): Use M17NLIB_VERSION_NAME to print the version number.
+
+	* mview.c (VERSION): Delete it.
+	(main): Use M17NLIB_VERSION_NAME to print the version number.
+
+2007-03-29  Kenichi Handa  <handa@m17n.org>
+
+	* medit.c (setup_input_methods): Use mplist_put_func.
+
+2006-12-06  Kenichi Handa  <handa@m17n.org>
+
+	* Version 1.3.4 released.
+
+	* mview.c (VERSION): Changed to 1.3.4.
+
+	* mdump.c (PROGRAM_VERSION): Changed to 1.3.4.
+
+	* mdate.c (VERSION): Changed to 1.3.4.
+
+	* medit.c (VERSION): Changed to 1.3.4.
+
+	* mconv.c (VERSION): Changed to 1.3.4.
+
+2006-10-27  Kenichi Handa  <handa@m17n.org>
+
+	* medit.c (surrounding_text_handler): Be sure to set surround text
+	even if LEN is zero.
+
+2006-10-16  Kenichi Handa  <handa@m17n.org>
+
+	* medit.c (create_menu_button): Set XtNinternational to True.
+
+2006-08-02  Theppitak Karoonboonyanan  <thep@linux.thai.net>  (tiny change)
+
+	* Makefile.am (common_ldflags, common_ldflags_gui): Use
+	${top_builddir}.
+
+2006-07-19  TAKAHASHI Naoto  <ntakahas@m17n.org>
+
+	* HELLO.utf8, HELLO.html, HELLO.xml: Add final sukun to Arabic.
+
+2006-06-23  Kenichi Handa  <handa@m17n.org>
+
+	* Makefile.am (BUILD_LIBS): Don't increment it conditionally.
+
+	* medit.c (show_cursor): Call mlanguage_name to get English name
+	of language.
+	(compare_input_method): Likewise.
+	(main): Likewise.
+
+2006-02-22  Kenichi Handa  <handa@m17n.org>
+
+	* Version 1.3.3 released.
+
+2006-02-22  Kenichi Handa  <handa@m17n.org>
+
+	* mview.c: Fix some typo in documention.
+
+	* medit.c: Fix some typo in documention.
+
+	* mdump.c: Fix some typo in documention.
+
+2006-02-06  Kenichi Handa  <handa@m17n.org>
+
+	* Version 1.3.2 released.
+
+2006-02-03  Kenichi Handa  <handa@m17n.org>
+
+	* mdump.c: Describe the supported color names.
+
+2006-01-19  Kenichi Handa  <handa@m17n.org>
+
+	* HELLO.utf8: Fix greek.
+
+	* HELLO.xml: Fix greek.
+
+2006-01-17  Kenichi Handa  <handa@m17n.org>
+
+	* mdump.c (main): Use gdImageCreateTrueColor and
+	gdImageAlphaBlending only if HAVE_GD is 2 or the greater.
+
+2006-01-16  Kenichi Handa  <handa@m17n.org>
+
+	* Version 1.3.1 released.
+
+2006-01-16  Kenichi Handa  <handa@m17n.org>
+
+	* mdump.c (help_exit): Describe -fg, -bg, -r args.
+	(main): Handle -fg, -bg args.  Use gdImageCreateTrueColor instead
+	of gdImageCreate.
+
+2006-01-05  Kenichi Handa  <handa@m17n.org>
+
+	* HELLO.utf8: Fix Hindi and Oriya.
+
+	* HELLO.xml: Adjusted for the latest HELLO.utf8.
+
+	* HELLO.html: Adjusted for the latest HELLO.utf8.
+
+	* mdate.c (main): Call m17n-view; not mview.
+
+2005-12-22  Kenichi Handa  <handa@m17n.org>
+
+	* Version 1.3.0 released.
+
+2005-12-06  Kenichi Handa  <handa@m17n.org>
+
+	* medit.c (mt_modified): New variable.
+	(KeyProc): Update screen if input method modified a text.
+	(surrounding_text_handler): Set mt_modified to 1 if a text is
+	deleted.
+	(main): Fix handling of --font arg.
+
+2005-12-02  Kenichi Handa  <handa@m17n.org>
+
+	* medit.c (main): Handle --font arg.
+
+2005-11-21  Kenichi Handa  <handa@m17n.org>
+
+	* Makefile.am (bin_PROGRAMS, lib_LTLIBRARIES): Define them
+	conditionally on WITH_GUI.
+
+2005-11-11  Kenichi Handa  <handa@m17n.org>
+
+	* medit.c (surrounding_text_handler): Directly delete characters
+	instead of calling delete_char.
+
+2005-11-08  Kenichi Handa  <handa@m17n.org>
+
+	* medit.c (delete_char): Fix the case of deleting the previous
+	multiple characters.
+	(surrounding_text_handler): Check number of characters to delete.
+
+2005-11-07  Kenichi Handa  <handa@m17n.org>
+
+	* medit.c (surrounding_text_handler): New function.
+	(setup_input_methods): Add callback functions for surrounding text
+	handling.
+
+2005-10-20  Kenichi Handa  <handa@m17n.org>
+
+	* medit.c (setup_input_methods): Ignore an input method of name
+	nil.
+
+2005-10-14  Kenichi Handa  <handa@m17n.org>
+
+	* medit.c (main): Don't leave a fontset unfreed.
+
+2005-10-03  Kenichi Handa  <handa@m17n.org>
+
+	* mdump.c (main): Make the image tranparent.
+
+2005-09-27  Kenichi Handa  <handa@m17n.org>
+
+	* mdump.c (dump_image): If FILTER is "-", print the image to
+	stdout.
+
+2005-09-22  Kenichi Handa  <handa@m17n.org>
+
+	* medit.c (select_input_method): Open an input method if
+	necessary.  Handle left bitmap of input method menus here.
+	(show_cursor): Don't open an input method here.
+	(ExposeProc): Likewise.
+	(FocusInProc): Fix typo (Minput_focus_out -> Minput_focus_in).
+	(InputMethodProc): Don't handle left bitmap of input method menus
+	here.
+	(setup_input_methods): Don't open an input method here.
+
+2005-09-16  Kenichi Handa  <handa@m17n.org>
+
+	* medit.c (ButtonProc): Don't reset ic, instead send
+	Minput_focus_move event to the current input method.
+	(FocusInProc, FocusOutProc): New functions.
+	(actions): Add elements for FocusIn and FocusOut.
+	(main): Add  elements for FocusIn and FocusOut to trans2.
+
+2005-09-12  Kenichi Handa  <handa@m17n.org>
+
+	* medit.c (redraw): Don't redraw an area where not text is
+	displayed.
+
+2005-09-05  Kenichi Handa  <handa@m17n.org>
+
+	* medit.c: Check HAVE_X11_XAW_COMMAND_H before including X11/*.h.
+
+	* mview.c: Check HAVE_X11_XAW_COMMAND_H before including X11/*.h.
+
+	* Makefile.am (X_LD_FLAGS): Use @X11_LD_FLAGS@ instead of
+	directory listing libraries.
+	(PURIFY, purify_medit, purify_mdate): Define them in maintainer
+	mode.
+
+2005-08-22  Kenichi Handa  <handa@m17n.org>
+
+	* mdump.c: Don't include config.h.
+
+	* medit.c: Likewise.
+
+	* mview.c: Likewise.
+
+	* mimx-anthy.c: Likewise.
+
+	* mimx-ispell.c: Likewise.
+
+	* Makefile.am (AM_CPPFLAGS): Set it to @CONFIG_FLAGS@.
+
+2005-08-18  Kenichi Handa  <handa@m17n.org>
+
+	* medit.c (main): Adjusted for the change of symbol's language
+	property (now in lowercase).
+
+	* mdump.c (main): Handle --fontset arg.
+
+2005-05-19  Kenichi Handa  <handa@m17n.org>
+
+	* medit.c (main): Explicitly set minput_driver.
+
+2005-04-28  Kenichi Handa  <handa@m17n.org>
+
+	* .cvsignore: Change mXXXX to m17n-XXXX.
+
+	* Makefile.am (X_LD_FLAGS): Include @XAW_LD_FLAGS@, not -lXaw.
+
+	* medit.c: Check HAVE_X11_XAW_COMMAND_H, and if it not defined,
+	add dummy code.
+
+	* mview.c: Check HAVE_X11_XAW_COMMAND_H, and if it not defined,
+	add dummy code.
+
+2005-04-15  Kenichi Handa  <handa@m17n.org>
+
+	* medit.c: Include dlfcn.h.
+	(Mword): New variable.
+	(show_cursor): Check Mlanguage text property of the cursor
+	position only.
+	(delete_char): Pay attention to the change of line beginning
+	position because of filling.
+	(insert_chars): Likewise.
+	(word_constituent_p, forward_word, backward_word): New functions.
+	(KeyProc): Assign XK_b and XK_f for back/foreward word.
+	(line_break): Delete extern.
+	(LineBreakProc): Use mdraw_default_line_break.
+	(FilterProc): New function.
+	(main): Handle --filter arg.  Initialize Mword.  
+
+	* mdump.c (main): Set control.line_break to
+	mdraw_default_line_break.
+
+	* Makefile.am (m17n_edit_SOURCES): Don't include linebreak.c.
+	(m17n_dump_SOURCES): Likewise.
+	(m17n_edit_LDADD): Don't include @WORDCUT_LD_FLAGS@.
+	(m17n_dump_LDADD): Likewise.
+
+2005-03-09  Kenichi Handa  <handa@m17n.org>
+
+	* HELLO.utf8, HELLO.xml, HELLO.html: Fix Telugu line.
+
+2005-02-17  Kenichi Handa  <handa@m17n.org>
+
+	* medit.c (setup_input_methods): Fix for the case that no input
+	method is available.
+
+2005-01-12  Kenichi Handa  <handa@m17n.org>
+
+	* HELLO.utf8, HELLO.xml, HELLO.html: Adjust the encoding of
+	Myanmar kinzi to the new proposal by Myanmar NLP.
+
+2004-12-27  Kenichi Handa  <handa@m17n.org>
+
+	* Version 1.2.0 released.
+
+2004-12-27  Kenichi Handa  <handa@m17n.org>
+
+	* M17NEdit.ja: Renamed from MEdit.ja.
+
+	* Makefile.am: Put prefix "m17n-" instead of single "m" to
+	executables.
+	(EXTRA_DIST): Include HELLO.html and M17NEdit.ja.
+
+	* mconv.c, mdate.c, mdump.c, medit.c, mview.c: Documentations
+	changed ("mXXXX" -> "m17n-XXXX").
+
+2004-12-21  Kenichi Handa  <handa@m17n.org>
+
+	* medit.c (ButtonProc): Reset the current input method (if
+	activated) and insert the produced text.
+	(KeyProc): Cancel the previous change.
+
+2004-12-21  Kenichi Handa  <handa@m17n.org>
+
+	* medit.c (KeyProc): Handle C-\ as resetting input context.
+
+2004-12-17  Kenichi Handa  <handa@m17n.org>
+
+	* medit.c (main): Allocagte filename by strdup if not specified.
+
+2004-12-10  Kenichi Handa  <handa@m17n.org>
+
+	* mview.c (VERSION): Update to 1.2.0.
+
+	* medit.c (VERSION): Update to 1.2.0.
+	(main): If filename is not specified, open /dev/null.
+
+	* mdate.c (VERSION): Update to 1.2.0.
+
+	* mconv.c (VERSION): Update to 1.2.0.
+
+2004-12-09  Kenichi Handa  <handa@m17n.org>
+
+	* medit.c (SaveProc, DumpImageProc, FileDialogProc, read_file):
+	Decode by Mcoding_utf_8_full, not Mcoding_utf_8.
+
+2004-12-09  handa  <handa@m17n.org>
+
+	* Makefile.am (common_ldflags): Include libm17n-core.la.
+	(common_ldflags_gui): Include ${common_ldflags}
+	
+2004-12-03  Kenichi Handa  <handa@m17n.org>
+
+	* mimx-anthy.c (AnthyContext): New member ic.
+	(new_context): When something goes wrong, return NULL without
+	creating a context.
+	(get_context): New function.
+	(init): Pay attention to the case of multiple calls.
+	(fini): Likewise.
+	(convert, change, resize, commit): Use get_context.
+
+	* mimx-ispell.c (face_available): New variable.
+	(init): Check if GUI APIs are available or not.  If not, set
+	face_available to 0.
+	(fini): Free a face only if face_available is not zero.
+	(ispell_word): Put face property only if available.
+
+2004-10-29  Kenichi Handa  <handa@m17n.org>
+
+	* medit.c (main): Fix handling of "-s" arg.
+
+2004-10-12  Kenichi Handa  <handa@m17n.org>
+
+	* medit.c (KeyProc): Cast buf to `unsigned char *'.
+	(FaceProc): Call hide_cursor () at first.
+
+2004-09-27  Kenichi Handa  <handa@m17n.org>
+
+	* HELLO.html: Add Sinhala.
+
+2004-09-23  Kenichi Handa  <handa@m17n.org>
+
+	* HELLO.utf8, HELLO.xml: Add Sinhala.
+
+2004-09-14  Kenichi Handa  <handa@m17n.org>
+
+	* medit.c (update_selection): Fix for the case that the selection
+	is just one line.
+
+2004-08-27  Kenichi Handa  <handa@m17n.org>
+
+	* mdump.c (help_exit): Describe about the arg "-r".
+	(reverse_bit_order, init_reverse_bit_order): Delete them.
+	(main): Handle the arg "-r".
+
+2004-08-25  Kenichi Handa  <handa@m17n.org>
+
+	* medit.c: Adjusted for the member name change
+	(MDrawGlyphInfo->this -> MDrawGlyphInfo->metics).
+
+	* mdump.c: Adjusted for the member name change
+	(MDrawGlyphInfo->this -> MDrawGlyphInfo->metics).
+
+2004-08-16  Kenichi Handa  <handa@m17n.org>
+
+	* Version 1.1.0 released.
+
+2004-08-15  Kenichi Handa  <handa@m17n.org>
+
+	* MEdit.ja: Add Dhivehi.
+
+	* HELLO.utf8, HELLO.xml: Add Oriya and Dhivehi.
+
+	* medit.c (covert_selection): Handle explicit request of
+	UTF8_STRING.
+	(ExposeProc): If an initial input method is specifed, activate it.
+	(setup_input_methods): New arg initial_input_method.  If it's not
+	NULL, set current_input_method to the corresponding index.
+	(help_exit): Fix help message.
+	(main): Handle --im and -s command args.
+
+	* mdump.c (help_exit): Fix help message.
+
+2004-08-09  Kenichi Handa  <handa@m17n.org>
+
+	* mconv.c (VERSION): Updated to 1.1.
+
+	* mdate.c (VERSION): Likewise.
+
+	* medit.c (VERSION): Likewise.
+
+	* mview.c (VERSION): Likewise.
+
+2004-07-28  Kenichi Handa  <handa@m17n.org>
+
+	* HELLO.utf8: Add language names for Telugu and Gujarati.
+
+	* HELLO.xml: Add language names for Telugu and Gujarati.
+
+2004-07-26  Kenichi Handa  <handa@m17n.org>
+
+	* medit.c (redraw_cursor): Fix checking of redrawing area.
+	(set_input_method_spot): Don't check face if the buffer is empty.
+	(show_cursor): Likewise.
+	(delete_char): Fix adjustment of nchars.
+	(CursorProc): Call update_cursor.
+
+2004-07-23  Kenichi Handa  <handa@m17n.org>
+
+	* HELLO.xml: Add Myanmar.
+
+	* HELLO.utf8: Add Myanmar.
+
+2004-07-22  Kenichi Handa  <handa@m17n.org>
+
+	* medit.c (get_selection): If decoding fails and *type is not
+	XA_UTF8_STRING, try to get selection value of type XA_UTF8_STRING.
+
+2004-07-20  Kenichi Handa  <handa@m17n.org>
+
+	* medit.c (main): If frame creation is falied, exit by error.
+	Call M17N_FINI after destroying the application context.
+
+2004-07-18  Kenichi Handa  <handa@m17n.org>
+
+	* Makefile.am (common_ldflags): Don't include
+	${top_srcdir}/src/libm17n-core.la.
+
+2004-07-07  Kenichi Handa  <handa@m17n.org>
+
+	* medit.c (Mcoding_compound_text): New variable.
+	(covert_selection): Fix previous change.
+	(main): Set Mcoding_compound_text.
+
+2004-07-06  Kenichi Handa  <handa@m17n.org>
+
+	* mdump.c: Cancel previous change.
+
+	* Makefile.am (X_LD_FLAGS): Fix the order of linking.
+	(medit_LDADD, mview_LDADD, mdump_LDADD): Cancel previous change.
+
+	* HELLO.xml: Add Punjabi, Kannada, Telugu, and Gujarati.
+
+	* medit.c (covert_selection): If X_HAVE_UTF8_STRING is defined and
+	target is XA_UTF8_STRING, encode by utf-8.
+	(get_selection): If X_HAVE_UTF8_STRING is defined and *type is
+	XA_UTF8_STRING, decode by utf-8.
+
+2004-07-05  Kenichi Handa  <handa@m17n.org>
+
+	* HELLO.utf8: Add Kannada.
+
+2004-06-30  Kenichi Handa  <handa@m17n.org>
+
+	* mdump.c: Include <m17n-gd.h> instead of <m17n-gui.h>.
+
+	* Makefile.am (X_LD_FLAGS): New variable.
+	(medit_LDADD, mview_LDADD, mdump_LDADD): Add all depending
+	libraries.
+	(medit_LDFLAGS, mview_LDFLAGS, mdump_LDFLAGS): Delete them.
+	(libmimx_anthy_la_LIBADD): Add @ANTHY_LD_FLAGS@.
+	(libmimx_anthy_la_LDFLAGS): Delete @ANTHY_LD_FLAGS@.
+
+2004-06-25  TAKAHASHI Naoto  <ntakahas@m17n.org>
+
+	* HELLO.utf8: Add Punjabi.
+
+2004-06-24  Kenichi Handa  <handa@m17n.org>
+
+	* Makefile.am: (libmimx_ispell_la_LDFLAGS)
+	(libmimx_anthy_la_LDFLAGS): Add -module.
+
+2004-06-23  Kenichi Handa  <handa@m17n.org>
+
+	* Makefile.am (medit_LDFLAGS, mview_LDFLAGS): Cancel the previous
+	change.
+
+	* medit.c (redraw_cursor): Refer to cursor.logical_width instead
+	of cursor.this.width.
+
+2004-06-21  Kenichi Handa  <handa@m17n.org>
+
+	* Makefile.am (medit_LDFLAGS, mview_LDFLAGS): Include -lX11 and
+	-lXt.
+
+2004-06-17  Kenichi Handa  <handa@m17n.org>
+
+	* mdump.c (main): Don't set control.as_image to 1.
+
+2004-06-16  Kenichi Handa  <handa@m17n.org>
+
+	* mdump.c (main): Fix typo of error message.
+
+	* medit.c (face_freeserif): New variable.
+	(face_table): Add an entry for freeserif.
+	(main): Initialized and free face_freeserif.
+
+2004-06-15  Kenichi Handa  <handa@m17n.org>
+
+	* mdump.c: Add command line arguments --family and --language.
+	(help_exit): Print info about those arguemnts.
+	(main): Make family name to lowercase.
+
+2004-06-04  Kenichi Handa  <handa@m17n.org>
+
+	* mconv.c (compare_coding_name): New function.
+	(list_coding): Sort the list of codings by their names.
+
+2004-06-03  Kenichi Handa  <handa@m17n.org>
+
+	* medit.c (InputMethodInfo): New type.
+	(input_method_table): Type changed to `InputMethodInfo *'.
+	(select_input_method): Adjusted for the change of
+	input_method_table.
+	(show_cursor): Open an input method here if necessary.
+	(compare_input_method): Adjusted for the change of
+	input_method_table.
+	(setup_input_methods): Likewise.  Don't open input methods here
+	except for XIM.
+	(main): Adjusted for the change of input_method_table.
+
+	* mconv.c (main): Close `in' and `out'.
+
+	* HELLO.utf8: Fix Greek line.
+
+	* HELLO.xml: Fix Greek line.
+
+2004-05-28  Kenichi Handa  <handa@m17n.org>
+
+	* Makefile.am (VINFO): New variable.
+	(libmimx_ispell_la_LDFLAGS, libmimx_anthy_la_LDFLAGS): Include
+	${VINFO}.
+
+	* mdump.c (PROGRAM_VERSION): Renamed from VERSION.
+	(main): Use PROGRAM_VERSION.
+
+	* medit.c (main): Make face_input_status copy of face_default.
+
+2004-05-27  Kenichi Handa  <handa@m17n.org>
+
+	* medit.c (show_cursor): Check hline->width and box->width.
+	(main): Set reverse videomode in a face for selection.
+
+	* mdump.c: Include config.h.  Include <gd.h> instead of
+	<X11/Xlib.h>.  If not HAVE_FREETYPE nor HAVE_GD, define a pseudo
+	function main that just print an error message.
+	(help_exit): Adjusted for the change of spec.
+	(dump_image): Argument changed.  Dump PNG image instead of PBM.
+	(main): Adjusted for the change of spec.
+
+	* Makefile.am (common_ldflags_gui): Renamed from
+	common_ldflags_X.  Set to .../libm17n-gui.la.  Referrer changed.
+	(mdump_LDFLAGS): Include @GD_LD_FLAGS@
+
+	* HELLO.xml:  Add Bengali.
+
+2004-05-21  Kenichi Handa  <handa@m17n.org>
+
+	* HELLO.utf8: Add Bengali.
+
+2004-05-20  Kenichi Handa  <handa@m17n.org>
+
+	* medit.c (redraw): If contro.anti_alias is nonzero, always clear.
+	(ButtonMoveProc): Don't give control.anti_alias to redraw.
+	(default_face_list): New variable.
+	(FaceProc): If no selection, change the default face.
+	(main): Initialize and finalize default_face_list.
+
+2004-04-27  Kenichi Handa  <handa@m17n.org>
+
+	* mimx-ispell.c: Add coding tag euc-jp.
+
+	* mimx-anthy.c: Add coding tag euc-jp.
+
+	* medit.c: Add coding tag euc-jp.
+	(ButtonMoveProc): Full redraw if we are using anti-aliased text.
+	(main): Set control.anti_alias to 1. 
+
+	* mdump.c: Add coding tag euc-jp.
+
+	* mdate.c: Add coding tag euc-jp.
+
+	* mconv.c: Add coding tag euc-jp.
+
+2004-04-20  Kenichi Handa  <handa@m17n.org>
+
+	* Makefile.am (medit_LDFLAGS): Include X_PRE_LIBS, XLIBS,
+	X_EXTRA_LIBS.
+	(mview_LDFLAGS): Likewise.
+
+	* linebreak.c: Don't include wordcut/xmalloc.h, wordcut/path.h.
+
+2004-03-29  Kenichi Handa  <handa@m17n.org>
+
+	* Version 1.0 Patch Level 2 released.
+
+2004-03-19  Kenichi Handa  <handa@m17n.org>
+
+	* Version 1.0 Patch Level 1 released.
+
+2004-03-19  Kenichi Handa  <handa@m17n.org>
+
+	* medit.c (VERSION): Changed to 1.0.1.
+	(update_selection): Fix for the case that the selected region is
+	expanded to the opposite direction.
+	(ButtonMoveProc): Likewise.
+	(main): Use alloca instead of malloc for allocating menu names.
+	Free several memory areas and GCs.
+
+2004-03-12  Kenichi Handa  <handa@m17n.org>
+
+	* medit.c (input_status_control): New variable.
+	(input_status): Use input_status_control.
+	(main): Initialize input_status_control.
+
+2004-03-01  Kenichi Handa  <handa@m17n.org>
+
+	* Version 1.0 released.
+
+
+Copyright (C) 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012
+  2013, 2014
+  National Institute of Advanced Industrial Science and Technology (AIST)
+  Registration Number H15PRO112
+
+This file is part of the m17n library.
+
+The m17n library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public License
+as published by the Free Software Foundation; either version 2.1 of
+the License, or (at your option) any later version.
+
+The m17n library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with the m17n library; if not, write to the Free
+Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+Boston, MA 02110-1301, USA.

@@ -1,0 +1,5 @@
+usr/include/*
+usr/lib/*/libm17n*.a
+usr/lib/*/m17n/1.0/lib*.a
+usr/lib/*/libm17n*.so
+usr/lib/*/pkgconfig/*

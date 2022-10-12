@@ -1,0 +1,4 @@
+version=4
+opts="uversionmangle=s/RC/~RC/" \
+ https://download.savannah.gnu.org/releases/m17n/m17n-lib-(\d[\d.]*R?C?\d?)\.tar\.gz \
+ debian uupdate

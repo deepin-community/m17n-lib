@@ -1,0 +1,151 @@
+Source: m17n-lib
+Section: utils
+Priority: optional
+Maintainer: Debian Input Method Team <debian-input-method@lists.debian.org>
+Uploaders:
+ Harshula Jayasuriya <harshula@debian.org>,
+Build-Depends:
+ debhelper-compat (= 13),
+ ispell,
+ libanthy-dev,
+ libfontconfig1-dev,
+ libfreetype6-dev,
+ libfribidi-dev,
+ libgd-dev,
+ libotf-dev (>= 0.9.11),
+ libthai-dev,
+ libx11-dev,
+ libxaw7-dev,
+ libxft-dev,
+ libxml2-dev,
+ libxmu-dev,
+ libxrender-dev,
+ libxt-dev,
+ m17n-db,
+ pkg-config (>= 0.22),
+Standards-Version: 4.6.0
+Homepage: http://www.nongnu.org/m17n/
+Vcs-Git: https://salsa.debian.org/input-method-team/m17n-lib.git
+Vcs-Browser: https://salsa.debian.org/input-method-team/m17n-lib
+
+Package: libm17n-0
+Section: libs
+Architecture: any
+Multi-Arch: same
+Pre-Depends:
+ ${misc:Pre-Depends},
+Depends:
+ m17n-db (>= 1.6.0),
+ ${misc:Depends},
+ ${shlibs:Depends},
+Suggests:
+ m17n-docs,
+Description: multilingual text processing library - runtime
+ The m17n library is a multilingual text processing library for the C
+ language.  This library has following features:
+  - The m17n library is an open source software.
+  - The m17n library for any Linux/Unix applications.
+  - The m17n library realizes multilingualization of many aspects of
+    applications.
+  - The m17n library represents multilingual text as an object named
+    M-text.  M-text is a string with attributes called text properties,
+    and designed to substitute for string in C.  Text properties carry any
+    information required to input, display and edit the text.
+  - The m17n library  supports functions to handle M-texts.
+ .
+ m17n is an abbreviation of Multilingualization.
+ .
+ This package contains the runtime part of m17n-lib.
+
+Package: libm17n-dev
+Section: libdevel
+Architecture: any
+Multi-Arch: same
+Pre-Depends:
+ ${misc:Pre-Depends},
+Depends:
+ dpkg-dev,
+ libm17n-0 (= ${binary:Version}),
+ libthai-dev,
+ libxml2-dev,
+ ${misc:Depends},
+Suggests:
+ m17n-docs,
+Description: multilingual text processing library - development
+ The m17n library is a multilingual text processing library for the C
+ language.  This library has following features:
+ .
+  - The m17n library is an open source software.
+  - The m17n library for any Linux/Unix applications.
+  - The m17n library realizes multilingualization of many aspects of
+    applications.
+  - The m17n library represents multilingual text as an object named
+    M-text.  M-text is a string with attributes called text properties,
+    and designed to substitute for string in C.  Text properties carry any
+    information required to input, display and edit the text.
+  - The m17n library  supports functions to handle M-texts.
+ .
+ m17n is an abbreviation of Multilingualization.
+ .
+ This package contains the header and development files needed to build
+ programs and packages using m17n-lib.
+
+Package: m17n-lib-bin
+Architecture: any
+Multi-Arch: foreign
+Depends:
+ libm17n-0 (= ${binary:Version}),
+ ${misc:Depends},
+ ${shlibs:Depends},
+Suggests:
+ m17n-docs,
+Description: multilingual text processing library - utilities
+ The m17n library is a multilingual text processing library for the C
+ language.  This library has following features:
+ .
+  - The m17n library is an open source software.
+  - The m17n library for any Linux/Unix applications.
+  - The m17n library realizes multilingualization of many aspects of
+    applications.
+  - The m17n library represents multilingual text as an object named
+    M-text.  M-text is a string with attributes called text properties,
+    and designed to substitute for string in C.  Text properties carry any
+    information required to input, display and edit the text.
+  - The m17n library  supports functions to handle M-texts.
+ .
+ m17n is an abbreviation of Multilingualization.
+ .
+ This package contains the utilities which use m17n-lib.
+
+Package: m17n-lib-mimx
+Architecture: any
+Multi-Arch: same
+Pre-Depends:
+ ${misc:Pre-Depends},
+Depends:
+ anthy,
+ ispell,
+ libm17n-0 (= ${binary:Version}),
+ ${misc:Depends},
+ ${shlibs:Depends},
+Suggests:
+ m17n-docs,
+Description: multilingual text processing library - binary modules
+ The m17n library is a multilingual text processing library for the C
+ language.  This library has following features:
+ .
+  - The m17n library is an open source software.
+  - The m17n library for any Linux/Unix applications.
+  - The m17n library realizes multilingualization of many aspects of
+    applications.
+  - The m17n library represents multilingual text as an object named
+    M-text.  M-text is a string with attributes called text properties,
+    and designed to substitute for string in C.  Text properties carry any
+    information required to input, display and edit the text.
+  - The m17n library  supports functions to handle M-texts.
+ .
+ m17n is an abbreviation of Multilingualization.
+ .
+ This package contains the binary modules needed by:
+ - ja-anthy.mim
+ - ispell.mim

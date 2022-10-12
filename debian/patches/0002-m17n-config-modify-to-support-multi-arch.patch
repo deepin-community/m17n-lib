@@ -1,0 +1,32 @@
+From: Harshula Jayasuriya <harshula@debian.org>
+Date: Sat, 9 Jan 2016 14:46:58 +1100
+Subject: m17n-config-modify-to-support-multi-arch
+
+Modify m17n-config to support mult-arch (Closes: #796770)
+---
+ m17n-config.in | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
+
+diff --git a/m17n-config.in b/m17n-config.in
+index 8bdfa92..2dc4e73 100644
+--- a/m17n-config.in
++++ b/m17n-config.in
+@@ -7,6 +7,7 @@
+ 
+ prefix=@prefix@
+ exec_prefix=@exec_prefix@
++libdir=${prefix}/lib/$(dpkg-architecture -qDEB_HOST_MULTIARCH)
+ 
+ help ()
+ {
+@@ -69,8 +70,8 @@ case $1 in
+   echo "@PACKAGE_VERSION@";;
+ 
+ --libs)
+-  if test "@libdir@" != "/usr/lib"; then
+-    echo "-L@libdir@ ${LIBNAME}"
++  if test "${prefix}" != "/usr"; then
++    echo "-L${libdir} ${LIBNAME}"
+   else
+     echo "${LIBNAME}"
+   fi;;

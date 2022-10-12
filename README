@@ -1,0 +1,197 @@
+This directory tree holds version 1.8.0 of the m17n library.	-*- text -*-
+
+Copyright (C) 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011,
+  2012, 2013, 2014
+  National Institute of Advanced Industrial Science and Technology (AIST)
+  Registration Number H15PRO112
+Copyright (C) 2015, 2016, 2017  K. Handa  <handa@gnu.org>
+See the end for copying conditions.
+
+The m17n library is a multilingual text processing library for the C
+language.
+
+----- Table of contents ------
+(1) INSTALLATION
+(2) DATABASE
+(3) DOCUMENTATION
+(4) USAGE
+(5) BUGS
+------------------------------
+
+(1) INSTALLATION
+
+(1-1) From Git working directory.
+
+Run the script "bootstrap.sh" in this directory.  It is tested that
+the script runs successfully with these versions of tools.
+
+   libtool automake autoconf gettext pkg-config
+     2.4.2   1.14.1     2.69  0.18.3       0.26
+
+(*1) bootstrap.sh prints several warnings something like this:
+------------------------------------------------------------
+autoreconf: running: automake --add-missing --copy --force-missing
+configure.ac:47: warning: The 'AM_PROG_MKDIR_P' macro is deprecated, and its use is discouraged.
+configure.ac:47: You should use the Autoconf-provided 'AC_PROG_MKDIR_P' macro instead,
+configure.ac:47: and use '$(MKDIR_P)' instead of '$(mkdir_p)'in your Makefile.am files.
+configure.ac:47: installing './config.sub'
+configure.ac:28: installing './install-sh'
+configure.ac:28: installing './missing'
+Makefile.am: installing './INSTALL'
+example/Makefile.am:35: warning: 'INCLUDES' is the old name for 'AM_CPPFLAGS' (or '*_CPPFLAGS')
+------------------------------------------------------------
+but, it seems that they can be just ignored.
+
+Then, proceed to the next step.
+
+(1-2) From the tarball.
+
+The m17n library utilizes these extra libraries.  It is recommended to
+install all of them before running the "configure" script.  The script
+will find out the existence of them automatically.
+
+	libxml2		-- http://xmlsoft.org/
+	fribidi	  	-- http://fribidi.sourceforge.net/
+	freetype	-- http://www.freetype.org/
+	libotf		-- http://www.m17n.org/libotf/
+	fontconfig	-- http://freedesktop.org/Software/fontconfig
+	xft		-- http://freedesktop.org/Software/Xft
+	gd		-- http://www.boutell.com/gd/
+
+In addition, for finding a word boundary in Thai text, "configure"
+checks the existence of these libraries (libthai is preferred):
+
+	libthai		-- http://sourceforge.net/projects/libthai
+	wordcut		-- http://thaiwordseg.sourceforge.net/
+
+The sample program m17n-edit utilizes this Japanese inputting system.
+It is also recommended to install it.
+
+	anthy		-- http://anthy.sourceforge.jp/
+
+Then, type the followings on the command line.
+
+	% ./configure
+	% make
+	% make install
+
+Note that this package assumes an ANSI C compiler such as gcc.  It
+will not compile with an old-style K&R compiler.
+
+The default installation path is "/usr/local".
+Thus, these header files are installed in /usr/local/include:
+	m17n-core.h, m17n.h, m17n-gui.h, m17n-err.h, m17n-X.h, m17n-flt.h
+
+These library files are installed in /usr/local/lib:
+	libm17n-core.{a,so*,la}
+	libm17n.{a,so*,la}
+	libm17n-gui.{a,so*,la}
+	libm17n-flt.{a,so*,la}
+
+These modules are installed in /usr/local/lib/m17n/1.0:
+	libm17n-X.{a,so*,la}
+	libm17n-gd.{a,so*,la}
+	libimx-anthy.{a,so*,la},
+	libimx-ispell.{a,so*,la},
+
+This shell script is installed in /usr/local/bin:
+	m17n-config
+
+These pkgconfig metadata files are installed in
+/usr/local/lib/pkgconfig:
+	m17n-core.pc, m17n-shell.pc, m17n-flt.pc, m17n-gui.pc
+
+These sample programs are installed in /usr/local/bin too:
+	m17n-conv, m17n-date, m17n-view, m17n-dump, m17n-edit
+
+If you don't need GUI libraries (libm17n-gui.so and etc.), you can
+instruct the `configure' script not to build them as below:
+
+	% ./configure --without-gui
+
+This file under `example' sub-directory is a Japanese resource file
+for m17n-edit.  It is not installed but useful in Japanese locale.  Copy
+it to your home directory (or, for instance,
+/usr/X11R6/lib/X11/ja/app-defaults) and rename it to "M17NEdit" if you
+want to see labels in Japanese:
+	M17NEdit.ja
+
+These text files under `example' sub-directory are not installed but
+useful for testing the rendering engine of the m17n library:
+	HELLO.utf8 HELLO.xml HELLO-ja.utf8 HELLO-ja.xml HELLO.html
+XXX.xml are generated from XXX.utf8 by attaching text property
+`language' and serializing.
+
+Please read also INSTALL for the generic installation instructions.
+
+
+(2) DATABASE
+
+The m17n library utilizes the m17n database available at:
+	http://www.m17n.org/m17n-lib/m17n-db
+Without this database, the m17n library loses half its value.  Please
+install it (Ver.1.4.0 or the later is required) too before you try the
+above sample programs or develop a program that uses the m17n library.
+
+
+(3) DOCUMENTATION
+
+This page has a link to full documentation of the m17n library:
+	http://www.m17n.org/m17n-lib
+
+Actually, the documentation was generated by Doxygen using comments in
+the source files.  There are English and Japanese comments in
+parallel.
+
+
+(4) USAGE
+
+The library provides three levels of APIs, CORE, SHELL, and GUI.  For
+CORE API, include <m17n-core.h>, for SHELL API, include <m17n.h>, and
+for GUI API, include <m17n-gui.h >.  In addition, for those who need
+only text shaping facility that uses FLT (Font Layout Table), the
+library provides FLT API.  To use it, include <m17n-flt.h>.
+
+See the documentation above, or the manual of m17nIntro(3) for more
+detail.
+
+The shell script "m17n-config" helps compiling and linking of a
+program that uses the m17n library.  For instance this compiles PROG.c
+that uses SHELL API and builds executable PROG.
+
+	% gcc -o PROG `m17n-config --cflags` `m17n-config --libs` PROG.c
+
+This compiles PROX.c that uses GUI API and builds executable PROX.
+
+	% gcc -o PROX `m17n-config GUI --cflags` `m17n-config GUI --libs` PROX.c
+
+
+(5) BUGS
+
+Please email bug reports to m17n-list@nongnu.org.
+
+----------------------------------------------------------------------
+Copyright information
+
+Copyright (C) 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011,
+  2012, 2013, 2014
+  National Institute of Advanced Industrial Science and Technology (AIST)
+  Registration Number H15PRO112
+Copyright (C) 2015, 2016, 2017  K. Handa  <handa@gnu.org>
+
+This file is part of the m17n library.
+
+The m17n library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public License
+as published by the Free Software Foundation; either version 2.1 of
+the License, or (at your option) any later version.
+
+The m17n library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with the m17n library; if not, write to the Free
+Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+Boston, MA 02110-1301, USA.

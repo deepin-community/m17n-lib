@@ -1,0 +1,271 @@
+* NEWS -- What's new in the m17n library.			-*- outline -*-
+Copyright (C) 2003-2014
+  National Institute of Advanced Industrial Science and Technology (AIST)
+  Registration Number H15PRO112
+Copyright (C) 2015, 2016, 2017  K. Handa  <handa@gnu.org>
+See the end for copying conditions.
+
+
+* Changes in the m17n library 1.8.0
+
+This release is just for bug fixing.
+
+
+* Changes in the m17n library 1.7.1
+
+** The command m17n-config is not installed anymore if pkg-config is
+available.
+
+
+* Changes in the m17n library 1.7.0
+
+** The mechanism of fallback input method is implemented.  For that, a
+new variable fallback-input-method and new commands switch-im,
+push-im, pop-im are supported.
+
+
+* Changes in the m17n library 1.6.4
+
+This release is just for bug fixing.
+
+
+* Changes in the m17n library 1.6.3
+
+This release is just for bug fixing.
+
+
+* Changes in the m17n library 1.6.2
+
+This release is just for bug fixing.
+
+
+* Changes in the m17n library 1.6.1
+
+** Libtool 1.5.26 can be used to build the library from CVS source.
+
+
+* Changes in the m17n library 1.6.0
+
+** For handling new spec in the Unicode 5.2, these new APIs are added
+to m17n-flt.h.
+   mflt_enable_new_feature
+   mflt_iterate_otf_feature
+   mflt_font_id
+   mflt_try_otf
+
+
+* Changes in the m17n library 1.5.5
+
+** Now libtool 2.2.4 or the later is required to build the library
+from CVS source.
+
+
+* Changes in the m17n library 1.5.4
+
+** New coding system names "Shift_JIS" and "windows-XXXX" are
+recognized.
+
+
+* Changes in the m17n library 1.5.3
+
+This release is just for bug fixing.
+
+
+* Changes in the m17n library 1.5.2
+
+This release is just for bug fixing.
+
+
+* Changes in the m17n library 1.5.1
+
+This release is just for bug fixing.
+
+
+* Changes in the m17n library 1.5.0
+
+** New API layer FLT is created.
+
+** New environment variable MDEBUG_FLT is available to turn on
+printing debug information for FLT, and these are now obsolete;
+MDEBUG_FONT_FLT, MDEBUG_FONT_OTF.
+
+** New functions mchartable_min_char () returns the mininum character.
+that is set some value in a char-table.  New funcion
+mchartable_min_char () is for the maximum character.
+
+
+* Changes in the m17n library 1.4.0
+
+** If the environment variable "M17NDIR" is not set, the directory
+"~/.m17n.d" is serched for database files.
+
+** New function mfont_list_family_names () returns a list of available
+font family names.
+
+** New functions mlanguage_list (), mlanguage_code (),
+mlanguage_name_list (), and mlanguage_text () return various
+language-related information.
+
+** New functions mscript_list () and mscript_language_list () return
+various script-related information.
+
+** New function msymbol_put_func (), msymbol_get_func (),
+mplist_put_func (), mplist_get_func (), mface_put_hook (), and
+mface_get_hook () are available to avoid unsafe casting of function
+pointer.  New macro M17N_FUNC and new type M17NFunc are also
+introduced.
+
+
+* Changes in the m17n library 1.3.0
+
+** The `configure' script accepts the argument "--without-gui" to
+suppress building GUI libraries.
+
+** The environment variable MDEBUG_OUTPUT_FILE can specify a file to
+output the debugging log messages.
+
+** The member `candidate_changed' of MInputContext carries more
+information; i.e. the list itself is changed, only an index is
+changed, etc.
+
+** The member `callback_list' of MInputDriver can have callback
+functions `input-get-surrounding-text' and
+`input-delete-surrounding-text'.
+
+** The minput_filter () function accepts special events
+`input-focus-move', `input-focus-in', and `input-focus-out'.
+
+** Three letter codes of ISO639-2 are also accepted as language
+symbols.
+
+** New functions minput_get_description (), minput_get_commands (),
+minput_assign_command_keys (), minput_get_variables (), and
+minput_set_variable(), minput_get_title_icon() are introduced for
+handling input methods.
+
+** New fucntions mtext_insert () and and mtext_replace () for
+modifying M-text.
+
+** New functions mtext_uppercase (), mtext_titlecase (),
+mtext_lowercase () implement "3.13 Default Case Operations" of The
+Unicode Standard 4.0.
+
+** New function mtext_line_break () implements the line breaking
+algorithm of The Unicode Standard 4.0 UAX#14.  The algorithm can be
+controlled by the variable mdraw_line_break_option.
+
+** New function msymbol_is_managing_key () checks if a symbol is a
+managing key or not.
+
+** New function mtext_data () exports various information about
+M-text.
+
+** Function mfont_get_prop () accept properties `fontfile',
+`font-acsent', `font-descent', and `max-advance'.
+
+** New function mfont_check () checks if a specific font can be used
+for a specific script and language.
+
+** New function mface_equal () checks if two faces are equal or not.
+
+
+* Changes in the m17n library 1.2.0
+
+** Two new variables MTEXT_FORMAT_UTF_16 and MTEXT_FORMAT_UTF_32.
+They are initialized to one of MTEXT_FORMAT_UTF_16LE,
+MTEXT_FORMAT_UTF_16BE,  MTEXT_FORMAT_UTF_LE,  MTEXT_FORMAT_UTF_32BE
+dependending on the systems's endianess.
+
+** In the argument PLIST of mframe (), the key Mfont can be used to
+specify which font-backend to use.  The value must be Mx or Mfreetype.
+
+** New function mfont_list () returns a list of matching fonts.
+
+** New function m17n_status () returns the current initialization
+status.
+
+** New function minput_reset () resets the current input context.
+
+** Names of sample programs have prefix "m17n-" instead of single "m".
+This is to avoid confiliction of program names included in the other
+packages.
+
+
+* Changes in the m17n library 1.1.0
+
+** The "configure" script now detects Fontconfig, Xft2, and GD
+libraries.
+
+If Fontconfig library is found, the library find local font files
+(that are to be handled by the Freetype library) by fontconfig, and if
+Xft2 library is also found, draw text by Xft.
+
+** Mdevice (new symbol) is recoginized as a key in the argument PLIST
+of mframe ().
+
+The value must be Mx (new symbol), Mgd (new symbol), or Mnil.  See the
+documentation of mframe () for more detail.
+
+** MDrawControl has a new member `anti_alias'.
+
+If MDrawControl->anti_alias is nonzero, try to draw anti-aliased text
+if local fonts are used for that text via Freetype.  If Xft2 library
+can be used, the anti-alias processing is done by Xft2's drawing
+routine.  Otherwise, the m17n library itself does it by assumming that
+the background color is `background' property of a face.
+
+** Modification of face is now automatically refelected to the next
+drawing.
+
+So, for instance, an application can change the default face of a
+frame after the frame is created.  The sample program "medit" utilize
+it now.
+
+** New function mfontset_lookup () reports contents of a fontset.
+
+** New function mplist_deseriaze () parses an M-Text and generates a
+plist.
+
+** The functions mfont_name () and mfont_from_name () are now obsolete
+(still kept for backward compatibility).  Use mfont_parse_name () and
+mfont_unparse_name () instead.
+
+** The sample program "mdump" generates PNG image file instead of PBM.
+
+It now runs only when the m17n library is configured with the Freetype
+library and the GD library.
+
+
+* Changes in the m17n library 1.0
+
+** Released.
+
+
+* Copyright information
+
+Copyright (C) 2003-2014
+  National Institute of Advanced Industrial Science and Technology (AIST)
+  Registration Number H15PRO112
+Copyright (C) 2015, 2016, 2017  K. Handa  <handa@gnu.org>
+
+This file is part of the m17n library.
+
+The m17n library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public License
+as published by the Free Software Foundation; either version 2.1 of
+the License, or (at your option) any later version.
+
+The m17n library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with the m17n library; if not, write to the Free
+Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+Boston, MA 02110-1301, USA.
+
+Local Variables:
+mode: outline
+paragraph-separate: "[ 	]*$"
+End:

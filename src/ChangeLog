@@ -1,0 +1,5206 @@
+2018-02-08  K. Handa  <handa@gnu.org>
+
+	Version 1.8.0 released.
+
+	* m17n-core.h (M17NLIB_MINOR_VERSION): Changed to 8.
+	(M17NLIB_PATCH_LEVEL): Changed to 0.
+	(M17NLIB_VERSION_NAME): Changed "1.8.0".
+
+2017-12-09  handa  <handa@gnu.org>
+
+	* font.c (mfont__set_spec_from_plist): Fix for buffer overrun (bug
+	#50091).
+
+2017-12-08  handa  <handa@gnu.org>
+
+	* m17n-core.c (report_object_array): Check `objects' member
+	before freeing it.
+	(mdebug__register_object): Initialize `array' if `objects' member
+	is null.
+
+	* internal.h (M17N_OBJECT_UNREF): Call m17n_object_unref if
+	MDEBUG_FINI is specified.
+
+	* face.c (mface__init): Prepend a space to the name of Mface.
+
+	* input.c (new_im_info): Add debug logging code.
+	(free_im_info): Likewise.
+	(minput__fini): Likewise.
+
+2016-02-28  handa  <handa@gnu.org>
+
+	* input.c (minput_parse_im_names): Fix a parsing bug of an input
+	methods name that omits the
+	language part.
+
+2015-11-13  Paul Eggert  <eggert@cs.ucla.edu>
+
+	Fix buffer overruns in run_stages index array
+
+	* m17n-flt.c (run_stages): Fix off-by-one bug in computing array
+	length; here, TO_POS is inclusive, not exclusive.
+	Also, do not overrun buffer if g_indices[len - 1] == -1.
+
+2015-08-29  K. Handa  <handa@gnu.org>
+
+	* internal-gui.h (MGlyph): New member libotf_positioning_type.
+
+	* font-ft.c (ft_drive_otf): Define it for HAVE_OTF and not
+	HAVE_OTF separately.  Adjusted for the new libotf functions
+	OTF_drive_gsub_features and OTF_drive_gpos_features.
+
+2015-08-29  Mike FABIAN  <mfabian@redhat.com>
+
+	* input.c (load_translation, filter): Fix type (int -> MSymbol).
+
+2015-04-05  K. Handa  <handa@gnu.org>
+
+	* m17n-flt.h (MFLTGlyph): Fix documentation.
+
+2014-12-10  K. Handa  <handa@gnu.org>
+
+	* Version 1.7.0 released.
+
+2014-11-11  K. Handa  <handa@gnu.org>
+
+	* .gitignore: Converted from .cvsigore.
+
+	* .cvsignore: Delete it.
+
+2014-03-23  K. Handa  <handa@gnu.org>
+
+	* input.c (filter): Do not increment the reference count of
+	ic->produced.
+
+2014-03-12  K. Handa  <handa@gnu.org>
+
+	* m17n.h (minput_parse_im_names): Extern it.
+
+	* mtext.c (insert): Preserve the tailing NULL.
+
+	* input.c (create_ic_for_im): New argument `current'.  Caller
+	changed.
+	(pop_im): Reset the pushed input method.
+	(filter): Update ic_info and im_info after popping and pushing.
+
+2014-03-07  K. Handa  <handa@gnu.org>
+
+	* input.c (prepare_fallback_input_methods): Use
+	minput_parse_im_names.
+	(re_init_ic): Do not save and restore ic_info->fallbacks.
+	(check_fallback): Check if map->submaps is NULL.
+	(minput_parse_im_names): New function.
+
+	* plist.c (read_mtext_element): Be sure that the first argument to
+	read_mtext_element is null terminated.
+
+2014-02-09  K. Handa  <handa@gnu.org>
+
+	* internal.h (M17N_OBJECT_UNREF): Set an object having extended
+	count to NULL if it is freed.
+
+2014-02-09  K. Handa  <handa@gnu.org>
+
+	Changes to implement fallback input methods.
+
+	* input.h (MIMInputStack): New type.
+	(MInputContextInfo): New members pushing_or_switching, fallbacks,
+	and stack.
+
+	* input.c (MSwitch_im, Mpush_im, Mpop_im, Mfallback_input_method):
+	New variables.
+	(fallback_input_methods): New variables.
+	(prepare_fallback_input_methods): New function.
+	(fully_initialize): Initialize new variables.  Call
+	prepare_fallback_input_methods at the end.
+	(parse_action_list): Recognize Mpush_im, Mpop_im, and Mswitch_im.
+	(create_ic_for_im): New function.
+	(check_variable_value): Recognize Mplits as type.
+	(take_action_list): Handle Mpush_im, Mpop_im, and Mswitch_im.
+	(handle_key): Propagate the return value of take_action_list to
+	the caller.  Update the saved values of preedit text and cursor
+	position after running the init-actions of a state.
+	(struct MIMInputStack): New structure.
+	(pop_im, push_im): New funcitons.
+	(init_ic_info): Create contexts of fallback input methods.
+	(fini_ic_info): Free the above contexts.
+	(re_init_ic): Save and restore ic_info->fallbacks and
+	ic_info->stack.
+	(check_command_key): New function.
+	(check_reload): Call check_command_key.
+	(check_fallback): New function.
+	(filter): Handle push/pop input methods.
+	(minput__fini): Unref fallback_input_methods.
+
+	* input-gui.c (win_filter): Restore ic->info to the original value
+	before calling "filter" driver.
+
+2013-10-28  Kenichi Handa  <handa@gnu.org>
+
+	* mtext.c (mtext_ref_char): Fix the logic.
+
+2012-12-15  Kenichi Handa  <handa@gnu.org>
+
+	* input.c [EXAMPLE_CODE] (get_im_command_description): Fix typo.
+
+2012-09-18  Kenichi Handa  <handa@m17n.org>
+
+	* Version 1.6.4 released.
+
+2012-09-17  Kenichi Handa  <handa@gnu.org>
+
+	* m17n-flt.c (run_stages): After removing separator glyphs,
+	re-check ctx->out->used.
+
+2012-04-23  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-core.h (M17NLIB_PATCH_LEVEL): Changed to 4.
+	(M17NLIB_VERSION_NAME): Changed to "1.6.4"
+
+2012-03-21  Kenichi Handa  <handa@m17n.org>
+
+	* font-ft.c (fc_decode_prop): Fix for the case of too large VAL.
+
+2012-02-28  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-core.h (M17NLIB_PATCH_LEVEL): Changed to 3.
+	(M17NLIB_VERSION_NAME): Changed to "1.6.3".
+
+2011-10-11  Kenichi Handa  <handa@m17n.org>
+
+	* Version 1.6.3 released.
+
+2011-09-12  Kenichi Handa  <handa@m17n.org>
+
+	* draw.c (analyse_bidi_level): Adjust a type (FriBidiParType).
+
+2011-06-19  Kenichi Handa  <handa@m17n.org>
+
+	* Makefile.am (libm17n_X_la_LIBADD): Add @FONTCONFIG_LD_FLAGS@.
+
+2011-03-09  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (take_action_list): Move the handling of candidate-list
+	change to the function filter.
+	(filter): Adjusted as above.
+
+2011-02-14  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (minput_list): Change the format of returning plist.
+
+2011-02-14  Kenichi Handa  <handa@m17n.org>
+
+	* m17n.h (minput_list): Extern it.
+
+	* input.c (MIMExternalModule): New member 'name'.
+	(load_external_module): Return value changed.
+	(unload_external_module): New function.
+	(fini_im_info): Use unload_external_module.
+	(load_im_info): Adjuted for the change of load_external_module.
+	(minput_list): New function.
+
+2011-01-06  Kenichi Handa  <handa@m17n.org>
+
+	* coding.c: Fix comment syntax for doxygen.
+
+2010-12-13  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-flt.c (mflt_enable_new_feature): Document it.
+
+	* m17n-flt.h: Exclude extern variables from Doxygen's scope.
+
+2010-12-10  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-flt.c (mflt_dump_gstring): Document it.
+
+2010-11-05  Kenichi Handa  <handa@m17n.org>
+
+	* locale.c (make_locale): Don't call setlocale.  Just parse the
+	arg NAME.
+
+2010-10-04  Kenichi Handa  <handa@m17n.org>
+
+	* Version 1.6.2 released.
+
+2010-09-30  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (open_im): Return -1 if the input method has no state.
+
+2010-09-17  Kenichi Handa  <handa@m17n.org>
+
+	* font-ft.c (ft_check_otf): Fix previous change.
+
+2010-09-16  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-flt.c (parse_otf_command): Fix previous change.
+
+2010-09-14  Kenichi Handa  <handa@m17n.org>
+
+	* font-ft.c (ft_check_otf): Fix handling of negative features.
+
+	* m17n-flt.c (parse_otf_command): Fix handling of negative
+	features.
+	(decode_packed_otf_tag): Fix updating category code.
+	(run_command): Fix `encoded' property of separator glyph.
+	(mflt_run): Improve debug info printing.
+
+2010-09-11  Kenichi Handa  <handa@m17n.org>
+
+	* src/charset.c, src/chartab.c, src/coding.c, src/face.c,
+	src/font.c, src/fontset.c, src/input.c, src/m17n-X.c,
+	src/m17n-core.c, src/m17n-flt.c, src/m17n-gd.c, src/m17n-gui.c,
+	src/m17n.c, src/mtext.c, src/plist.c, src/symbol.c,
+	src/textprop.c: Print debug information to mdebug__output instead
+	of stderr.
+
+2010-09-02  Kenichi Handa  <handa@m17n.org>
+
+	* draw.c (visual_order): Reorder only RTL composed-sequence.
+
+2010-09-01  Kenichi Handa  <handa@m17n.org>
+
+	* draw.c (compose_glyph_string): When the script `inherited' and
+	`common' can't be resolved, use "block" property of the character.
+
+2010-08-31  Kenichi Handa  <handa@m17n.org>
+
+	* draw.c (compose_glyph_string): Allow running flt striding over
+	the cursor position.
+
+2010-08-19  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-X.c (MDisplayInfo): New member altgr_mask.
+	(find_modifier_bits): Set disp_info->altgr_mask.
+
+	* input.c (fully_initialize): Make it static.
+
+	* input.h (MINPUT_KEY_ALTGR_MODIFIER): New macro.
+
+	* input-gui.c (minput_event_to_key): Handle
+	MINPUT_KEY_ALTGR_MODIFIER.
+
+2010-08-12  Kenichi Handa  <handa@m17n.org>
+
+	* character.h (STRING_CHAR_ADVANCE_UTF8): Sanitize the code.
+	(STRING_CHAR_ADVANCE_UTF16): Likewise.
+
+	* font.c (mfont__init): Initialize buf to NULL.
+	(mfont__id): Likewise.
+
+	* font-ft.c (ft_encapsulate): Use MDEBUG_PRINT1 instead of
+	MDEBUG_DUMP.
+	(ft_check_otf): Move the label not_otf: within #ifdef HAVE_OTF.
+	(get_otf): Move the code within #ifdef HAVE_OTF.
+	(ft_drive_otf): Move declarations of some local variables within
+	#ifdef HAVE_OTF.
+
+2010-08-11  Kenichi Handa  <handa@m17n.org>
+
+	* input.h (MInputContextInfo): New member state_hook.
+
+	* input.c (shift_state): Just set ic_info->state_hook, instead of
+	taking state-hook actions.
+	(handle_key): Check ic_info->state_hook.  If KEY is unhandled,
+	init ic_info->state_hook.
+
+2010-08-09  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-flt.c (try_otf): Remove unused local vars.
+
+	* input.c (fully_initialize): Avoid compiler warning by casting.
+
+	* m17n-core.c (m17n_init_core): Fix handling of env_value.
+
+	* fontset.c (realize_fontset_elements): Fix typo (pl->plist).
+
+	* coding.c (decode_coding_iso_2022): Sanitize "if" condition.
+
+2010-04-23  Kenichi Handa  <handa@m17n.org>
+
+ 	* Version 1.6.1 released.
+
+2010-04-23  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-flt.c (enum GlyphInfoMask): Shift upper masks 1-bit left.
+	(decode_packed_otf_tag): If a glyph has combining information,
+	don't touch it.
+
+2010-04-23  Kenichi Handa  <handa@m17n.org>
+
+	* font-ft.c (ft_drive_otf): Reset 28th bit of g->g.internal for
+	storing OTF feature tag.
+
+2010-04-19  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-flt.c (run_stages): Update category code of glyphs if
+	category table is changed.
+
+2010-04-05  Kenichi Handa  <handa@m17n.org>
+
+	* font-ft.c (ft_check_cap_otf): Fix conditions to call
+	OTF_check_features.
+
+	* database.c (check_version): Fix previous change.
+
+2010-04-02  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-core.h (M17NLIB_MINOR_VERSION): Changed to 6.
+	(M17NLIB_PATCH_LEVEL): Changed to 1.
+	(M17NLIB_VERSION_NAME): Changed "1.6.1".
+
+2010-03-30  Kenichi Handa  <handa@m17n.org>
+
+	* Version 1.6.0 released.
+
+2010-03-01  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-flt.c (run_rule): Fix checking of glyph availability.
+
+2010-02-18  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-gui.c (register_device_library): Preprend M17N_MODULE_DIR
+	to the module file name.
+
+	* input.c (load_external_module): Preprend M17N_MODULE_DIR to the
+	module file name.
+
+	* charset.c (load_charset): Check the return value of fgets.
+
+	* Makefile.am: Build modules dynamically loaded with
+	-avoid-version and no -version-info.
+
+2010-01-15  Kenichi Handa  <handa@m17n.org>
+
+	* draw.c (run_flt): Set mflt_try_otf to rfont->driver->try_otf.
+	(mdraw__init): Set mflt_enable_new_feature to 1.
+
+	* font-ft.c (ft_try_otf): New function.
+	(mfont__ft_driver): Set ft_try_otf.
+
+	* font.h (struct MFontDriver): New member try_otf.
+
+	* m17n-X.c (xft_driver): Set xft_try_otf.
+	(xft_try_otf): New function.
+
+	* m17n-flt.h: (mflt_enable_new_feature): Extern it.
+	(mflt_try_otf): Extern it.
+
+	* m17n-flt.c (load_category_table): If mflt_enable_new_feature is
+	zero, return NULL for such categories that require the new
+	feature.
+	(parse_otf_command): If mflt_enable_new_feature is zero, return
+	-1.
+	(load_otf_command): Fix previous change.
+	(load_flt): Check the return value of load_category_table.
+	(try_otf): Renamed from run_otf_category.  Call mflt_try_otf
+	instead of font->drive_otf.
+	(run_command): Call try_otf instead of run_otf_category.
+	(m17n_init_flt): Initialize mflt_enable_new_feature to 0,
+	mflt_try_otf to NULL.
+	(mflt_enable_new_feature): New variable.
+	(mflt_try_otf): New variable.
+
+2009-12-10  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-flt.c (parse_otf_command): Handle ":otf?".
+	(run_otf_category): If not features are specified, reset category
+	codes.
+	(run_command): On copy, don't re-calculate a category code.
+
+2009-12-03  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-flt.c (run_stages): Reset category code if category-table
+	is changed.
+	(mflt_run): Don't set category code here.
+	(decode_packed_otf_tag): If no feature is applied, re-calculate
+	category code.
+
+2009-12-02  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-flt.c (mflt_find): If FONT is specified but no flt is
+	found, return NULL.
+	(run_command): Don't set ENCODED and MEASURED of separator.
+
+2009-11-30  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-flt.c (load_otf_command): Check 4th char against '?'.
+	(load_command): Likewise.
+	(decode_packed_otf_tag): New arg CTX.  If CTX->in == gstring,
+	update CTX->encoded.  Caller changed.
+
+2009-11-30  Kenichi Handa  <handa@m17n.org>
+
+	* font-ft.c (ft_drive_otf): Check if OUT is null or not.
+	(ft_drive_otf): Call OTF_drive_gsub_with_log and
+	OTF_drive_gpos_with_log.  Record the applied feature in
+	g->g.internal.
+
+	* font.c (mfont__get_glyph_id): Encode g->c instead of g->code.
+
+	* internal-flt.h (MAKE_COMBINING_CODE_BY_CLASS)
+	(COMBINING_BY_CLASS_P, COMBINING_CODE_CLASS)
+	(MAKE_PRECOMPUTED_COMBINDING_CODE, COMBINING_PRECOMPUTED_P):
+	Delete externs..
+	(PACK_OTF_TAG): Extern it.
+
+	* draw.c (reorder_combining_chars): Delete it.
+
+	* m17n-flt.h (mflt_font_id): Use type MFLFont.
+	(mflt_iterate_otf_feature): Likewise.
+
+	* m17n-flt.c (enum GlyphInfoMask): New member CategoryCodeMask and
+	CombinedMask.
+	(GET_CATEGORY_CODE, SET_CATEGORY_CODE, GET_COMBINED): New macros.
+	(SET_COMBINING_CODE): Set also CombinedMask.
+	(FontLayoutFeatureTable): Delete it.
+	(FeatureCodeTable): New type.
+	(FontLayoutCategory): Type of feature_table changed.
+	(load_category_table): Adjusted for the change of
+	FontLayoutCategory.
+	(unref_category_table): Likewise.
+	(gen_otf_tag): New member shift.  Caller changed.
+	(FontLayoutContext): New member category.
+	(run_rule): Compare g->c instead of g->code.
+	(decode_packed_otf_tag): New function.
+	(run_otf): Call decode_packed_otf_tag.  Don't reset combining-code
+	here.
+	(run_otf_category): New function.
+	(run_command): Set category-code if necessary.  Call
+	run_otf_category for FontLayoutCmdTypeOTFCategory.
+	(run_stages): Set ctx->category.  Get category from glyph if
+	possible.
+	(mflt_dump_gstring): New function.
+
+2009-11-26  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-flt.c (enum FontLayoutCmdType): New member
+	FontLayoutCmdTypeOTFCategory.
+	(FontLayoutFeatureTable): New type.
+	(FontLayoutCategory): New members feature_table_size and
+	feature_table.
+	(load_category_table): Handle feature_table.
+	(unref_category_table): Likewise.
+	(load_otf_command): Handle FontLayoutCmdTypeOTFCategory.
+	(load_command): Likewise.
+	(free_flt_command): Likewise.
+
+2009-11-10  Kenichi Handa  <handa@m17n.org>
+
+	* draw.c (run_flt): Update category code of each glyph.
+
+2009-11-07  Kenichi Handa  <handa@m17n.org>
+
+	* font-ft.c (ft_drive_otf): Don't accumulate anchor adjustments.
+
+2009-11-05  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-flt.c (run_otf): Fix updating of g->lbearing, etc.
+
+	* font-ft.c (ft_drive_otf): Use OTF_drive_gpos2 if possible.
+
+2009-10-28  Kenichi Handa  <handa@m17n.org>
+
+	* fontset.c (mdebug_flag): New variable.
+	(mfont__lookup_fontset): Print debug info.
+
+	* m17n-core.c (m17n_init_core): Call SET_DEBUG_FLAG for
+	MDEBUG_FONTSET.
+
+	* internal.h (enum MDebugFlag): Add MDEBUG_FONTSET.
+
+	* language.c (mscript__from_otf_tag): Adjusted for the new format
+	of the database <standard script unicode>.
+
+2009-10-22  Kenichi Handa  <handa@m17n.org>
+
+	* database.c (check_version): Fix the check.
+
+	* input.c (surrounding_pos): New arg *pos.
+	(integer_value): Fix handling of "@+0".
+	(take_action_list): Adjusted for the change of surrounding_pos.
+
+2009-10-05  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-flt.h: (mflt_iterate_otf_feature, mflt_font_id): Extern
+	them.
+
+	* m17n-flt.c (FontLayoutCategory): New typedef.
+	(FontLayoutStage): Type of the member `category' changed.
+	(struct _MFLT): Type of the member `coverage' changed.  New member
+	need_config and font_id.
+	(apply_otf_feature): New function.
+	(load_category_table): New arg FONT.  If FONT is non-NULL, call
+	apply_otf_feature.  Setup category->definition.
+	(ref_category_table): New macro.
+	(unref_category_table): New function.
+	(load_flt): Adjusted for the type change of category.
+	(free_flt_stage): New arg FLT.
+	(list_flt): Adjusted for the type change of category.
+	(run_stages): Adjusted for the type change of category.
+	(configure_category, configure_flt): New function.
+	(m17n_init_flt): Initialize mflt_iterate_otf_feature and
+	mflt_font_id to NULL.
+	(mflt_get): Skip the heading configured FLTs.
+	(mflt_find): Likewise.  If necessary, configure the found flt.
+	(mflt_run): Handle mflt_iterate_otf_feature and mflt_font_id.
+	Adjusted for the type change of category.
+	(mflt_iterate_otf_feature, mflt_font_id): New variable.
+
+	* m17n-X.c (xfont_open): Set rfont->id.
+	(xft_driver): Set xft_iterate_otf_feature.
+	(xft_open): Set rfont->id.
+	(xft_iterate_otf_feature): New function.
+
+	* font.h (struct MRealizedFont): New member id.
+	(struct MFontDriver): New member iterate_otf_feature.
+
+	* font.c (mfont__get_glyph_id): Pay attention to. mfont->source.
+
+	* font-ft.c (ft_open, ft_encapsulate): Set rfont->id.
+	(get_otf): New funcition.
+	(ft_check_otf, ft_drive_otf): Use get_otf.
+	(iterate_callback, ft_iterate_otf_feature): New functions.
+	(mfont__ft_driver): Set ft_iterate_otf_feature.
+
+	* draw.c: Docstring updated.
+	(font_id): New function.
+	(run_flt): Set mflt_font_id and mflt_iterate_otf_feature before
+	calling mflt_run.
+
+2009-10-02  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-flt.c (load_flt): Check the return value of
+	load_category_table.
+
+2009-09-03  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-flt.c (run_otf): Clear combining code for glyphs whose
+	positions are adjusted by GPOS table.
+
+2009-08-13  Kenichi Handa  <handa@m17n.org>
+
+	* Version 1.5.5 released.
+
+2009-08-13  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-core.h (M17NLIB_PATCH_LEVEL):  Changed to 5.
+	(M17NLIB_VERSION_NAME): Changed to "1.5.5".
+
+2009-03-03  Kenichi Handa  <handa@m17n.org>
+
+	* draw.c (compose_glyph_string): Check if category not Mnil.
+
+2009-03-02  Kenichi Handa  <handa@m17n.org>
+
+	* Version 1.5.4 released.
+
+2009-02-25  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-core.c (report_object_array): For M-text and Plist, print
+	more information.
+
+	* m17n-core.h (M17NLIB_PATCH_LEVEL): Changed to 4.
+	(M17NLIB_VERSION_NAME): Changed to "1.5.4".
+
+	* input.c (get_candidate_list): Free unnecessary objects.
+	(take_action_list): Free plist.
+
+2009-02-04  Kenichi Handa  <handa@m17n.org>
+
+	* coding.c (mcoding__init): Add "Shift_JIS" as an alias of "sjis".
+
+2009-01-16  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-core.h (Mcased, Msoft_dotted, Mcase_mapping, Mblock):
+	Extern them.
+
+	* character.c (Mcased, Msoft_dotted, Mcase_mapping, Mblock): New
+	variables.
+
+2009-01-14  Kenichi Handa  <handa@m17n.org>
+
+	* coding.c (decode_coding_iso_2022): Check invocation status
+	before updating charset0 and charset1.
+
+	* symbol.c (msymbol__canonicalize): Handle "windows-XXXX".
+
+2008-12-31  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-flt.c (mflt_run): If g->encoded is set, don't clear
+	g->code.
+
+2008-10-30  Andreas Schwab <schwab@suse.de>  (tiny change)
+
+	* face.c (mface_get_prop): Fix strict aliasing bug.
+	(mface_put_prop): Likewise.
+
+	* m17n-gui.c (mframe): Fix strict aliasing bug.
+
+2008-10-20  Kenichi Handa  <handa@m17n.org>
+
+	* Version 1.5.3 released.
+
+2008-10-06  Kenichi Handa  <handa@m17n.org>
+
+	* draw.c (mdraw__init): Use TRUE only when
+	FRIBIDI_INTERFACE_VERSION is less than 3.
+
+2008-10-03  Kenichi Handa  <handa@m17n.org>
+
+	* database.c (mdatabase__find_file): Return a copy of filename if
+	it is absolute pathname.
+
+2008-09-25  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (load_macros): Don't parse the action list here.
+	(load_im_info): Parse action lists of all macros.
+
+2008-09-24  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-flt.c (mflt_find): Setup coverage of "combining" flt.
+
+2008-09-19  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (fully_initialize): Rename "@reload" to "-reload".
+
+2008-09-17  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-flt.c (run_stages): Fix combining with a variable width
+	font.
+
+2008-08-04  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (fully_initialize): Add more aliaese (e.g. C-M-1
+	vs. C-A-1).
+
+2008-07-22  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (fully_initialize): Fix previous change.
+
+2008-07-19  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (fully_initialize): Fix previous change.
+
+2008-07-14  Kenichi Handa  <handa@m17n.org>
+
+	* font-ft.c (ft_list_family): New arg CHECK_ALIAS.  Callers changed.
+
+2008-07-14  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (fully_initialize): Handle C-M-1, etc.
+
+2008-07-11  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (minput_open_im): Check if the arg NAME is not Mnil.
+
+2008-06-23  Kenichi Handa  <handa@m17n.org>
+
+	* Version 1.5.2 released.
+
+2008-06-23  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-core.h (M17NLIB_MINOR_VERSION): Changed to 5.
+	(M17NLIB_PATCH_LEVEL): Changed to 2.
+	(M17NLIB_VERSION_NAME): Changed "1.5.2".
+
+2008-06-13  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (minput_config_file): Comment fixed for man-page.
+
+2008-06-13  Harshula  <harshula@gmail.com>  (tiny change)
+
+	* Makefile.am (libm17n_gd_la_LIBADD): Add @FREETYPE_LD_FLAGS@.
+
+2008-05-24  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-flt.c (mdebug_dump_flt): Change return value to (MFLT *).
+
+2008-05-23  Kenichi Handa  <handa@m17n.org>
+
+	* Makefile.am (libm17n_gui_la_LIBADD): Include libm17n-core.la.
+	(libm17n_X_la_LIBADD): Include libm17n-core.la, libm17n.la, and
+	libm17n-flt.la.
+	(libm17n_gd_la_LIBADD): Likewise.
+
+	* input.c (take_action_list): Fix debug info.
+
+2008-05-14  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-flt.c (run_rule): Check SRC_REGEX at first.
+	(run_stages): Fix index of g_indices.
+
+2008-04-03  Kenichi Handa  <handa@m17n.org>
+
+	* draw.c (compose_glyph_string): Don't run flt striding over the
+	cursor position.
+	(get_gstring): Don't use the cached gstring if cursor position is
+	changed.
+
+2008-04-02  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (integer_value): Delete the 3rd arg VALUE.
+	(resolve_expression): Adjust the call of integer_value.
+	(take_action_list): Likewise.
+
+2008-03-06  Kenichi Handa  <handa@m17n.org>
+
+	* font-ft.c (ft_drive_otf): Don't ignore the otf-spec to apply all
+	features.
+
+2008-01-31  Kenichi Handa  <handa@ni.aist.go.jp>
+
+	* Version 1.5.1 released.
+
+2008-01-31  Kenichi Handa  <handa@ni.aist.go.jp>
+
+	* draw.c (mdraw_glyph_list): Refer to mfont__ft_driver only when
+	HAVE_FREETYPE is defined.
+
+	* font.h (OTF_Tag): Be sure that it is defined in any cases.
+
+2008-01-30  Kenichi Handa  <handa@ni.aist.go.jp>
+
+	* font.h (enum MFontOpenTypeTable, MFontCapability): Define them
+	unconditionally.
+
+2008-01-25  Kenichi Handa  <handa@ni.aist.go.jp>
+
+	* input.c (parse_action_list): Handle the case "(insert INTEGER)".
+
+2008-01-25  Kenichi Handa  <handa@ni.aist.go.jp>
+
+	* input.c (parse_action_list): Check M_candidates.
+	(get_im_info): If key is Mnil, be sure to set im_info->states to a
+	plist.
+
+2008-01-23  Kenichi Handa  <handa@ni.aist.go.jp>
+
+	* input.c (integer_value): Fix interpretation of "@-N".
+
+2008-01-17  Kenichi Handa  <handa@ni.aist.go.jp>
+
+	* input.c (get_following_char): Fix interpretation of POS.
+	(get_following_char): Fix interpretation of "@+N".
+
+2008-01-15  Kenichi Handa  <handa@ni.aist.go.jp>
+
+	* font-ft.c (ft_drive_otf): Don't refer to otf_gstring if HAVE_OTF
+	is not defined.
+
+	* Makefile.am (FLT_SOURCES): Include internal-flt.h.
+
+2008-01-07  Kenichi Handa  <handa@ni.aist.go.jp>
+
+	* m17n-flt.c (UPDATE_CLUSTER_RANGE): Don't check if clustering
+	now.
+	(run_rule): Call UPDATE_CLUSTER_RANGE when necessary.
+	(run_command): Check if clustering now before calling
+	UPDATE_CLUSTER_RANGE.
+
+2008-01-06  Kenichi Handa  <handa@m17n.org>
+
+	* font.c (mfont__get_glyph_id): Return -1 if some code is invalid.
+
+	* font-ft.c (ft_drive_otf): Fix checking of negative feature.
+
+	* m17n-X.c (xft_find_metric): Set g->g.measured.
+
+	* m17n-flt.c (Mequal): New variable.
+	(m17n_init_flt): Initialize it.
+	(FontLayoutCmdRule): Merge members supported_glyph and otf_spec
+	into a new member facility.
+	(load_command): Modify parsing of Mfont_facility.
+	(run_rule): Adjuted for the change of FontLayoutCmdRule.
+	(run_otf): Adjusted metrics if a->back is nonzero.
+
+2007-12-28  Kenichi Handa  <handa@ni.aist.go.jp>
+
+	* Version 1.5.0 released.
+
+2007-12-13  Kenichi Handa  <handa@ni.aist.go.jp>
+
+	* m17n-core.c (m17n_init_core): Handle the lang. env. MDEBUG_FLT.
+
+	* m17n-flt.c (mdebug_flag): Set to MDEBUG_FLT.
+	(run_rule): Check if a font has the specific glyph correctly.
+
+	* internal.h (enum MDebugFlag): Delete MDEBUG_FONT_OTF, change
+	MDEBUG_FONT_FLT to MDEBUG_FLT.
+
+	* font.c (mfont__get_glyph_id): Encode g->g.code (not g->g.c).
+
+	* font-flt.c: Delete it.
+
+2007-12-08  Kenichi Handa  <handa@ni.aist.go.jp>
+
+	* m17n-flt.c (run_rule): Fix printing of debug info.  Don't update
+	TO for the rule of SRC_HAS_GLYPH.
+
+	* draw.c (run_flt): Argument changed.
+	(compose_glyph_string): Adjusted for the above change.
+
+2007-12-07  Kenichi Handa  <handa@ni.aist.go.jp>
+
+	* plist.c (read_mtext_element): Don't free the malloced buffer.
+
+2007-12-04  Kenichi Handa  <handa@ni.aist.go.jp>
+
+	* m17n-core.h (merror_code): Extern it.
+
+	* m17n-misc.h (merror_code): Don't extern it.
+
+	* m17n.h: Handle the case of _M17N_FLT_H_ being defined.
+
+	* m17n-flt.h: Handle the case of _M17N_H_ being defined.
+
+2007-11-22  Kenichi Handa  <handa@ni.aist.go.jp>
+
+	* draw.c (compose_glyph_string): Check g->rface->layouter, not
+	g->rface->rfont->layouter.
+
+	* font-ft.c (ft_drive_otf): Fix setting of g->g.from and g->g.to.
+
+	* m17n-flt.c (FontLayoutContext): New member encoded_offset.
+	(run_rule): Use ctx->encoded_offset.
+	(run_command): Likewise.
+	(run_stages): Set ctx->encoded_offset.
+
+2007-11-21  Kenichi Handa  <handa@ni.aist.go.jp>
+
+	* m17n-flt.c (enum GlyphInfoMask): Adjusted for the change of
+	bit-size of MFLTGlyph->internal.
+
+2007-11-20  Kenichi Handa  <handa@ni.aist.go.jp>
+
+	* draw.c (visual_order): Exclude the last anchor glyph from the
+	iteration.
+
+	* m17n-flt.h (MFLTGlyph): New member <adjusted>.
+
+	* m17n-flt.c (run_otf): Set adjusted flag of glyphs if necessary.
+	(run_stages): Likewise.
+	(load_flt): Unref top after checking plist.
+
+	* m17n-X.c (xft_render): Check adjusted flag of glyphs.
+
+2007-11-12  Kenichi Handa  <handa@ni.aist.go.jp>
+
+	* font-ft.c (ft_check_otf): Fix arg to OTF_check_features.
+
+	* m17n-flt.c (Mcombining): New variable.
+	(Mfont_facility): Renamed from Mfont_has.  Referrer changed.
+	(enum FontLayoutCmdRuleSrcType): Delete SRC_EXIST, add
+	SRC_HAS_GLYPH and SRC_OTF_SPEC.
+	(FontLayoutCmdRule): Delete src.exist, add src.supported_glyph and
+	src.otf_spec.
+	(load_command): Adjusted for the above changes.
+	(run_rule): Likewise.
+	(combining_code_from_class): Delete it.
+	(mflt_get): Check flt->name against Mcombining, not Mt.
+
+	* internal-flt.h (Mcombining): Extern it.
+
+	* draw.c (compose_glyph_string): Call run_flt with Mcombining for
+	combining characters.
+
+2007-11-09  Kenichi Handa  <handa@ni.aist.go.jp>
+
+	* face.c (mface__realize): Reset measured flag before calling
+	mfont__get_metric.
+
+	* m17n-flt.c (run_stages): Fix handing of off_x and off_y.
+	(setup_combining_coverage): New function.
+	(setup_combining_flt): New function.
+	(mflt_get): If flt is not found, return NULL.  If name if Mt,
+	call setup_combining_flt.
+	(mflt_run): For debugging, print font family name.
+
+	* font-ft.c (ft_render): Fix handling of baseline_offset.
+	(ft_encapsulate): Set metrics in 26.6 fixed pixel.
+	(ft_render): Check pixel_mode to determine anti_alias.
+
+	* m17n-X.c (xfont_find_metric): Delete invalid "continue" line.
+	(xfont_find_metric): Set metrics in 26.6 fixed pixel.
+	(xfont_render): Set baseline_offset in pixel.
+	(xft_render): Fix handling of baseline_offset.
+
+	* draw.c (run_flt): Set font.font.family.
+	(compose_glyph_string): Fix handling of combining characters.
+
+	* fontset.c (try_font_list): Check if the named flt is surely
+	available.
+
+2007-11-07  Kenichi Handa  <handa@ni.aist.go.jp>
+
+	* draw.c (analyse_bidi_level): New function.
+	(visual_order): Do reordering using the already decided
+	bidi-level.
+	(compose_glyph_string): Decide bidi-level before calling flt.
+
+	* m17n-flt.c (mflt_run): Fix typo.
+
+	* font-ft.c (ft_drive_otf): Fix indexing gstring->glyphs.
+
+2007-11-06  Kenichi Handa  <handa@ni.aist.go.jp>
+
+	* draw.c (visual_order): Don't rely on the width of glyphs.
+	(run_flt): Fix culculation of g->g.to.
+
+	* m17n-flt.c (run_rule): Don't set error code here.
+	(run_cond): Likewise.
+	(run_otf): Fix culculation of xoff and yoff.
+	(run_command): Don't set error code here.
+	(PREV): New macro.
+	(NEXT): New macro.
+
+	* m17n-X.c (xfont_open): Keep rfont's metrics in 26.6 fixed pixels.
+	(xfont_find_metric): Set glyph's yadv to 0.
+	(xft_find_metric): Likewise.
+
+	* font-ft.c (ft_open): Keep rfont's metrics in 26.6 fixed pixels.
+	(ft_find_metric): Adjust glyph's metrics.
+	(ft_encapsulate): Keep rfont's metrics in 26.6 fixed pixels.
+	(ft_drive_otf): Set mark glyph's xadv to 0.
+
+	* face.c (mface__for_chars): Adjusts the unit of face's ascent and
+	descent.
+
+2007-10-29  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-flt.h (struct _MFLTOtfSpec): Adjusted for the new FLT handling.
+	(mflt_get): Adjusted for the argument change.
+	(mflt_name): Adjusted for the return value change.
+
+	* m17n-flt.c (Mgenerator, Mend): New variables.
+	(flt_min_coverage, flt_max_coverage): New variables.
+	(GCPY): New macro.
+	(GDUP): Use it.
+	(Mfont_has): Renamed from Mexist.  Referrers chagned.
+	(gen_otf_tag): Handle the trailing whitespaces.
+	(otf_count_features, otf_store_features): Fix for negative features.
+	(parse_otf_command): Adjusted for the change of MFLTOtfSpec.
+	(load_otf_command): Likewise.
+	(free_flt_command): Adjusted for the change of MFLTOtfSpec.
+	(load_flt): Argument changed.  Caller changed.
+	(free_flt_list): New function.
+	(run_rule): Adjusted for the change of FontLayoutContext.
+	(mflt_run): Adjusted for the change of FontLayoutContext.
+
+	* m17n-gui.c (m17n_init_win): Call m17n_init_flt.
+	(m17n_fini_win): Call m17n_fini_flt.
+
+	* m17n-gui.h: Include m17n-flt.h.
+
+	* m17n-gd.c: Adusted for the change of MGlyph.
+
+	* m17n-X.c: Adusted for the change of MGlyph.
+	(xft_check_otf, xft_drive_otf): New functions.
+
+	* internal-gui.h (MGlyph): Modified for new FLT handling.
+
+	* fontset.c (try_font_list): Adusted for the change of MGlyph.
+
+	* font-ft.c: Adjusted for the change of MGlyph.
+	(ft_check_cap_otf): Renamed from ft_check_otf.  Callers changed.
+	(get_glyph_metric): Deleted.
+	(ft_check_otf): New function.
+	(ft_drive_otf): New fucntion.
+
+	* font.c: Adjusted for the change of MGlyph.
+	(mfont__init): Don't call mfont__flt_init.
+	(mfont__fini): Don't call mfont__flt_fini.
+	(mfont__get_glyph_id, mfont__get_metrics): New functions.
+
+	* font.h (struct MRealizedFont): New members x_ppem and y_ppem.
+	(MFLTFontForRealized): New struct.
+	(struct MFontDriver): New members check_otf and drive_otf.
+	(mfont__get_glyph_id, mfont__get_metrics): Extern them.
+
+	* face.c: Adjusted for the change of MGlyph.
+
+	* draw.c: Adjusted for the change of MGlyph.
+
+	* m17n.c (m17n_init): Don't call mchar_init.
+
+	* m17n-core.c (m17n_init_core): Call mchar_init.
+
+	* m17n-core.h (mchartable_min_char, mchartable_max_char): Extern them.
+
+	* input.c: Include "m17n.h" instead of "m17n-gui.h".
+
+	* chartab.c (mchartable): Initialize table->min_char to -1.
+	(mchartable_min_char): New function.
+	(mchartable_max_char): New function.
+
+	* Makefile.am (GUI_SOURCES): Delete font-flt.c.
+	(libm17n_gui_la_LIBADD): Add ${top_builddir}/src/libm17n-flt.la.
+
+2007-10-12  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-core.h (Mcharset): Extern it.
+	Move detabase related declarations from m17n.h.
+
+	* m17n-flt.h: Include m17n-core.h instead of m17n.h.
+	(struct _MFLTOtfFeatures): New struct.
+	(struct _MFLTOtfSpec): Delete gsub, gpos, etc, add gsub_gpos.
+	(struct _MFLTFont): Delete otf, add check_otf.
+	(MCHAR_INVALID_CODE): Define it.
+
+	* plist.c (read_mtext_element): Simplify the code.
+
+	* m17n.h: Move database related declarations to m17n-core.h
+	(Mharset): Don't extern it.
+
+	* m17n.c (m17n_init): Don't call mdatabase__init.
+
+	* m17n-gd.c (read_rgb_txt): Check also /etc/X11/rgb.txt.  Downcase
+	color names.
+
+	* m17n-flt.c: Include m17n-core.h instead of m17n.h.
+	(Mexist): New variable.
+	(enum FontLayoutCmdRuleSrcType): New enum SRC_EXIST.
+	(FontLayoutCmdRule): New member src.exist.
+	(parse_otf_command): Handle gsub_count and gpos_count separately.
+	(load_otf_command): Adjusted for the change of MFLTOtfSpec.
+	(load_command): Handle the command "exist".
+	(free_flt_command): Adjusted for the change of MFLTOtfSpec.
+	(run_rule): Handle the case SRC_EXIST.
+	(run_otf): Adjusted for the change of MFLTOtfSpec.
+	(run_command): Check the range of FROM.
+	(check_otf_spec): Delete it.
+	(m17n_init_flt): Call m17n_init_core instead of m17n_init.
+	Initialize Mexist.
+	(m17n_fini_flt): Call m17n_fini_core instead of m17n_fiini.
+	(mflt_find): Call font->check_otf instead of check_otf_spec.
+	(mflt_run): Keep the metrics in 26.6 fixed point.
+
+	* m17n-core.c (mdatabase__finder, mdatabase__loader): Delete them.
+	(m17n_init_core): Call mdatabase__init.
+
+	* m17n-X.c (device_open): Use mplist_add, not mplist_push.
+
+	* internal.h (mdatabase__finder, mdatabase__loader): Delete externs
+	of them.
+
+	* font-flt.c (Mexist): New variable.
+	(enum FontLayoutCmdRuleSrcType): New enum SRC_EXIST.
+	(FontLayoutCmdRule): New member src.exist.
+	(load_category_table): Use isalnum, not isalpha.
+	(load_command): Check the command "exist".
+	(run_rule): Hande the case SRC_EXIST.
+	(run_command): Check the range of FROM.
+	(mfont__flt_init): Initialize Mexist.
+
+	* draw.c (layout_glyphs): Fix calculation of off_x and off_y.
+
+	* database.h (mdatabase__load_charset_func): Extern it.
+
+	* database.c: Include m17n-core.h instead of m17n.h.
+	(load_chartable): Use mtext__from_data.
+	(load_charset): Moved to charset.c
+	(load_database): Call mdatabase__load_charset_func instead of
+	load_charset.
+	(mdatabase__load_charset_func): New variable.
+	(mdatabase__init): Initialize mdatabase__load_charset_func and
+	Mcharset.  Don't set mdatabase__finder and mdatabase__loader.
+	(mdatabase__save): Use fwrite, not mconv_encode_stream.
+	(Mcharset): Declare it here.
+
+	* charset.c: Include "database.h.".
+	(load_charset): Moved from database.c.
+	(mcharset__init): Initialize mdatabase__load_charset_func, don't
+	initialize Mcharset.
+
+	* character.c (mchar_define_property): Call mdatabase_find directly.
+	(mchar_get_prop): Call mdatabase_add directly.
+	(mchar_put_prop): Call mdatabase_load directly.
+	(mchar_get_prop_table): Likewise.
+
+	* Makefile.am (libm17n_core_la_SOURCES): Add database.[ch].
+	(libm17n_la_SOURCES): Remove database.[ch].
+	(libm17n_flt_la_LIBADD): Delete libm17n.la, add libm17n-core.la.
+
+2007-09-18  Kenichi Handa  <handa@m17n.org>
+
+	* face.c (mface__realize): Try Freetype based font at first.
+
+	* font.c: Include <ctype.h>
+
+2007-09-16  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-flt.c (load_flt): New arg full.  If full is zero, load only
+	coverage.
+	(run_otf): Call font->get_metrics, not font->get_metric.
+	(run_stages): Likewise.
+	(CHECK_FLT_COVERAGE): New macro.
+	(CHECK_FLT_STAGES): Call load_flt with the second arg 1.
+	(check_otf_spec): New function.
+	(m17n_fini_flt): Unref flt->coverage.
+	(mflt_find): Argument changed.
+	(mflt_name): New function.
+	(mflt_coverage): Use CHECK_FLT_COVERAGE.
+
+	* m17n-flt.h (MFLTFont): Member get_metrics renamed from get_metric.
+	(mflt_find): Prototype adjusted.
+	(mflt_name): Extern it.
+
+2007-09-14  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-flt.h (struct _MFLTGlyph): Change signedness of members.
+
+	* font-flt.c (run_otf): Make debug info printing comaptible with
+	that of m17n-flt.c.
+	(run_command): Likewise.
+	(mfont__flt_run): Likewise.
+
+	* m17n-flt.c (UPDATE_CLUSTER_RANGE): ctx->cluster_begin_idx is
+	invalid only when it's negative.
+	(run_otf): Likewise.
+	(run_command): Likewise.
+	(mflt_run): Initialize ctx.cluster_begin_idx to -1.
+
+2007-09-10  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-flt.h (struct _MFLTGlyph): New member encoded and measured.
+	(struct _MFLTFont): Prototype of get_glyph_id changed.
+
+	* m17n-flt.c (enum GlyphInfoMask): Delete EncodedMask and
+	PositionedMask.
+	(GAPPEND): Delete this macro.
+	(GET_ENCODED, SET_ENCODED, GET_MEASURED, SET_MEASURED): Adjusted
+	for the change of MFLTGlyph.  Caller changed.
+	(run_otf): Simply calls font->get_glyph_id.
+	(run_command): Reset g->encoded and g->measured for direct code.
+	(positioning): Delete this function.
+	(run_stages): Simply calls font->get_glyph_id and font->get_metric.
+
+2007-09-07  Kenichi Handa  <handa@m17n.org>
+
+	* draw.c (compose_glyph_string): Improve script detection.
+
+2007-09-06  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-flt.h (mflt_get): Extern it.
+
+	* m17n-flt.c (run_stages): Call positioning only if
+	font->get_metric is non-NULL.
+	(CHECK_FLT_STAGES): Fix typo.
+	(mflt_get): New function.
+
+	* font-flt.c (mfont__flt_run): Improve debug info printing.
+
+2007-09-04  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-flt.c (MFontLayoutTable): Delete this type.
+	(struct _MFLT): New member mdb and coverage.
+	(list_flt): Set flt->mdb.
+	(load_generator): Argument and return value changed.  Caller
+	changed.
+	(get_font_layout_table): Delete this function.
+	(run_stages): Argument changed.  Caller changed.
+	(CHECK_FLT_STAGES): New macro.
+	(mfont__flt_encode_char): Argument changed.
+	(mflt_find): Likewise.
+	(mflt_coverage): New function.
+	(mflt_run): Argument changed.
+	(mdebug_dump_flt): Likewise.
+
+	* m17n-flt.h (mflt_coverage): Extern it.
+	(mflt_find): Prototype adjusted.
+
+2007-09-03  Kenichi Handa  <handa@m17n.org>
+
+	* internal.h (MTABLE_CALLOC_SAFE, MSTRUCT_CALLOC_SAFE): New macros.
+
+	* database.c (mdatabase__props): New function.
+
+	* database.h (mdatabase__props): Extern it.
+
+	* m17n-flt.h (struct _MFLTGlyphString): Delete user_data, add
+	script and langsys.
+	(struct _MFLTFont): Add suitable_p.
+	(mflt_find): Extern it.
+
+	* m17n-flt.c: Include "database.h".
+	(struct _MFLT): New struct.
+	(list_flt): New function.
+	(load_flt): Don't update flt_list.
+	(get_font_layout_table): Use flt_list.
+	(m17n_init_flt): Don't initialize flt_list.
+	(m17n_fini_flt): Adjusted for the change of flt_list.
+	(mflt_find): New function.
+	(mflt_run): Fix debug printing.
+
+2007-08-23  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-flt.c (run_otf): Remove #ifdef HAVE_OTF and #endi.
+	(run_stages): Print separator in encoded string as "|".
+
+2007-08-23  Kenichi Handa  <handa@m17n.org>
+
+	* font-flt.c (mfont__flt_run): Don't calculate a glyph metric if
+	the glyph is already handled by OTF.
+
+2007-08-21  Kenichi Handa  <handa@m17n.org>
+
+	* font-ft.c (ft_check_capability): Check cap->script_tag at first.
+
+2007-08-20  Kenichi Handa  <handa@m17n.org>
+
+	* font-flt.c (mfont__flt_run): Get glyph metrics before printing
+	debug information.
+
+2007-08-17  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-flt.h (struct _MFLTGlyphString): Member pointer renamed to
+	user_data.
+	(MFLTOtfSpec): Renamed from MFLT_OTF_Spec.
+	(MFLTFont): Prototype of the member drive_otf adjusted.
+
+	* m17n-flt.c (run_stages): Fix handling of padding.
+
+	* font-ft.c (get_glyph_metric): New function.
+	(DEVICE_DELTA): Return 26.6 fixed point value.
+	(adjust_anchor): Likewise.
+	(mfont__ft_drive_otf): Use get_glyph_metric.
+
+	* font-flt.c (mfont__flt_run): Pay attention to padding on
+	printing debug info.
+
+2007-08-16  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-flt.c (run_stages): Fix typo.
+
+	* font-ft.c (adjust_anchor): Argument changed.  Calculte based on
+	26.6 fixed point.
+	(mfont__ft_drive_otf): Don't call OTF_check_features for GPOS.
+	Adjusted for the argument change of adjust_anchor.  Calculte based
+	on 26.6 fixed point.
+
+2007-08-15  Kenichi Handa  <handa@m17n.org>
+
+	* charset.c (mcharset__load_from_database): Set mdebug_flag
+	instead of mdebug_mask.
+
+	* coding.c (mcoding__load_from_database): Set mdebug_flag instead
+	of mdebug_mask.
+
+	* database.c (load_database): Set mdebug_flag instead of
+	mdebug_mask.
+	(mdatabase__load_for_keys): Likewise.
+
+	* draw.c: Include "internal-flt.h".
+	(dump_combining_code): Don't subtract 128 from combining code
+	off_x/y.
+
+	* font-flt.c: Include "internal-flt.h".  Set mdebug_flag instead
+	of mdebug_mask.
+	(run_rule): Print debug info only when MDEBUG_FLAG is greater than
+	2.
+	(run_cond): Likewise.
+	(run_otf): Likewise.
+	(run_command): Likewise.
+	(mfont__flt_run): Change format of debug info.
+
+	* font-ft.c: Include "internal-flt.h".
+	Set mdebug_flag instead of mdebug_mask.
+	(mfont__ft_drive_otf): Fix arg to OTF_check_features.
+
+	* input.c: Set mdebug_flag instead of mdebug_mask.
+	(shift_state): New MDEBUG_FLAG macro.
+	(preedit_commit): Likewise.
+	(filter): Likewise.
+
+	* internal-flt.h: New file.
+
+	* internal-gui.h (MAKE_COMBINING_CODE, COMBINING_CODE_OFF_Y)
+	(COMBINING_CODE_OFF_X, COMBINING_CODE_BASE_X)
+	(COMBINING_CODE_BASE_Y, COMBINING_CODE_ADD_X)
+	(COMBINING_CODE_ADD_Y, MAKE_COMBINING_CODE_BY_CLASS)
+	(COMBINING_BY_CLASS_P, COMBINING_CODE_CLASS)
+	(MAKE_PRECOMPUTED_COMBINDING_CODE, COMBINING_PRECOMPUTED_P): Move
+	these macros to internal-flt.h.
+
+	* internal.h (M17N_OBJECT_ADD_ARRAY): Adjusted for the change of
+	mdebug__flags.
+	(M17N_OBJECT_REGISTER, M17N_OBJECT_UNREGISTER): Likewise.
+	(enum MDebugMaskBit): Delete this enum.
+	(enum MDebugFlag): New enum.
+	(mdebug__flag): Don't extern it.
+	(mdebug__flags): Extern it.
+	(MDEBUG_FLAG): New macro.
+	(MDEBUG_PRINT0): Use the macro MDEBUG_FLAG.
+	(MDEBUG_DUMP, MDEBUG_PUSH_TIME, MDEBUG_POP_TIME)
+	(MDEBUG_PRINT_TIME): Likewise.
+
+	* m17n-X.c (xfont_open): Set mdebug_flag instead of mdebug_mask.
+	(xfont_list): Likewise.
+
+	* m17n-core.c (mdebug__flag): Delete this variable.
+	(mdebug__flags): New variable.
+	(SET_DEBUG_FLAG): Make it a function.
+	(m17n_init_core): Set mdebug_flag instead of mdebug_mask.
+	(m17n_fini_core): Likewise.
+
+	* m17n-gui.c (m17n_init_win): Set mdebug_flag instead of mdebug_mask.
+	(m17n_fini_win): Likewise.
+
+	* m17n-misc.h (enum MErrorCode): Add MERROR_FLT.
+
+	* m17n.c (m17n_init): Set mdebug_flag instead of mdebug_mask.
+	(m17n_fini): Likewise.
+
+	* symbol.c (msymbol__free_table): Adjusted for the change of
+	mdebug__flags.
+
+	* Makefile.am (BASICBUILDS): Add libm17n-flt.la.
+	(BASICHEADERS): Add m17n-flt.h.
+	(FLT_SOURCES): New variable.
+	(libm17n_flt_la_SOURCES, libm17n_flt_la_LIBADD)
+	(libm17n_flt_la_LDFLAGS): Likewise.
+
+	* m17n-flt.h: New file.
+
+	* m17n-flt.c: New file created by modifying font-flt.c.
+
+2007-07-13  Kenichi Handa  <handa@m17n.org>
+
+	* Version 1.4.0 released.
+
+2007-07-12  Kenichi Handa  <handa@m17n.org>
+
+	* input.c: Fix doxygen @ref commands.
+
+2007-07-10  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-core.h (M17NFunc): Fix typo of Doxygen directive.
+
+2007-07-09  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-core.h (M17N_BEGIN_HEADER, M17N_END_HEADER): New macros.
+
+	* m17n.h: Include m17n-core.h if not yet done.  Use macros
+	M17N_BEGIN_HEADER and M17N_END_HEADER.
+
+	* m17n-gui.h: Likewise.
+
+	* m17n-misc.h: Likewise.
+
+2007-06-13  Kenichi Handa  <handa@m17n.org>
+
+	* font-flt.c (load_command): Prepend "^" in the regular expression.
+
+2007-06-11  Kenichi Handa  <handa@m17n.org>
+
+	* language.c (mlanguage_name_list): Fix previous change.
+
+	* coding.c (mcoding__load_from_database): Add aliases in
+	coding_definition_list.
+
+2007-06-10  Kenichi Handa  <handa@m17n.org>
+
+	* language.c (mlanguage_name_list): Fix previous change.
+
+2007-06-08  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (update_candidate): Copy candidate_list earlier.
+	(re_init_ic): Provide pseudo initialize state if none.
+
+2007-06-05  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (preedit_insert): Print debug information.
+
+	* database.c (expand_wildcard_database): New function.
+	(mdatabase_list): Fix handling of wildcard database.
+
+	* language.c (load_lang_name): New function.
+	(mlang__fini): Cancel the last two changes.
+	(mlanguage_name_list): New arg script and territories.  Use
+	load_lang_name.
+
+	* m17n.h (mlanguage_name_list): Adjusted.
+
+2007-06-04  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (open_im): Check if the input method has at least one
+	state.
+
+2007-06-01  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (shift_state): Change the format of debug print.
+	(preedit_commit): New arg need_prefix.  Caller changed.
+	(update_candidate): Copy candidate_list.
+	(take_action_list): Likewise.
+	(handle_key): Change the format of debug print.
+
+	* font-flt.c (load_flt): Ignore unknown directives.
+
+2007-05-25  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-core.c (mdebug__unregister_object): Small optimization.
+
+	* database.c (find_file): Merged into get_database_file.
+	(get_database_file): New arg result.  Caller changed.
+	(mdatabase__check): Fix the logic.
+
+2007-05-24  Kenichi Handa  <handa@m17n.org>
+
+	* database.c (find_database): If unprocessed wildcard database is
+	found, register database filed and recursively call find_database.
+	(free_db_info): Unref db_info->properties.
+	(register_database): New arg properties.  Delete code for
+	initializing mdatabase__list.
+	(register_databases_in_files): Argument changed.  Caller changed.
+	(mdatabase__update): Don't list files by glob here.
+	(mdatabase_list): If unprocessed wildcard database is found,
+	register database filed and recursively call mdatabase_list.
+
+	* database.h (enum MDatabaseStatus): New enum
+	MDB_STATUS_AUTO_WILDCARD.
+
+	* input.c (load_branch): Fix previous change.
+	(update_global_info): If the global database is not found, return -1.
+
+2007-05-23  Kenichi Handa  <handa@m17n.org>
+
+	* database.c (Mversion): New variable.
+	(mdatabase__init): Initialize it.
+	(register_database): New arg properties.  Caller changed.
+	(register_databases_in_files): Don't check version here.
+	(mdatabase__update): Likewise.
+
+	* database.h (MDatabaseInfo): New member properties.
+
+2007-05-21  Kenichi Handa  <handa@m17n.org>
+
+	* language.c: Include <ctype.h>
+	(mlanguage__info): Use strncasecmp (not memcmp).
+	(mlanguage_name): Downcase language name for backward
+	compatibility.
+
+	* input.c (filter): Don't check Mlanguage property of
+	ic->im->language.
+
+2007-05-18  Kenichi Handa  <handa@m17n.org>
+
+	* language.c (mlanguage_name): Fix it to handle M-text English
+	name.
+
+	* input.c (config_command): Set NAME before using it.
+	(load_branch): Try to resolve a map name by variables.
+
+2007-05-17  Kenichi Handa  <handa@m17n.org>
+
+	* language.c (mlang__fini): Fix previous change.
+
+2007-05-16  Kenichi Handa  <handa@m17n.org>
+
+	* plist.c (free_plist): Cancel the last change.
+	(write_element): Check if PLIST is nested.
+	(mplist__from_plist): Label a plist as nested if appropriate.
+	(mplist__from_alist): Label a plist as nested.
+	(mplist__conc): Check the value of PL before referring it.  Label
+	a plist as nested if appropriate.
+	(mplist_copy): Label a plist as nested if appropriate.
+	(mplist_put_func): Return Mnil if KEY is a managing key.
+	(mplist_push): Label a plist as nested if appropriate.
+
+	* plist.h (MPLIST_SET_NESTED_P): Return 1 iff plist->control.flag
+	is set as nested.
+
+	* language.c (mlang__fini): Unref each element of langname_list.
+
+2007-05-14  Kenichi Handa  <handa@m17n.org>
+
+	* language.c: Include <string.h> and <locale.h>.
+	(langname_list): New variable.
+	(load_lang_script_list): Exclude invalid list elements.
+	(mlang__init): Initialize langname_list.
+	(mlang__fini): Unref langname_list.
+	(mlanguage__info): Adjusted for the change of English
+	name (symbol->M-text).
+	(mlanguage_name): Label it as obsolete.
+	(mlanguage_name_list): New function.
+
+	* m17n.h (mlanguage_name_list): Extern it.
+
+	* locale.c (make_locale): Fix setting of members of locale.
+
+	* plist.c (free_plist): Unref also nested plist.
+
+2007-05-11  Kenichi Handa  <handa@m17n.org>
+
+	* coding.c (mconv_reset_converter): Set internal->used to 0.
+
+2007-05-08  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (check_description): Force copying the translated text.
+
+2007-05-02  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (minput_save_config): Unref unnecessary plist.  Use
+	free_im_list to free im_config_list.
+
+2007-04-20  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (config_command): Fix previous change again.
+	(config_variable): Likewise.
+	(minput_config_command): Fix for the case of setting back to
+	default.
+	(minput_config_variable): Likewise.
+	(minput_save_config): Include nil as documentation of customized
+	command/variable.
+
+2007-04-05  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (config_command): Fix previous change.
+	(config_variable): Likewise.
+
+	* plist.c (mplist_get_func): Fix for backward compatiblity.
+
+2007-04-04  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (minput_get_command, minput_config_command): Fix example
+	codes.
+
+2007-03-29  Kenichi Handa  <handa@m17n.org>
+
+	These changes are to avoid unsafe casting of a function pointer.
+
+	* face.h (enum MFaceProperty): Delete MFACE_HOOK_FUNC.
+	(struct MFace): New member hook.
+
+	* face.c (serialize_face): Adjusted for the change of MFace.
+	(deserialize_face): Likewise.
+	(mface__init): Likewise.  Use msymbol_put_func.
+	(mface__realize): Adjusted for the change of MFace.  Avoid
+	compiler warning.
+	(mface_get_prop): Adjusted for the change of MFace.
+	(mface_put_prop): Likewise.
+	(mface_get_hook): New function.
+	(mface_put_hook): New function.
+	(mface_update): Adjusted for the change of MFace.
+
+	* input-gui.c (win_callback): Use mplsit_get_func.
+	(minput__win_init): Use mplsit_put_func.
+
+	* input.c (take_action_list): Use mplist_get_func.
+	(init_ic_info): Likewise.
+	(fini_ic_info): Likewise.
+	(minput_callback): Likewise.
+	(minput__init): Use mplist_put_func.
+
+	* language.c (mlang__init): Use msymbol_put_func.
+
+	* m17n-core.h (M17NFunc): New function type.
+	(M17N_FUNC): New macro.
+	(msymbol_put_func, msymbol_get_func): Extern them.
+	(mplist_put_func, mplist_get_func): Extern them.
+
+	* m17n-gui.h (mface_get_hook, mface_put_hook): Extern them.
+
+	* m17n-gui.c (mframe): Add a proper casting.
+
+	* plist.h (struct MPlist): Make the member val a union.
+	(MPLIST_VAL): Adjusted for the above change.
+	(MPLIST_FUNC): New macro.
+	(MPLIST_VAL_FUNC_P, MPLIST_SET_VAL_FUNC_P): New macros.
+
+	* plist.c (mplist_put_func, mplist_get_func): New functions.
+
+	* symbol.c (msymbol__fini): Use MPLIST_VAL.
+	(msymbol_put_func, msymbol_get_func): New functions.
+
+	* textprop.c (mtext_serialize): Use msymbol_get_func.
+	(mtext_deserialize): Likewise.
+
+2007-03-28  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (get_candidate_list): Avoid unnecessary unref.
+
+2007-03-23  Kenichi Handa  <handa@m17n.org>
+
+	* database.c (mdatabase__update): Unref plist at the tail.
+
+2007-03-21  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (update_custom_info): Fix for the case "name == Mnil &&
+	extra != Mnil".
+	(config_command): Fix for the case that configuration is
+	cancelled.
+	(config_variable): Likewise.
+	(minput_config_command): If keyseqlist is an empty list, cancel
+	the customization.
+	(minput_config_variable) If value is an empty list, cancel the
+	customization.
+	(minput_save_config): Handle cancellation of config and customize
+	correctly.
+
+2007-03-15  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (minput_config_variable): Check custom->vars (not
+	custom->cmds).
+
+2007-03-01  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (reload_im_info): Setup cmds, vars, and title of
+	im_info.
+	(check_variable_value): Fix the return value.
+
+	* database.c (mdatabase__check): If necessary, update database and
+	find a new file.
+
+2007-02-28  Kenichi Handa  <handa@m17n.org>
+
+	* database.c (get_dir_info): Set dir_info->status to
+	MDB_STATUS_OUTDATED.
+	(check_version): New function.
+	(register_database): Don't call find_database.
+	(register_databases_in_files): Don't register a database of
+	invalid version.
+	(mdatabase__update): Likewise.  Avoid unnecessary scanning.
+
+	* database.h (enum MDatabaseStatus): New membes MDB_STATUS_UPDATED
+	and MDB_STATUS_OUTDATED.
+
+	* font.h (struct MFont): Types of members type, source, and
+	spacing changed to unsigned.
+
+	* internal-gui.h (struct): Types of members category and type
+	changed to unsigned.
+
+	* internal.h (struct MText): Types of members format and coverage
+	changed to unsigned.
+
+	* m17n-core.h (M17NLIB_PATCH_LEVEL): Changed to 5.
+	(M17NLIB_VERSION_NAME): Changed to "1.3.5".
+
+2007-02-23  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (Mpop): New variable.
+	(fully_initialize): Initialize Mpop.
+	(parse_action_list): Handle Mpop.
+	(take_action_list): Likewise.
+	(handle_key): When a key is unhandled, shift to the initial state
+	only if the current state has no branch action.
+
+2007-02-12  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (get_preceding_char): Unref mt if necessary.
+	(get_following_char): Likewise.
+	(parse_action_list): Fix handling of `insert' action as
+	candidates.
+	(get_candidate_list): Fix for handling (("CANDIDATE1" ...)).
+	(take_action_list): Check invalid candidate list.
+
+2007-02-06  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (integer_value): Check also ic->produced for @-N.
+
+2007-01-26  Kenichi Handa  <handa@m17n.org>
+
+	* database.c (mdatabase__update): Check mdatabase__dir_list from
+	the tail.
+
+	* font-ft.c (STRDUP_LOWER): Don't ignore the tailing spaces.
+
+2007-01-12  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (handle_key): Handle a branch action of the initial
+	state correctly.
+
+2007-01-10  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-gd.c (gd_render): Delete superfluous line.
+
+2006-12-26  Kenichi Handa  <handa@m17n.org>
+
+	* m17n.h (minput_callback): Extern it.
+
+	* input.h (minput__callback): Delte extern.
+
+	* input.c (get_surrounding_text): Adjusted for the change of
+	minput__callback to minput_callback.
+	(delete_surrounding_text): Likewise.
+	(minput_create_ic): Likewise.
+	(minput_destroy_ic): Likewise.
+	(minput_filter): Likewise.
+	(minput_set_spot): Likewise.
+	(minput_toggle): Likewise.
+	(minput_reset_ic): Likewise.
+
+	(preedit_commit): Reset ic->candidate_index, ic->candidate_from,
+	and ic->candidate_to to 0.
+	(minput_callback): Renamed from minput__callback.
+
+	* input-gui.c (win_callback): Adjusted for the change of
+	minput__callback to minput_callback.
+
+2006-12-15  Kenichi Handa  <handa@m17n.org>
+
+	* font-ft.c (ft_add_font): Fix typo.
+
+2006-12-06  Kenichi Handa  <handa@m17n.org>
+
+	* Version 1.3.4 released.
+
+2006-11-16  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (parse_action_list): Allow (undo 0).
+	(adjust_markers): New function.
+	(preedit_insert, preedit_delete): Call adjust_markers.
+	(preedit_replace): New function.
+	(update_candidate): Call preedit_replace instead of preedit_insert
+	and preedit_delete.
+	(filter): When ic_info->commit_key_head is nonzero, shift input
+	event keys even if there's no committed text.
+
+2006-11-10  Kenichi Handa  <handa@m17n.org>
+
+	* input.h (MInputContextInfo): New member commit_key_head.
+
+	* input.c (preedit_commit): Update ic_info->commit_key_head.
+	(take_action_list): Reset ic_info->commit_key_head on Mundo.
+	(filter): When committed, shift keys by ic_info->commit_key_head.
+
+2006-10-30  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (preedit_delete): Fix typo.
+	(take_action_list): Print more debugging information.  Allow
+	variable in arg of 'select' and `pushback'.
+
+	* database.c (gen_database_name): Don't put extra space.
+	(load_database): Print debugging information.
+	(register_databases_in_files): New arg headlen.  Callers changed.
+	(mdatabase__load_for_keys): Shorten debugging information.
+	(mdatabase_load): Don't print debugging information here.
+
+2006-10-27  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (marker_code): New arg surrounding.  Callers changed.
+	(surrounding_pos): Check if name[0] == '@'.
+	(integer_value): Fix for the change semantics of `@-N' and `@+N'.
+	(take_action_list): Likewise.
+	(get_preceding_char): If POS is zero, always call
+	get_surrounding_text.
+
+2006-10-19  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (load_variables): Fix setting of `global'.
+
+2006-10-16  Kenichi Handa  <handa@m17n.org>
+
+	* draw.c (draw_background): Be sure to set *to_x.
+	(render_glyph_string): If from == to, just return.
+
+2006-10-18  Kenichi Handa  <handa@m17n.org>
+
+	* database.c (get_dir_info): Return NULL if the directory name is
+	too long.
+	(register_databases_in_files): Call register_database with
+	MDB_STATUS_AUTO.
+	(mdatabase__update): Fix logic.  Call register_database with
+	MDB_STATUS_AUTO.
+	(mdatabase_define): Call register_database with
+	MDB_STATUS_EXPLICIT.
+
+	* input.c (delete_surrounding_text): Be sure to set members
+	preceding_text and following_text to NULL.
+	(shift_state): Save variable values in ic_info->vars_saved.
+	(preedit_commit): Don't print debug information here.  Don't
+	change ic_info->keys here.
+	(get_candidate_list): Don't ref plist.
+	(take_action_list): Don't unref return value of
+	get_candidate_list.  For undo, reset ic->produced and recover
+	ic_info->vars.  Be sure to set ic->candidate_list to NULL after
+	unref it.
+	(init_ic_info): Set ic_info->vars_saved.
+	(fini_ic_info): Unref ic_info->vars_saved.
+	(re_init_ic): Be sure to set ic->candidate_list to NULL after
+	unref it.
+	(filter): Be sure to set members preceding_text and following_text
+	to NULL.  Print debug information about produced text.  Delete
+	processed keys from ic_info->keys.
+
+	* input.h (MInputContextInfo): New member vars_saved.
+
+2006-10-16  Kenichi Handa  <handa@m17n.org>
+
+	* database.c (mdatabase__update): Fix the way to get db_info.
+
+2006-10-02  Kenichi Handa  <handa@m17n.org>
+
+	* font.h (struct MFont): New member `multiple_sizes'.  Bit-size of
+	`size' changed to 24.
+
+	* font.c (xlfd_unparse_name): Adjusted for the change of
+	MFont->size.
+	(font_score): Likewise.
+	(mfont__set_spec_from_face): Set spec->multiple_sizes to 0.
+
+	* m17n-X.c (MFontX, _MFontX): Deleted.
+	(SET_SIZE, HAVE_SIZE): Deleted.
+	(free_display_info): Adjusted for the change of
+	disp_info->font_list format.
+	(xfont_registry_list): Likewise.
+	(xfont_open): Likewise.
+	(xfont_list): Likewise.
+	(xfont_encode_char): Ignore size to find a realized font.
+	(MRealizedFontXft): Change the order of members to make it
+	compatible with MRealizedFontFT.
+
+2006-09-27  Kenichi Handa  <handa@m17n.org>
+
+	* font.c (mfont_match_p, mfont_open, mfont_encapsulate)
+	(mfont_close): Add comments.
+
+	* mtext-lbrk.c (mtext_line_break): Add comment.
+
+2006-09-26  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (minput_get_description): Handle description about
+	inclusion-only input methods.
+
+2006-09-21  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (M_gettext): New variable.
+	(fully_initialize): Initialize M_gettext.
+	(check_description): New function.
+	(load_commands): Call check_description.
+	(config_all_commands): Be sure to unref pl.
+	(load_variables): Call check_description.
+	(config_all_variables): Be sure to unref pl.
+	(load_im_info): Call check_description.
+
+	* internal.h [ENABLE_NLS]: Include <libintl.h> and define _.
+
+	* m17n-core.c (m17n_init_core) [ENABLE_NLS]: Call bindtextdoman
+	and bind_textdomain_codeset.
+
+	* Makefile.am (AM_CPPFLAGS): Add -DGETTEXTDIR=...
+
+2006-09-15  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (reload_im_info): Update custom and global info.
+	(init_ic_info): Fix previous change.
+
+2006-09-14  Kenichi Handa  <handa@m17n.org>
+
+	* database.c: Include <libgen.h>.
+	(mdatabase__lock): Make a directory if necessary.
+
+	* input.c (resolve_command): Adjusted for the format change of
+	configured_cmds member.
+	(load_commands, load_variables): Fix for errornous data handling.
+	(config_command, config_variable): New function.
+	(config_all_commands, config_all_variables): Renamed from
+	config_commands and config_variables.  Utilize the above function.
+	(check_variable_value): Argument changed.  Callers changed.
+	(load_im_info): Call config_all_commands and config_all_variables.
+	(init_ic_info): Adjusted for the format change of configured_vars
+	member.
+	(minput__init): Initialize Mcustomized, Mconfigured, and
+	Minherited.
+	(Mcustomized, Mconfigured, Minherited): New variables.
+	(minput_get_command): Be sure to return NULL if an input method
+	use no local command.
+	(minput_get_variable): Be sure to return NULL if an input method
+	use no local variable.
+	(minput_config_command, minput_config_variable)
+	(minput_save_config): Adjusted for the format change of
+	configured_cmds and configured_vars members.
+	
+	* plist.c (write_element): Delete superfluous ':'.
+
+2006-09-13  Kenichi Handa  <handa@m17n.org>
+
+	* m17n.h (Minherited, Mcustomized, Mconfigured): Extern them.
+	(minput_config_file): Extern it.
+
+	* draw.c (Minherited): Declaration moved to input.c.
+	(mdraw__init): Don't initialize Minherited here.
+
+	* database.c (mdatabase__unlock): Be sure to unlink uniq file.
+
+2006-09-07  Kenichi Handa  <handa@m17n.org>
+
+	* textprop.c (mtext_serialize): Call mplist__serialize with the
+	arg pretty 0.
+
+	* plist.h (mplist__serialize): Prototype adjusted.
+	(mplist__assq): Extern it.
+
+	* plist.c: Include <ctype.h>
+	(PUTC, PUTS): New macros.
+	(write_symbol): New function.
+	(write_element): New arg indent.
+	(dump_string, dump_plist_element): Delete them.
+	(mplist__from_string): New arg pretty.
+	(mplist__assq): New function.
+	(mdebug_dump_plist): Use write_element.
+
+	* mtext.c (mtext_cat_char): Allocate more memory.
+	(mdebug_dump_mtext): Don't escal a newline character.
+
+	* m17n.h (minput_get_command, minput_get_variable)
+	(minput_config_command, minput_config_variable)
+	(minput_save_config): Extern them.
+
+	* m17n-core.c: Include <string.h>.
+	(m17n_init_core): If the env. var. MDEBUG_OUTPUT_FILE is "stdout",
+	use the stream stdout instead of a file of that name.
+
+	* m17n-X.c (mwin__parse_event): Fix handling of Shift and Control
+	modifiers.
+
+	* internal.h (MFAILP, MDEBUG_PRINT0): New macros.
+	(MDEBUG_PRINT, MDEBUG_PRINT1, MDEBUG_PRINT2, MDEBUG_PRINT3)
+	(MDEBUG_PRINT4, MDEBUG_PRINT5): Use MDEBUG_PRINT0.
+	(MDEBUG_DUMP): Flush the stream.
+
+	* input.h (struct _MInputMethodInfo): Delete member im.  New
+	members mdb, language, name, extra, cmds, configured_cmds,
+	bc_cmds, vars, configured_vars, bc_vars, description, and tick.
+	(MInputContextInfo): New member tick.
+
+	* input.c: Big change to improve user-side input method
+	customization.  Here, list just public API changes.
+	(minput_get_commands, minput_get_variables)
+	(minput_assign_command_keys, minput_set_variable): Label them
+	obsolete.
+	(minput_get_command, minput_get_variable)
+	(minput_config_command, minput_config_variable)
+	(minput_save_config): New functions.
+	
+	* database.h (PATH_MAX): Define it if not yet defined.
+	(PATH_SEPARATOR): Likewise.
+	(enum MDatabaseStatus): New enum.
+	(struct MDatabaseInfo): Moved from database.c.  New members status,
+	time, lock_file, and uniq_file.
+	(mdatabase__update, mdatabase__file, mdatabase__lock, mdatabase__save)
+	(mdatabase__unlock): Extern them.
+
+	* database.c: Include <time.h>.
+	(MDB_DIR_LEN): Don't include the terminating '\0' in the length.
+	(GEN_PATH): Args changed.  Callers changed.
+	(struct MDatabaseInfo): Moved to database.h.
+	(struct MDatabase, mdb_list): Deleted.
+	(mdatabase__list): New var.
+	(get_database_filename): Deleted.  Callers changed to use
+	get_database_file.
+	(find_file, get_database_file): New files.
+	(get_dir_info): Initialize new members of MDatabaseInfo.
+	(find_database): Arg chagnded.  Callers changed.
+	(free_db_info, register_database, register_databases_in_files):
+	New functions.
+	(update_database_list): Deleted.
+	(mdatabase__init): Initialize mdatabase__list instead of mdb_list.
+	(mdatabase__fini): Finalize mdatabase__list instead of mdb_list.
+	(mdatabase__update): New function.
+	(mdatabase__check): Return value changed.
+	(mdatabase__file, mdatabase__lock, mdatabase__save)
+	(mdatabase__unlock): New functions.
+
+2006-08-30  TAKAHASHI Naoto  <ntakahas@m17n.org>
+
+	* input.c (get_surrounding_text): Return -2 when surrounding text
+	is unavailable.
+	(get_following_char): Likewise.
+	(get_preceding_char): Likewise.
+	(minput__callback): Return 0 if there is a callback function,
+	otherwise -1.
+
+2006-08-17  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (reset_ic): Use shift_state to setup the current state.
+
+2006-08-02  Theppitak Karoonboonyanan  <thep@linux.thai.net>  (tiny change)
+
+	* Makefile.am (libm17n_la_LIBADD, libm17n_gui_la_LIBADD)
+	(libm17n_X_la_LIBADD, libm17n_gd_la_LIBADD, linkcore_LDADD)
+	(linkshell_LDADD, linkgui_LDADD): Use ${top_builddir}.
+
+2006-08-02  Kenichi Handa  <handa@m17n.org>
+
+	* plist.c (mdebug_dump_plist): Fix the 2nd arg to dump_plist_element.
+
+	* mtext.c (mdebug_dump_mtext): If not fullp, dump just text. 
+
+	* font-ft.c (ft_encapsulate): Add code for debugging.
+	(mfont__ft_drive_otf): Be sure to encode character before getting
+	metrics.
+
+2006-07-21  Kenichi Handa  <handa@m17n.org>
+
+	* draw.c (mdraw_text_extents): Fix previous typo.
+
+2006-07-19  Kenichi Handa  <handa@m17n.org>
+
+	* draw.c (gstring_width): New arg lbearing.
+	(render_glyph_string): Adjusted for the change of gstring_width.
+	(mdraw_text_extents): Fix lbearing of ink and line metrics.
+
+	* m17n-core.h (Mlanguage): Extern it.
+
+	* m17n.h (Mlanguage): Extern deleted. 
+
+	* mtext.c (mtext__init): Initialize Mlanguage.
+	(Mlanguage): Declaration moved from locale.c
+
+	* locale.c (mlocale__init): Don't initialize Mlanguage here.
+	(Mlanguage): Declaration moved to mtext.c.
+
+	* language.c (mlang__init): Don't initialize Mlanguage here.
+
+	* font.c (OTF_tag_name) [! HAVE_OTF]: New function.
+
+2006-07-14  Kenichi Handa  <handa@m17n.org>
+
+	* font-ft.c: Use FT_BDF_H macro.  Include fontconfig/fcfreetype.h.
+	(MRealizedFontFT): New member face_encapsulated.
+	(free_ft_rfont): Pay attention to ft_rfont->face_encapsulated.
+	(ft_gen_font): New function.
+	(ft_add_font): Use ft_gen_font.
+	(ft_list_script): Store lists in ft_script_list.
+	(ft_check_otf): New arg ft_face.  Caller changed.
+	(ft_check_language): Likewise.
+	(ft_check_script): Likewise.
+	(ft_encapsulate, ft_close): New functions.
+	(mfont__ft_driver): Initialize members encapsulate and close.
+	(mfont__ft_drive_otf): Use OTF_open_ft_face if it is available.
+
+	* font.h (struct MRealizedFont): New member encapsulating.
+	(struct MFontDriver): New members encapsulate and close.
+
+	* font.c (mfont__match_p): If FONT is realized, check capability
+	by font drivers's check_capability method.
+	(mfont_match_p, mfont_open, mfont_encapsulate, mfont_close): New
+	functions.
+
+	* m17n-X.c (xfont_list_family_names): Delete unused var.  Fix
+	declarations of foundry and fam local vars.
+	(xft_driver): Make it static.
+
+	* m17n-gui.h (mfont_match_p, mfont_open, mfont_encapsulate)
+	(mfont_close): Extern them.
+
+	* m17n-gd.c (device_open): Don't specify foundry and family of the
+	default face.
+
+2006-07-11  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-gui.c (m17n_fini_win): Set null_interface.handle to NULL;
+
+2006-07-13  Kenichi Handa  <handa@m17n.org>
+
+	* font-ft.c (fc_build_charset): Return NULL if FcCharSet can't be
+	created.
+	(ft_check_script): Delete unused var.
+	(ft_list_capability): Likewise.
+
+	* font.c (mfont__get_capability): Setup cap->otf.
+	(Motf): Make it global.
+	(mfont_get_prop): Accept Mlanguage, Mscript, and Motf as key arg.
+
+	* font.h (MFontCapability): New member otf.
+
+	* language.c (mlang__fini): Delete unused vars.
+
+	* m17n-gui.h (Motf): Extern it.
+
+	* database.c (update_database_list): Delete unused vars.
+
+2006-07-07  Kenichi Handa  <handa@m17n.org>
+
+	* font-ft.c (DEVICE_DELTA): Fix typo.
+
+2006-07-06  Kenichi Handa  <handa@m17n.org>
+
+	* fontset.c (mfont__lookup_fontset): Don't ignore family and
+	foundry of face.
+
+2006-07-05  TAKAHASHI Naoto  <ntakahas@m17n.org>
+
+	* database.c: Update comments.
+
+2006-07-05  Kenichi Handa  <handa@m17n.org>
+
+	* database.c (PATH_MAX): Define it if not yet defined.
+	(PATH_SEPARATOR, USE_GEN_PATH, GEN_PATH, GEN_PATH_FROM_MT): New
+	macros.
+	(get_database_filename): Use GEN_PATH.
+	(get_dir_info): Don't include the last '/' in directory name.
+	(register_database): New function.
+	(update_database_list): Use register_database.  Search all
+	directories in mdatabase__dir_list for wildcard databases.
+	(mdatabase__init): Check "~/.m17n.d".
+
+2006-07-03  Kenichi Handa  <handa@m17n.org>
+
+	* input-gui.c (win_callback): If is ic->candidate_show zero, don't
+	push reverse property.
+
+	* plist.c (dump_plist_element): Fix previous change.
+
+2006-06-28  Kenichi Handa  <handa@m17n.org>
+
+	* font.c (xlfd_unparse_name): Suppress the heading '-' if not
+	necessary.
+
+	* draw.c (MbidiNSM): New variable.
+	(visual_order) [! HAVE_FRIBIDI]: Clear levels at first.  Pay
+	attention to bidi type NSM.
+	(mdraw__init): Initialize MbibiNSM.
+
+	* language.c (mscript__char_list): Fix finding a char-list element.
+
+	* plist.c (dump_string): Return number of printed characters.
+	(dump_plist_element): Print elements more compactly.
+
+2006-06-23  Kenichi Handa  <handa@m17n.org>
+
+	* Makefile.am (BUILD_LIBS): Don't increment it conditionally.
+	(include_HEADERS): Likewise.
+
+2006-06-23  TAKAHASHI Naoto  <ntakahas@m17n.org>
+
+	* language.c: Update documentation.
+
+2006-06-23  Kenichi Handa  <handa@m17n.org>
+
+	* font-ft.c (struct MFontFT): Delete member lang.
+	(free_ft_info): Don't unref member lang.  Destroy members langset
+	and charset.
+	(fc_parse_pattern): Last argument changed to MFontFT *.  Callers
+	changed.  Set members langset and charset.
+	(fc_init_font_list, fc_list_pattern, fc_build_charset): New
+	functions.
+	(ft_init_font_list, ft_has_char_list_p, ft_list_char_list): New
+	functions.
+	(ft_list_family) [HAVE_FONTCONFIG]: Include FC_CHARSET on objset.
+	(ft_list_family) [! HAVE_FONTCONFIG]: Call ft_init_font_list.
+	(ft_list_language) [HAVE_FONTCONFIG]: Check representative
+	characters at first.  If it fails, try listing by language names.
+	(ft_list_language) [! HAVE_FONTCONFIG]: Call ft_list_char_list.
+	(ft_check_language): Renamed from ft_check_lang.  Adjusted for the
+	change of MFontCapability.
+	(ft_list_capability): Likewise.  Try listing by languages, then by
+	scripts.  Check OTF at last.
+	(ft_check_script): New function.
+	(ft_select): Adjusted for the check of MFontCapability.
+	(ft_list_family_names): New function.
+	(ft_check_capability): If cap->script is not Mnil, call
+	ft_check_script.
+	(mfont__ft_driver): Initialize with ft_list_family_names.
+
+	* font.h (struct MFontDriver): New member list_fmaily_names.
+	(struct): Change member "MSymbol *lang" to "MSymbol language".
+
+	* font.c: Include "language.h".
+	(Motf): New variable.
+	(otf_script_list, load_otf_script_list): Delete it.
+	(find_script_from_otf_tag): Delete it.
+	(merge_capability): New function.
+	(mfont__init): Init Motf.
+	(mfont__fini): Don't unref otf_script_list.
+	(free_font_capability): Check cap->script_tag to determine if
+	OTF-related capability is set.
+	(mfont__get_capability): Call mscript__from_otf_tag.  Adjusted for
+	the change of type MFontCapability.
+	(mfont_put_prop): Call merge_capability for Mlanguage, Mscript,
+	and Motf properties.
+	(mfont_list): Call merge_capability for LANGUAGE arg.
+	(mfont_list_family_names): New function.
+
+	* input-gui.c: Typo in comments fixed.
+
+	* input.c: Typo in comments fixed.
+
+	* language.h (mlanguage__list): Delete it.
+	(mscript__char_list, mscript__otf_tag, mscript__from_otf_tag): New
+	functions.
+
+	* language.c: Include "mtext.h".
+	(M_script_lang_list): Delete it.
+	(language_list, script_list): New variables.
+	(load_lang_script_list, init_language_list, init_script_list): New
+	functions.
+	(mlang__init): Don't load language database here.
+	(mlang__fini): Unref language_list and script_list if not NULL.
+	(mlanguage__list): Delete it.
+	(mlanguage__info, mscript__info, mscript__char_list)
+	(mscript__otf_tag, mscript__from_otf_tag): New functions.
+	(mlanguage_list, mlanguage_code, mlanguage_name, mlanguage_text)
+	(mscript_list, mscript_language_list): New functions.
+
+	* m17n-gui.h (mfont_list_family_names): Extern it.
+
+	* m17n.h (mlanguage_list, mlanguage_code, mlanguage_name)
+	(mlanguage_text, mscript_list, mscript_language_list): Extern
+	them.
+
+2006-06-21  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-X.c (xfont_driver): Initialize with
+	xfont_list_family_names.
+	(xfont_list_family_names): New function.
+	(xft_driver): Initialize with NULL for list_family_names member.
+	(device_init): Set list_family_names member of xft_driver to that
+	of mfont__ft_driver.
+
+2006-06-06  Kenichi Handa  <handa@m17n.org>
+
+	* fontset.c (mfont__lookup_fontset): Don't set *num to 1 if it is 0.
+
+2006-03-24  Kenichi Handa  <handa@m17n.org>
+
+	* font-ft.c (ft_open): Improve debug message.
+
+	* fontset.c (mfontset__get_font): Fix for the case that no font in
+	per_script list is available.
+
+2006-02-06  Kenichi Handa  <handa@m17n.org>
+
+	* Version 1.3.3 released.
+
+2006-02-22  Kenichi Handa  <handa@m17n.org>
+
+	* textprop.c: Fix some typos in documentation.
+
+	* plist.c: Fix some typos in documentation.
+
+	* m17n-core.h: Fix some typos in documentation.
+	(M17NLIB_PATCH_LEVEL): Updated to 3.
+	(M17NLIB_VERSION_NAME): Updated to "1.3.3".
+
+	* symbol.c: Fix some typos in documentation.
+
+	* mtext.c: Fix some typos in documentation.
+
+	* input.c: Fix several typos in documentation.
+
+2006-02-06  Kenichi Handa  <handa@m17n.org>
+
+	* Version 1.3.2 released.
+
+2006-02-03  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-core.h (M17NLIB_PATCH_LEVEL): Updated to 2.
+	(M17NLIB_VERSION_NAME): Updated to "1.3.2".
+
+	* font.c (xlfd_parse_name): Fix handling of the name "nil".
+
+	* draw.c (layout_glyphs): Fix handling left_padding of
+	composition's base.
+
+	* m17n-gd.c (read_rgb_txt): Support HTML 4.0 color names.
+
+2006-02-02  Kenichi Handa  <handa@m17n.org>
+
+	* Makefile.am (include_HEADERS): Add m17n-gui.h and m17n-X.h only
+	if WITH_GUI is true.
+
+2006-01-25  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (resolve_expression): If the value of PLIST is a plist,
+	but the first element is not symbol, return 0.
+
+2006-01-17  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-gd.c (gd_render): Use gdImageColorResolveAlpha only if
+	HAVE_GD is 2 or the greater.
+
+2006-01-16  Kenichi Handa  <handa@m17n.org>
+
+	* Version 1.3.1 released.
+
+2006-01-16  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-gd.c (gd_render): Use gdImageColorResolveAlpha instead of
+	simulating anti-aliasing.
+
+	* m17n-core.h (M17NLIB_PATCH_LEVEL): Updated to 1.
+	(M17NLIB_VERSION_NAME): Updated to "1.3.1".
+
+2006-01-12  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (get_surrounding_text): Always pop ic->plist.
+	(reset_ic): Don't reset ic->plist.
+
+2006-01-10  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (preedit_commit): For debugging, print only commiting
+	charactes.  Don't set ic->candidate_show to 0.
+	(handle_key): Don't run branch-actions just by shifting to the
+	current state.
+	(reset_ic): Reset state_key_head and key_head of ic_info to 0.
+	Reset vars and plist.
+
+2006-01-07  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (load_branch): Confirm that maps is not NULL.
+
+2006-01-05  Kenichi Handa  <handa@m17n.org>
+
+	* input-gui.c (win_filter): Try to convert arg to key only when
+	arg is not NULL.
+
+	* plist.c (read_integer_element): If '#' and '-' are followed by
+	non-integer-constituent, read them as a part of a symbol.
+	(read_symbol_element): New arg C.
+	(read_element): Adjust args to read_symbol_element.
+
+	* input.c (load_macros): On overwriting a macro, free the old
+	definition.
+	(minput__init): Store Mmap in load_im_info_keys.
+	(minput_get_title_icon): If the input method has no title, be sure
+	to return NULL.
+	(minput_get_description): If the input method has no description,
+	be sure to return NULL.
+	(minput_get_variables): Fix documentation.
+	(handle_key): Pay attention to the case that key is Mnil.
+	(filter): Likewise.  Fix handling of such symbol as S-A.
+
+2005-12-22  Kenichi Handa  <handa@m17n.org>
+
+	* Version 1.3.0 released.
+
+2005-12-22  Kenichi Handa  <handa@m17n.org>
+
+	* font-ft.c (ft_list): If the specified font has no property,
+	return all fonts.
+
+2005-12-20  Kenichi Handa  <handa@m17n.org>
+
+	* character.c (mchar_get_prop): Check char_prop_list.
+	(mchar_put_prop, mchar_get_prop_table): Likewise.
+
+2005-12-18  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (minput_get_title_icon): If LANGUAGE is Mt, try also a
+	file name sans language.
+
+2005-12-16  TAKAHASHI Naoto  <ntakahas@m17n.org>
+
+	* input.c: Fix typo in comments.
+
+2005-12-14  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (minput_get_title_icon): Check the default icon for the
+	input method.
+
+2005-12-13  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (Mless_equal, Mgreater_equal): New variables.
+	(parse_expression, resolve_expression, parse_action_list)
+	(take_action_list): Handle the aboves.
+	(filter): Treat key S-X as X.
+	(minput__init): Initialize Mless_equal and Mgreater_equal.
+	(minput_get_title_icon): New function.
+
+	* m17n.h (minput_get_title_icon): Extern it.
+
+	* database.c (get_database_filename): Return a filename instead of
+	file pointer.
+	(load_database): Adjusted for the above change.
+	(mdatabase__load_for_keys): Likewise.
+	(mdatabase__find_file): New function.
+
+	* database.h (mdatabase__find_file): Extern it.
+
+	* font.h (mfont__resize): Delete extern.
+
+	* font.c (mfont__list): Check resize ratio.
+	(mfont__resize): Delete it.
+	(mfont_resize_ratio): Include the code of mfont__resize.
+
+	* font-ft.c (ft_open): Check resize ratio.
+
+	* m17n-X.c (xfont_open): Check resize ratio.
+	(xft_open): Likewise.
+
+2005-12-07  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (take_action_list): If take_action_list return -1,
+	return -1.
+	(handle_key): Likewise.
+
+	* face.c (mface__for_chars): When font is specified and layouter
+	is found for it, if the layouter doesn't support one of a
+	character, use a face sans layouter for it.
+
+2005-12-06  Kenichi Handa  <handa@m17n.org>
+
+	* fontset.c (mfont__lookup_fontset): If only a fallback font is
+	found, don't use it for more than one character.
+
+2005-12-05  Kenichi Handa  <handa@m17n.org>
+
+	* face.c (mface__realize): Set rfont->layouter to Mnil.
+	(mface__for_chars): Fix handling of layouter.
+
+	* character.h (mchar__define_prop): Extern it.
+
+	* database.c (update_database_list): Call mchar__define_prop if
+	necessary.
+
+	* character.c (mchar__init): Don't call mchar_define_property.
+	Instead just initialize property keys.
+	(mchar__fini): Free char_prop_list only if it's not NULL.
+	(mchar__define_prop): New function.
+	(mchar_define_property): Call mchar__define_prop.
+
+	* m17n-core.c (m17n_fini_core): Call mtext__prop_fini at after
+	mplist__fini.
+
+2005-12-02  Kenichi Handa  <handa@m17n.org>
+
+	* language.c (mlang__init): Handle extra chars.
+
+	* m17n-gui.h (mfont_check): Adjust prototype.
+
+	* m17n-X.c (xfont_driver): Specify xfont_check_capability.
+	(xfont_check_capability): New function.
+	(xft_driver): Specify xft_check_capability.
+	(xft_check_capability): New function.
+
+	* font-ft.c (M0_3): Delete it.
+	(M0): New variable.
+	(ft_get_charmaps): Refer to M0.
+	(fc_parse_pattern): Fix previous change.
+	(ft_list_language): Check also extra chars.
+	(ft_check_otf): Define it even if HAVE_OTF is undef.
+	(ft_check_lang): Check the result of FcLangSetHasLang against
+	FcLangDifferentLang.  Check also extra chars.
+	(ft_list_capability): Delete ifdef HAVE_OTF.
+	(ft_select): Likewise.
+	(ft_open): Improve debug information.
+	(ft_check_capability): New function.
+	(mfont__ft_driver): Specify ft_check_capability.
+	(mfont__ft_init): Initialize M0.
+
+	* fontset.c (get_font_from_group): New function.
+	(mfontset__get_font): New function.
+
+	* fontset.h (mfontset__get_font): Extern it.
+
+	* font.c (OTF_tag): Define it if HAVE_OTF is undef.
+	(mfont__fini): Delete ifdef HAVE_OTF.
+	(free_font_capability): Likewise.
+	(mfont__get_capability): Likewise.
+	(mfont__check_capability): New function.
+	(mfont_check): Change the order of arguments.  Use
+	mfontset__get_font.
+
+	* font.h (struct MFontDriver): New member check_capability.
+	(MFontCapability): Delete ifdef HAVE_OTF.
+	(mfont__check_capability): Extern it.
+
+	* face.c (mface__realize): Fix handling of FONT arg.
+	(mface__for_chars): Fix handling of explicitly specified font.
+
+2005-11-25  Kenichi Handa  <handa@m17n.org>
+
+	* font-flt.c (run_command): Print debug info for
+	left/rigth_padding
+
+	* draw.c (layout_glyphs): Fix handling of left/right_padding.
+
+	* face.c (mface__for_chars): Check rfont before accessing the
+	members.
+
+2005-11-21  Kenichi Handa  <handa@m17n.org>
+
+	* Makefile.am (lib_LTLIBRARIES): Define it conditionaly on
+	WITH_GUI.
+
+	* fontset.c (fontset_table): New variable.
+	(free_fontset): Call M17N_OBJECT_UNREGISTER.
+	(mfont__fontset_init): Add fontset_table as an object array.
+	(mfont__realize_fontset): Ref FONTSET.
+	(mfont__free_realized_fontset): Unref REALIZED->fontset.
+	(mfontset): Call M17N_OBJECT_REGISTER.
+	(mfontset_copy): Likewise.
+
+	* input.c (handle_key): For debugging, print information about
+	alias key.
+	(filter): Add an alias for Meta and Alt modifiers.
+	(Mcond, Mplus, Mminus, Mstar, Mslush, Mand, Mor, Mnot): New
+	variables.
+	(minput__init): Initialize them.
+	(parse_expression): New function.
+	(resolve_expression): New function.
+	(parse_action_list): Handle expressions by parse_expression.
+	(take_action_list): Handle expressions by resolve_expression.
+	(parse_nested_list_value): Fix previous change.
+	(resolve_command): Fix handling of the return value of
+	get_nested_list.
+
+2005-11-18  Kenichi Handa  <handa@m17n.org>
+
+	* font-ft.c (ft_check_otf, otf_script_list): Define only when
+	HAVE_OTF is defined.
+	(ft_list_capability): Call ft_check_otf only when HAVE_OTF is
+	defined.
+	(ft_select): Likewise.
+
+	* font.c (mfont_list): Fix for the case that FONT is NULL.
+	(OTF_tag): Delete it.
+	(load_otf_script_list): Define only when HAVE_OTF is defined.
+	(mfont__fini): Unref otf_script_list only when HAVE_OTF is
+	defined.
+
+	* draw.c (truncate_gstring): Be sure to truncate at
+	glapheme-cluster boundary.
+
+2005-11-11  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (delete_surrounding_text): Clear cache if necessary.
+
+2005-11-09  Kenichi Handa  <handa@m17n.org>
+
+	* draw.c (compose_glyph_string): Update prev->rface->rfont if the
+	glyph prev is also supported by the current flt.
+
+2005-11-08  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-X.c (xft_render): Cancel previous change.
+
+2005-11-07  Kenichi Handa  <handa@m17n.org>
+
+	* input.c: Include <stdlib.h>.
+	(get_surrounding_text, delete_surrounding_text)
+	(get_preceding_char, get_following_char): New functions.
+	(integer_value): New arg surrounding.  If it is nonzero, try to
+	get a surrounding character.  Callers changed.
+	(take_action_list): Check `value' before setting an element.
+	(destroy_ic): Unref ic_info->preceding_text and
+	ic_info->following_text.
+	(minput__init): Initialize Minput_get_surrounding_text and
+	Minput_delete_surrounding_text.
+	(Minput_get_surrounding_text, Minput_delete_surrounding_text): New
+	variables.
+	(filter): Unref ic_info->preceding_text and
+	ic_info->following_text.
+
+	* m17n.h (Minput_get_surrounding_text, Minput_delete_surrounding_text):
+	Extern them.
+
+	* input.h (MInputContextInfo): New members preceding_text and
+	following_text.
+
+2005-11-04  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (parse_nested_list_value): Fix handling of the global
+	definition.
+	(get_nested_list): Get global definitions by load_partial_im_info.
+	(preedit_commit): Set ic->candidates_changed to bitwise or of enum
+	MInputCandidatesChanged.
+	(take_action_list): Likewise.
+	(reset_ic): Likewise.
+	(create_ic): Don't pay special attention to
+	Mcandidates_group_size.
+	(load_partial_im_info): Call mdatabase_find with correct 4th arg.
+	(minput_set_variable): Get a definition of varible by
+	mplist_find_by_value, not mplist_get.
+
+	* m17n.h (enum MInputCandidatesChanged): New enum.
+
+2005-11-01  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-X.c (xft_render): Check xft_draw's drawable before changing
+	it.
+	(mwin__destroy_window): If xft_draw's drawable is win, change it
+	to device->drawable before destroying win.
+
+2005-10-31  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (load_im_info): Fix adding of state.
+
+	* m17n-core.c (m17n_fini_core): Fix reporting of module
+	finalization.
+
+	* m17n.c (m17n_fini): Fix reporting of module finalization.
+
+	* m17n-gui.c (m17n_init_win): Fix reporting of module
+	finalization.
+
+2005-10-29  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (get_candidate_list): Fix the timing of referring plist.
+
+2005-10-28  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (load_branch): Ignore an undefined map name.
+	(load_im_info): Set im_info->title from `name' only if it's not
+	Mnil.
+	(shift_state): Always update ic->status.
+	(adjust_candidates): Renamed from adjust_candidate_command.
+	Argument changed.  Caller changed.
+	(get_candidate_list, regularize_action): New functions.
+	(take_action_list): Use them.  On handling Munhandle, don't set
+	ic_info->used to 0.
+	(handle_key): If KEY is not handled by MAP, and MAP has
+	branch_actions, perform them.
+
+	* database.c (mdatabase__fini): Free dir_info->filename;
+
+2005-10-20  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (marker_code): Accept '@@'.
+	(integer_value): Handle '@@'.
+	(parse_action_list): Accept a symbol argument.
+	(take_action_list): Resolve the symbol argument.  Handle the
+	integer argument.
+
+2005-10-18  Kenichi Handa  <handa@m17n.org>
+
+	* input.c: Include "charset.h".
+	(M_candidates, Mcandidates_group_size, Mcandidates_charset): New
+	variables.
+	(MIMState): New member (M17NObject control).
+	(lookup_nested_list, set_nested_list, parse_nested_list_value)
+	(get_nested_list, resolve_variable): New functions.
+	(integer_value): New arg (MPlist **value).  Set it to the plist
+	element containing the value.
+	(resolve_command): New function.
+	(load_translation): New arg (MPlist *map_actions).
+	(load_branch): New args language and name.  If `keylist' is a
+	symbol, resolved that as a command name.
+	(free_map): New arg top.  Free map->map_actions only if top is
+	nonzero.
+	(free_state): New function.
+	(load_state): New arg name.
+	(im_info_list): New variable.
+	(free_im_info, get_im_info_by_tags): New functions.
+	(load_im_info): Arg key changed to plist.  Handle `include'.
+	Return (MInputMethodInfo *).
+	(preedit_commit): Ref ic->candidate_list.
+	(get_select_charset, adjust_candidate_command): New functions.
+	(take_action_list): Handle `include'.  Adjust candidate action
+	properly.  Handle control variables `candidates-charset' and
+	`candidates-group-size'.
+	(open_im): Use get_im_info.
+	(create_ic): Get global variables.
+	(load_partial_im_info): New function.
+	(get_im_info): New function.
+	(check_command_keyseq, check_command_list, check_variable_list):
+	New functions.
+	(minput__init): Don't handle M_database_hook and Mdetail_text.
+	Initialize M_candidates, Mcandidates_group_size,
+	Mcandidates_charset.
+	(parse_variable_list, get_variable_list, parse_command_list)
+	(get_command_list): Delete them.
+	(MDatabaseStatList, imdir_stat_list, input_method_hook): Delete them.
+	(minput__fini): Simply unref command_list and variable_list.
+	(minput_get_description): Adjusted for the new form of description.
+	(minput_get_commands): Use get_nested_list.
+	(minput_assign_command_keys): Likewise.
+	(minput_get_variables, minput_set_variable): Likewise.
+
+	* input.h (MInputMethodInfo): New members im and maps.
+
+	* database.h (M_database_hook): Delete extern.
+	(MDatabaseHookFunc): Delete extern.
+	(mdatabase__check): Extern it.
+
+	* database.c: Include <glob.h>.
+	(MAX_TIME): New macro.
+	(Masterisk): New variable.
+	(get_database_stream): Argument changed to (MDatabaseInfo *).
+	Callers changed.
+	(get_dir_info): Renamed from duplicate_dirname.  Callers changed.
+	(find_database): New function.
+	(update_database_list): New function.
+	(mdatabase__init): Initialize Masterisk.  Setup mdb_list by
+	calling update_database_list.
+	(mdatabase__check): New function.
+	(mdatabase_find): Use update_database and find_database.  Don't
+	handle MDatabaseHookFunc.
+	(mdatabase_list): Call update_database at first.
+	(mdatabase_define): Adjusted for the change of mdb->extra_info.
+	(MDatabaseList): New type.
+
+	* plist.h (mplist_conv, mplist__pop_unref): Extern them.
+
+	* m17n.h (Mdetail_text): Delete extern.
+
+	* m17n-core.h (mplist_conc): Delete extern.
+
+	* plist.c (mplist__conc): Renamed from mplist_conc.  Don't ref
+	tail.
+	(mplist_conc): Renamed to mplist__conc.
+	(mplist__pop_unref): New function.
+
+2005-10-14  Kenichi Handa  <handa@m17n.org>
+
+	* plist.c (read_mtext_element): Ignore the sequence of '\\' and
+	newline.
+	(read_element): If keys is an empty plist, return any element
+	found first.
+	(dump_plist_element): Check if plist is nested.
+	(mplist_conc): Always ref tail.
+	(mplist_set): If key is a managing key, ref val in advance.
+
+	* plist.h (MPLIST_VAL_MANAGED_P): Delete this macro.
+	(MPLIST_NESTED_P, MPLIST_SET_NESTED_P): New macros.
+	(MPLIST_ADD_PLIST, MPLIST_PUSH_PLIST, MPLIST_PUT_PLIST): New
+	macros.
+
+	* fontset.c (free_fontset): Unref fontset_list if necessary.
+	(mfont__fontset_fini): Don't free fontset_list.  Unref
+	default_fontset.
+	(mfont__realize_fontset): Initialize request.
+	(mfontset): Ref default_fontset or fontset only if necessary.
+	(mfontset_copy): Don't ref copy.
+
+	* draw.c (render_glyphs): Check gend->type before checking
+	gend->to.
+
+	* font-ft.c (mfont__ft_fini): Unref ft_default_list.  Set all
+	unrefed plists to NULL.
+
+2005-10-04  Kenichi Handa  <handa@m17n.org>
+
+	* textprop.c (mtext_serialize): Be sure to make mt
+	MTEXT_FORMAT_UTF_8 and NULL terminated.
+
+	* m17n-gui.c (m17n_init_win): Initialize Mcolormap.
+
+	* draw.c (mdraw_glyph_list): Fix settting of glyphs->font->source.
+
+2005-10-03  Kenichi Handa  <handa@m17n.org>
+
+	* draw.c (mdraw_glyph_info): Pay attention to the case that FROM
+	is not at the beginning of line.
+
+2005-09-22  Kenichi Handa  <handa@m17n.org>
+
+	* input.c: Include <sys/stat.h> and <unistd.h>.
+	(Minclude, Mcommit, Munhandle): New variables.
+	(minput__init): Initialize them.  Push only Mstate to
+	load_im_info_keys.   Add aliases C-lowercase for C-uppercase.
+	(parse_action_list): Allow integer arg for undo.  Handle Mcommit
+	and Munhandle.
+	(load_input_method): Handle "include" directive.  If no states are
+	loaded, return -1.
+	(shift_state): If state_name is Mt, shift back to the previous
+	state.  Call preedit_commit to commit preedit text.
+	(preedit_commit): New function.
+	(take_action_list): Improve debug printing.  Handle commit and
+	unhandle commands.
+	(handle_key): Check the return value of take_action_list.  Don't
+	take branch_actions just after changing to the root map.
+	(reset_ic): Reset all ic_info members.
+	(filter): When a key is not handled, just move ic_info->keys
+	instead fo calling reset_ic.
+	(load_im_info): If key is not Mstate, push Mmap to
+	load_im_info_keys.
+	(MDatabaseStatList): New type.
+	(imdir_stat_list): New variable.
+	(input_method_hook): Don't cancel the hook.  Check the
+	modification time of directories.
+	(minput__fini): Free imdir_stat_list;
+
+	* input.h (MInputContextInfo): New member prev_state.
+
+	* m17n-core.h (mplist_conc): Extern it.
+
+	* plist.c (mplist_conc): New function.
+
+	* mtext.c (mdebug_dump_mtext): Escape '"' and '\\' by '\\'.
+
+	* font.h (MRealizedFont): New member average_width.
+
+	* font-ft.c (ft_open): Set rface->average_width.
+
+	* font.c (xlfd_unparse_name): Print '*' before registry name.
+
+	* m17n-X.c (MDisplayInfo): New member AVERAGE_WIDTH.
+	(xfont_open): Set rfont->average_width.
+	(xft_open): Likewise.
+	(device_open): Initialize disp_info->AVERAGE_WIDTH.
+
+	* internal-gui.h (struct MFrame): New member average_width.
+
+	* m17n-gui.c (mframe): Fix setting of frame->rfont.
+	(mframe_get_prop): Return the average_width of a font.
+
+	* face.c (mface__realize): Set rface->average_width.
+	(mface__update_frame_face): Set frame->average_width.
+
+	* face.h (MRealizedFace): New member average_width.
+
+2005-09-19  Kenichi Handa  <handa@m17n.org>
+
+	* font.c (xlfd_unparse_name): New arg full_xlfd.
+	(mfont__encode_char): Use shortcut only for X core fonts.
+	(mfont_unparse_name): Call xlfd_unparse_name with full_xlfd arg 1.
+	(mfont_put_prop): Handle `language' property.
+	(mdebug_dump_font): Call xlfd_unparse_name with full_xlfd arg 0.
+	Print file can capability info too.
+
+	* m17n-core.c (mdebug__output): New variable.
+	(SET_DEBUG_FLAG): Unset mask if env_value is '0'.
+	(m17n_init_core): Handle MDEBUG_ALL and MDEBUG_OUTPUT_FILE.
+	(m17n_fini_core): Close mdebug__output if it's not stderr.
+
+	* m17n-X.c (MDisplayInfo): New member MULE_BASELINE_OFFSET.
+	(xfont_open): Handle baseline_offset.
+	(xfont_find_metric): Likewise.
+	(xfont_render): Likewise.
+	(xft_open): Likewise.
+	(xft_render): Likewise.
+
+	* internal.h (MDebugMaskBit): Add MDEBUG_ALL.
+	(mdebug__output): Extern it.
+	(MDEBUG_PRINT, MDEBUG_PRINT1, MDEBUG_PRINT2, MDEBUG_PRINT3)
+	(MDEBUG_PRINT4, MDEBUG_PRINT5): Print to medebug__output.
+	(MDEBUG_DUMP): New macro.
+	(MDEBUG_PRINT_TIME): Print to medebug__output.
+
+	* font.h (MRealizedFont): New member baseline_offset.
+
+	* font-ft.c (ft_get_charmaps): Check if the font support iso8859-1
+	characters.
+	(fc_weight_table): Add FC_WEIGHT_REGULAR.
+	(ft_list_family): Check alias.
+	(ft_list_language): If language is "en", don't try to the second
+	step.
+	(ft_default_list): New variable.
+	(ft_list_default): New function.
+	(ft_select): If family is not specified, try only the default
+	fonts.  Treat the weights normal and medium same.
+	(ft_open): Fix debug message.  If registry is not specified, try
+	unicode-bmp.  Handle _MULE_BASELINE_OFFSET property of BDF fonts.
+	(ft_find_metric): Likewise.
+	(ft_render): Likewise.
+	(ft_list): Fix debug message.  Accept the registring iso8859-1.
+	If family is not specified, try only the default fonts.
+
+	* face.c (mface__realize): Fix logic of opening a font.
+
+2005-09-16  Kenichi Handa  <handa@m17n.org>
+
+	* face.c (mface__realize): 
+
+	* m17n.h (Minput_focus_move, Minput_focus_in, Minput_focus_out):
+	Extern them.
+
+	* input.c (shift_state): Fix the condition of taking init actions.
+	(take_action_list): Fix handling of pushback action.
+	(handle_key): Don't change key while checking its alias.
+	(minput__init): Initialize new variables.
+	(Minput_focus_move, Minput_focus_in, Minput_focus_out): New
+	variables.
+
+2005-09-12  Kenichi Handa  <handa@m17n.org>
+
+	* mtext.c (mtext__uppercase): Add proper open/close parens.
+	(mtext_titlecase): Add proper casting.
+
+	* input.c (parse_action_list): Handle the case that the arg is a
+	key sequence (MText or MPlist).
+	(take_action_list): Likewise.
+	(shift_state): Shorter debug message.
+	(handle_key): Terminate a debug message by "\n".
+	(reset_ic): Don't take initial actions here.
+	(minput_open_im): Print a debug message.
+	(minput_close_im): Likewise.
+	(minput_create_ic): Likewise.
+	(minput_destroy_ic): Likewise.
+
+2005-09-09  TAKAHASHI Naoto  <ntakahas@m17n.org>
+
+	* mtext.c (mtext_lowercase, mtext_titlecase, mtext_uppercase):
+	Change API.
+
+2005-09-07  TAKAHASHI Naoto  <ntakahas@m17n.org>
+	* character.c: Add "cased", "soft-dotted", and "case-mapping" in
+	mchar__init ().
+
+	* character.c: Add Japanese documentation for
+	mchar_get_prop_table ().
+
+2005-09-06  TAKAHASHI Naoto  <ntakahas@m17n.org>
+
+	* mtext.c (tricky_chars, *cased, *soft_dotted, *case_mapping)
+	(MCharTable *combining_class, Mlt, Mtr, Maz, gr03A3, lt0049,
+	(lt004A, lt012E, lt00CC, lt00CD, lt0128, tr0130, tr0049, tr0069):
+	New variables.
+	(init_case_conversion): New function.
+	(CASE_CONV_INIT, REPLACE, DELETE, LOOKUP): New macros.
+	(uppercase_precheck, lowercase_precheck, final_sigma)
+	(after_soft_dotted, more_above, before_dot, after_i)
+	(mtext_uppercase, mtext_titlecase, mtext_lowercase): New functions.
+
+2005-09-05  TAKAHASHI Naoto  <ntakahas@m17n.org>
+
+	* plist.c (read_mtext_element): Fix previous change.
+
+2005-09-05  Kenichi Handa  <handa@m17n.org>
+
+	* plist.c (read_mtext_element): Handle \uXXXX notation.
+
+	* internal.h (MTABLE_MALLOC): Don't use a local variable.
+	(MTABLE_ALLOCA): Change the name of local variable.
+
+	* m17n-gd.c (device_open): Define it even if HAVE_GD nor
+	HAVE_FREETYPE are defined.
+
+	* m17n-X.c: Check HAVE_X11.
+
+	* Makefile.am (X_LD_FLAGS): Use @X11_LD_FLAGS@ instead of
+	directory listing libraries.
+	(noinst_PROGRAMS): Define it only in maintainer mode.
+
+2005-09-02  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-gui.h (mdraw_line_break_option): Extern it.
+
+	* draw.c (truncate_gstring): Use find_glyph_in_gstring to find the
+	end of the first glyph.
+	(GET_LB_TYPE, find_break_backward, find_break_forward): Delete
+	them.
+	(mdraw_line_break_option): New variable.
+	(mdraw_default_line_break): Use mtext_line_break.
+
+	* mtext.h (wordseg_func_table): Don't extern it.
+	(mtext__wseg_fini): Extern it.
+
+	* mtext.c: Don't include word-thai.h.
+	(wordseg_func_table): Delete this variable.
+	(mtext__init): Don't initialize above.  Don't call
+	mtext__word_thai_init.
+	(mtext__fini): Don't free wordseg_func_table.  Call
+	mtext__wseg_fini instead fo mtext__word_thai_fini.
+	(MTextWordsegFunc): Don't typedef it.
+	(mtext__word_segment): Moved to mtext-wseg.c.
+
+	* m17n-core.h (enum MTextLineBreakOption): New enum.
+	(mtext_line_break): Extern it.
+
+	* mtext-wseg.c: New file.
+
+	* mtext-lbrk.c: New file.
+
+	* Makefile.am (libm17n_core_la_SOURCES): Delete word-thai.[ch],
+	add mtext-lbrk.c and mtext-wseg.c.
+
+	* textprop.c (mtext__adjust_plist_for_change): Pay attention for
+	the case that head is NULL.
+
+2005-09-01  Kenichi Handa  <handa@m17n.org>
+
+	* word-thai.c (wordseg_propertize): If the property value is nil,
+	don't make the property no-merge.
+	(thai_wordseg): Don't require *from and *to are set a priori.  Pay
+	attention to the case that they are NULL.
+	(mtext__word_thai_init): Make the name of Mthai_wordseg starts
+	with two spaces.
+
+	* character.c (mchar_get_prop_table): New function.
+
+	* textprop.h (mtext__adjust_plist_for_change): Prototype adjusted.
+
+	* m17n-core.h (mtext_insert, mtext_replace): Extern them.
+	(mchar_get_prop_table): Extern it.
+
+	* textprop.c (prepare_to_modify): New arg deleting.  Callers changed.
+	(mtext__adjust_plist_for_change): Argument changed.  Callers changed.
+
+	* internal.h (enum MTextCoverage): New enum.
+	(MText): New member coverage.
+
+	* mtext.c (FORMAT_COVERAGE): New macro.
+	(insert): Copy mt2->coverage.
+	(mtext__from_data): Initialize mt->coverage.
+	(mtext__adjust_format): Update mt->coverage.
+	(mtext): Initialize mt->coverage.
+	(mtext_set_char): Adjust args to mtext__adjust_plist_for_change.
+	Update mt->coverage if necessary.
+	(mtext_duplicate): Copy mt->coverage.
+	(mtext_insert, mtext_replace): New functions.
+	(mtext_dup): Use mtext_duplicate.
+	(mtext__word_segment): Don't set *from and *to if a word
+	segmentation funcion is not found.
+	(mtext_ins_char): Fix typo.
+
+2005-08-25  Kenichi Handa  <handa@m17n.org>
+
+	* font.h (MFont): New member for_full_width.
+
+	* font.c (compare_font_score): Prefer a font of not
+	for_full_width.
+
+	* m17n-X.c (xfont_registry_list): Set font.for_full_width if the
+	registry charset of a font is one of CJK charsets.
+
+	* font-ft.c (fc_parse_pattern): Set font->for_full_width if a font
+	supports some of CJK.
+
+2005-08-24  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-gui.h (Mascent, Mdescent): Don't extern them.
+
+	* m17n-gui.c (null_device_open): Check Mresolution param and set
+	frame->dpi.
+
+	* m17n-gd.c (device_open): Check Mresolution param and set
+	frame->dpi.
+
+	* m17n-X.c (MWDevice): New member resy.
+	(xfont_open): Set ascent, descent, and max_advance members of
+	rfont.
+	(xft_open): Likewise.
+	(device_open): Compare also screen_num to find a device.  Set
+	device->resy and frame->dpi.
+
+	* internal-gui.h (MFrame): New member dpi.
+
+	* font.h (MRealizedFont): New member max_advance.
+
+	* font.c (xlfd_unparse_name): Handle the case of font->size < 0.
+	(mfont__init): Don't initialize Mascent, Mdescent.
+	(Mascent, Mdescent): Delete these variables.
+	(mfont_get_prop): Fix previous change.  Check Mfont_ascent and
+	Mfont_descent instead of Mascent and Mdescent.
+	(mfont_put_prop): Allow negative size.
+	(mfont_find): Handle the case of spec->size < 0.  Fix previous
+	change.
+	(mfont_list): Handle the case of spec->size < 0.
+	(mfont_check): Likewise.
+
+	* font-ft.c (STRDUP_LOWER): Ignore the tailing spaces.
+	(fc_get_pattern): Handle the case of font->size < 0.
+	(ft_open): Set ascent, descent, and max_advance members of rfont.
+	(ft_find_metric): Improve rounding.
+	(mfont__ft_parse_name): If FC_PIXEL_SIZE is not available, set
+	FC_SIZE.
+
+	* face.c (mface__realize): Handle the case of font->size < 0.
+
+2005-08-22  Kenichi Handa  <handa@m17n.org>
+
+	* coding.c (MConverterStatus): Change the member buf to union.
+	(mconv_buffer_converter): Add const to the arg buf.
+	(mconv_decode_buffer, mconv_rebind_buffer): Likewise.
+	(mconv_decode): Adjusted for the change of MConverterStatus.
+	(mconv_encode_range): Likewise.
+
+	* m17n.h (mconv_buffer_converter): Prototype adjusted.
+	(mconv_decode_buffer, mconv_rebind_buffer): Likewise.
+
+2005-08-20  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-gui.h (mfont_from_name): Prototype adjusted.
+	(Mspacing, Mascent, Mdescent, Mmax_advance): Extern them.
+
+	* m17n-X.c (xfont_open): Set members ascent, descent, and
+	max_advance of rfont.
+	(xft_open): Likewise.
+
+	* font-ft.c (ft_open): Set members ascent, descent, and max_advance
+	of rfont.
+	(mfont__ft_parse_name): Add const to the arg name.
+
+	* font.c (xlfd_parse_name): Add const to the arg name.  Call
+	mfont__set_property instead of mfont_set_spec.  Set font->spacing.
+	(xlfd_unparse_name): Handle spacing.
+	(mfont__init): Initialize new variables.
+	(mfont__id): Handle spacing.
+	(mfont__merge): Likewise.
+	(mfont__set_spec): This function deleted.
+	(mfont__parse_name_into_font): Add const to the arg name.  Fix the
+	condition of calling mfont__ft_parse_name.
+	(Mspacing, Mascent, Mdescent, Mmax_advance): New variables.
+	(mfont_get_prop): Handle properties spacing, ascent, descent,
+	and max-advance.
+	(mfont_find): Return a realized font.
+	(mfont_from_name): Add const to the arg name.
+
+	* font.h (enum MFontProperty): New member MFONT_SPACING.
+	(enum MFontSpacing): New enum.
+	(MFont): New members spacing and max_advance.
+	(mfont__ft_parse_name): Prototype adjusted.
+	(mfont__set_spec): Extern deleted.
+	(mfont__parse_name_into_font): Prototype adjusted.
+
+2005-08-19  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-gui.h (mfont_parse_name): Prototype adjusted.
+
+	* font.c (mfont_list): If FONT is null, use a temporary font.
+	(mfont_parse_name): Add const to the arg name.
+
+2005-08-18  Kenichi Handa  <handa@m17n.org>
+
+	* word-thai.c: Surround code by #ifdef and #endif to escape from
+	doxygen.
+
+	* font-ft.c: Mostly re-written.
+
+	* font-flt.c (FontLayoutCmdOTF): This type deleted.
+	(FontLayoutCmd): Type of the member otf changed..
+	(load_otf_command): Adjusted for the format change of otf command.
+	(load_command): Likewise.
+	(free_flt_command): Unref cmd->body.otf.
+	(run_otf): Ajusted for the type change of otf_cmd.
+	(run_command): Ajusted for the type change of otf_cmd.  On
+	debugging, print ctx->combining_code.
+	(mfont__flt_run): Initialize ctx's members code_offset,
+	combining_code, and left_padding to 0.
+
+	* face.h (struct MRealizedFace): New member font.
+	(mface__realize): Prototype adjusted.
+
+	* face.c (find_realized_face): New arg font.
+	(find_realized_face): Adjusted for the change of MFont.
+	(mface__init): Call M17N_OBJECT_ADD_ARRAY.
+	(mface__fini): Don't call mdebug__report_object.
+	(mface__realize): New arg font.
+	(mface__for_chars): Adjusted for the change of mfont__encode_char.
+	Optimize the latin case.
+	(mface__free_realized): Free rface->font.
+	(mface__update_frame_face): Adjusted for the change of mface__realize.
+	(mface_equal): New function.
+
+	* draw.c (Mcommon): New variable.
+	(visual_order): Args to mfont__encode_char changed.
+	(compose_glyph_string): Handle Mfont text property.
+	(layout_glyphs): Adjusted for the change of MFont.
+	(mdraw__init): Initialize Mcommon.
+	(mdraw_glyph_info): Adjusted for the change of MRealizedFont.
+
+	* font.h (enum MFontType): Members completely changed.
+	(enum MFontProperty): Move MFONT_SIZE to the tail.
+	(enum MFontSource): New enum.
+	(struct MFont): New members type, source, sizes, file, capability,
+	and encoding.
+	(struct MRealizedFont): Type of member font changed. Members
+	score, status, and encoding deleted.
+	(MFontScore): New type.
+	(MFontList): Member changed.
+	(struct MFontDriver): New member has_char.  Types of members
+	changed.
+	(Miso8859_1, Miso10646_1, Municode_bmp, Municode_full)
+	(Mapple_roman): Extern them.
+	(OTF_Tag): Typedefed if not HAVE_OTF.
+	(enum MFontOpenTypeTable): New enum.
+	(MFontCapability): New type.
+	(mfont__ft_drive_otf): Prototype adjusted.
+	(mfont__score): Extern deleted.
+	(mfont__merge): Extern it.
+	(mfont__has_char): Extern it.
+	(mfont__encode_char): Prototype adjusted.
+	(mfont__open): Extern it.
+	(mfont__set_spec): Prototype adjusted.
+	(mfont__get_capability): Extern it.
+
+	* font.c: Include "fontset.h".
+	(M_font_capability, M_font_list, M_font_list_len): New variables.
+	(font_score_priority): Change order of initial elements.
+	(font_score_shift_bits): Fix array size.
+	(common_weight): Add "thin", "semibold", and "heavy".
+	(common_stretch): Add "ultracondensed", "extracondensed",
+	"extraexpanded", and "utltraexpand".
+	(font_weight_regular, font_weight_normal, font_weight_medium): New
+	variables.
+	(gen_font_name): This function deleted.
+	(find_encoding): Set font->encoding.
+	(OTF_tag): New function.
+	(otf_script_list): New variable.
+	(load_otf_script_list): New function.
+	(find_script_from_otf_tag): New function.
+	(xlfd_parse_name): Set font->type and font->source.
+	(mfont__free_realized): Free chains rfonts.
+	(font_score): Renamed from mfont__score.
+	(Miso8859_1, Miso10646_1, Municode_bmp, Municode_full)
+	(Mapple_roman): New variables.
+	(mfont__init): Initilize new variables.  Initalize
+	default_encoding.encoding_name and
+	default_encoding.encoding_charset to Municode_full and
+	mcharset__unicode.  Use SAFE* macros for allocating filepath
+	buffer.
+	(mfont__fini): Free otf_script_list.
+	(mfont__id): New function.
+	(mfont__match_p): Check also capability member of MFont.
+	(mfont__merge): New funciton.
+	(mfont__set_spec_from_face): Set type and source members.
+	(mfont__set_spec_from_plist): Set capability and type members.
+	(mfont__select): Argument changed.
+	(mfont__available): New function.
+	(compare_font_score): New function.
+	(mfont__list): New function.
+	(mfont__open): Return a realized font.
+	(mfont__resize): Adjusted for the change of MFont.
+	(mfont__has_char): New function.
+	(mfont__encode_char): Argument changed.
+	(mfont__set_spec): Argument changed.
+	(free_font_capability): New function.
+	(mfont__get_capability): New function.
+	(MFontfile): New variable.
+	(mfont_get_prop): Adjusted for the change of MFont.
+	(mfont_put_prop): Likewise.
+	(mfont_set_selection_priority): Fix the way of setting
+	font_score_priority[].
+	(mfont_find): Use mfont__list instead of mfont__select.
+	(mfont_resize_ratio): Adjusted for the change of MFont.
+	(mfont_list): Use mfont__list.
+	(mfont_check): New function.
+	(font_score): Make it static.
+
+	* fontset.h (mfont__realize_fontset): Prototype adjusted.
+	(mfont__lookup_fontset): Likewise.
+
+	* fontset.c (struct MFontset): Delete member font_spec_list.
+	(struct MRealizedFontset): Type of member spec changed.  New
+	member request.
+	(load_font_group): Arg spec_list deleted.
+	(load_fontset_contents): Adjusted for the change of fontset_def.
+	(free_fontset): Fix the way of freeing fontset elements.
+	(realize_fontset_elements): Argument changed.
+	(get_per_script): New function.
+	(free_realized_fontset_elements): Fix the way of feeing rfontset
+	elements.
+	(update_fontset_elements): Fix args to realize_fontset_elements.
+	(mfont__realize_fontset): New arg spec.
+	(try_font_list): New function.
+	(try_font_group): New arg request.  Use try_font_list.
+	(mfont__lookup_fontset): New arg ignore_fallback.  Fix arg to
+	try_font_group.
+	(mfontset): Adjusted for the change of MFontset.
+	(mfontset_copy): Likewise.  Don't share plists.
+	(mfontset_modify_entry): Adjusted for the change of MFontset.
+	(mfontset_lookup): Call get_per_script.
+	(mdebug_dump_fontset): Print also the address of fonts.
+
+	* input.c (shift_state): Don't reset ic_info->vars.
+	(take_action_list): Call MDEBUG_PRINT fore calling
+	take_action_list.
+
+	* internal-gui.h (MFontDriver): Don't typedef it here.
+
+	* m17n-X.c: Include <fontconfig/fcfreetype.h> if HAVE_XFT2.
+	(MXFont): This type deleted.
+	(MFontX): New type.
+	(struct _MFontX): New struct.
+	(SET_SIZE, HAVE_SIZE): Adjusted for the change of arg FONTX.
+	(MDisplayInfo): Member base_font_list deleted.
+	(DEFAULT_FONT): Definition changed.
+	(FALLBACK_FONT): This maclr deleted.
+	(free_display_info): Adjusted for the change of MDisplayInfo.
+	(free_device): Argument to mfont__free_realized changed.
+	(xfont_driver): Adjusted for the change of MFontDriver.
+	(xfont_registry_list): Use MFontX instead of MXFont.
+	(MRealizedFontX): Renamed from MXFontInfo.
+	(xfont_select): Return the font found first.
+	(close_xfont): Change MXFontInfo to MRealizedFontX.
+	(xfont_open): Return the realized font.
+	(xfont_find_metric): Get xfont from rfont->fontp.
+	(xfont_has_char): New function.
+	(xfont_encode_char): Adjusted for the argument change.
+	(xfont_render): Get xfont from rfont->fontp.
+	(xfont_list): Adjusted for the argument change.
+	(MRealizedFontXft): Renamed from MXftFontInfo.
+	(xft_driver): Ajusted for the change of MFontDriver.
+	(close_xft): Change MXtfFontInfo to MRealizedFontXft
+	(xft_open_font): Argument changed.
+	(xft_open): Argument changed.  Return the realized font.
+	(xft_find_metric): Get xft_font from rfont->fontp.
+	(xft_has_char, xft_encode_char): New functions.
+	(xft_render): Change MXftFontInfo to MRealizedFontXft.  Open a
+	font if not yet opened.
+	(device_open): Don't set frame->font.
+
+	* m17n-gd.c (gd_font_driver): Adjusted for the change of
+	MFontDriver.
+	(gd_font_open): New function.
+	(gd_render): Don't use the local variable ft_info.
+	(device_init): Adjusted for the change of gd_font_driver.
+
+	* textprop.c (mtext__prop_init): Initialize text_property_table.
+	Call M17N_OBJECT_ADD_ARRAY.
+	(mtext__prop_fini): Don't call mdebug__report_object.
+
+	* plist.c (mplist__init): Initialize plist_table.
+	(mplist__init): Call M17N_OBJECT_ADD_ARRAY.
+	(mplist__fini): Don't call mdebug__report_object.
+
+	* mtext.c (mtext__init): Call M17N_OBJECT_ADD_ARRAY.
+	(mtext__fini): Don't call mdebug__report_object.
+	(MTEXT_FORMAT_UTF_16): Correct type.
+	(mtext_data): New function.
+	(mtext_text): Fix calculation of limit and args to
+	find_char_backward.
+
+	* language.c: Include "plist.h".
+	(M_script_lang_list): New variable.
+	(mlang__init): Read languages and their information from m17n
+	database.
+	(mlanguage__list): New function.
+	(Miso639_1, Miso639_2): New variables.
+
+	* language.h (mlanguage__list): Extern it.
+
+	* database.c (get_database_stream): Use SAFE_* macros for
+	allocating and freeing path.
+	(mdatabase__init): Likewise.
+
+	* symbol.c (msymbol__fini): Don't free symbols here.
+	(msymbol__free_table): New function.
+	(msymbol_is_managing_key): New function.
+
+	* symbol.h (msymbol__free_table): Extern it.
+	(msymbol__list): Extern it.
+
+	* internal.h (MFATAL, USE_SAFE_ALLOCA, SAFE_ALLOCA, SAFE_FREE):
+	New macros.
+	(M17N_OBJECT_UNREF): Change "if ... else ..." structure.
+	(struct _M17NObjectArray): New member name and next.
+	(mdebug__add_object_array): Extern it.
+	(M17N_OBJECT_ADD_ARRAY): New macro.
+	(mdebug__report_object): Don't extern it.
+
+	* m17n-misc.h (enum MErrorCode): New element MERROR_FONT_X.
+
+	* m17n-gui.c (free_frame): Don't free frame->font.
+	(null_device_fini): Fix code for freeing
+	null_device.realized_font_list.
+	(m17n_fini_win): Free interface.
+	(mframe): Cast the return value of dlsym.  Set frame->font here.
+	(mframe_get_prop): Check frame->rface->rfont before accessing the
+	member font.
+
+	* m17n-gui.h (Mfontfile): Extern it.
+	(mfont_check): Extern it.
+	(mface_equal): Extern it.
+
+	* m17n-core.c: Include "symbol.h".
+	(report_header_printed): This variable deleted.
+	(object_array_root): New variable.
+	(report_object_array): New function.
+	(mdebug__report_object): This function deleted.
+	(mdebug__add_object_array): New function.
+	(m17n_init_core): Call mchartable_init () before mtext_init ().
+	(m17n_fini_core): Call report_object_array (if necessary) and
+	msymbol__free_atable at the end.
+
+	* m17n-core.h (msymbol_is_managing_key): Extern it.
+	(mtext_data): Extern it.
+	(MTEXT_FORMAT_UTF_16): Correct type.
+	(M17NLIB_MINOR_VERSION): Changed to 3.
+	(M17NLIB_VERSION_NAME): Changed to "1.3.0".
+
+	* chartab.c (mchartable__init): Initalize chartable_table.count.
+	(mchartable__fini): Use N17N_OBJECT_ADD_ARRAY instead of
+	mdebug__report_object.
+
+2005-05-26  Kenichi Handa  <handa@m17n.org>
+
+	* m17n.h (Miso639_1, Miso639_2): Extern them.
+
+	* symbol.h (msymbol__list): Extern it.
+
+	* symbol.c (msymbol__list): New function.
+
+2005-05-19  Kenichi Handa  <handa@m17n.org>
+
+	* input-gui.c (minput__win_init): Don't change the value of
+	minput_driver.
+
+2005-05-16  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-core.c (m17n_object): Be sure to initialize all members.
+
+	* font-ft.c (fc_decode_prop): Fix args to msymbol.
+
+2005-05-09  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-X.c (mwin__close_device): Fix arg to M17N_OBJECT_UNREF.
+
+2005-04-27  Kenichi Handa  <handa@m17n.org>
+
+	* language.c (mlang__init): Add "an" (Aragonese).
+
+	* word-thai.c: Add support for libthai.
+	(mtext__word_thai_init): Initialize wordseg library conditionaly.
+	(mtext__word_thai_fini): Finalize wordseg library conditionaly.
+
+	* mtext.c: Include "word-thai.h" conditionaly.
+	(mtext__init): Call mtext__word_thai_init conditionaly.
+	(mtext__fini): Call mtext__word_thai_fini conditionaly.
+
+	* Makefile.am (libm17n_core_la_LIBADD): Add THAI_WORDSEG_LD_FLAGS,
+	not WORDCUT_LD_FLAGS.
+
+2005-04-19  Kenichi Handa  <handa@m17n.org>
+
+	* word-thai.c (wordseg_propertize): Always unref the attached
+	property.
+	(thai_wordseg): Don't unref the property.
+
+2005-04-18  Kenichi Handa  <handa@m17n.org>
+
+	* word-thai.c: Include stdlib.h.
+	(wordseg_propertize): Add dummy function for the case that wordcut
+	library doesn't exist.
+	(wordseg_propertize): Fix for old wordcut library.
+
+2005-04-16  Kenichi Handa  <handa@m17n.org>
+
+	* word-thai.c: Include <stdio.h>.
+
+2005-04-15  Kenichi Handa  <handa@m17n.org>
+
+	* draw.c: Include mtext.h.
+	(linebreak_table, M_break_at_space, M_break_at_word)
+	(M_break_at_any, M_kinsoku_bol, M_kinsoku_eol): New variables.
+	(compose_glyph_string): Check POS before getting Mface text
+	property.
+	(truncate_gstring): Give correct TO arg to line_break function.
+	(GET_LB_TYPE): New macro.
+	(find_break_backward, find_break_forward): New functions.
+	(mdraw__init): Initialize the above new variables.
+	(mdraw__fini): Free linebreak_table.
+	(mdraw_default_line_break): Use find_break_backward and
+	find_break_forward.
+
+	* word-thai.c: New file.
+
+	* word-thai.h: New file.
+
+	* mtext.c: Include word-thai.h.
+	(wordseg_func_table): New variable.
+	(mtext__init): Initialize wordseg_func_table and call
+	mtext__word_thai_init.
+	(mtext__fini): Call mtext__word_thai_fini, free
+	wordseg_func_table.
+	(MTextWordsegFunc): New type.
+	(mtext__word_segment): New function.
+
+	* mtext.h (wordseg_func_table): Extern it.
+	(mtext__word_segment): Extern it.
+
+	* m17n.c (m17n_init): Fix typo (== -> =).
+
+	* Makefile.am (libm17n_core_la_SOURCES): Include word-thai.[ch].
+	(libm17n_core_la_LIBADD): Add @WORDCUT_LD_FLAGS@.
+
+	* textprop.h (MTEXTPROP_START, MTEXTPROP_END, MTEXTPROP_KEY)
+	(MTEXTPROP_VAL): New macros.
+
+	* input.c (DLOPEN_SHLIB_EXT): Don't define it.
+
+2005-04-07  Kenichi Handa  <handa@m17n.org>
+
+	* database.c (load_chartable): Fix pursing of symbol name.
+
+2005-03-24  Kenichi Handa  <handa@m17n.org>
+
+	* m17n.c (m17n_init): Fix typo (== -> =).
+
+2005-03-11  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-gui.c (m17n_init_win): Set merror_code to MERROR_NONE at first.
+
+	* m17n.c (m17n_init): Set merror_code to MERROR_NONE at first.
+
+	* m17n-core.c (m17n_init_core): Set merror_code to MERROR_NONE at
+	first.
+
+2005-03-09  handa  <handa@m17n.org>
+
+	* m17n-gui.c (m17n_init_win): Set merror_code to MERROR_NONE before
+	calling m17n_init ().
+
+	* m17n.c (m17n_init): Set merror_code to MERROR_NONE before
+	calling m17n_init_core ().
+
+2005-02-28  Kenichi Handa  <handa@m17n.org>
+
+	* font-flt.c (mfont__flt_run): Add resulting code sequence in
+	debug info.
+
+2005-02-17  Kenichi Handa  <handa@m17n.org>
+
+	* input.c: Include <sys/types.h>, <dirent.h>, and "database.h".
+	(M_description, M_command, M_variable): New variables.
+	(load_im_info_keys): New variables.
+	(load_im_info, check_command_keyseq, get_description_advance)
+	(parse_command_list, get_command_list, parse_variable_list)
+	(get_variable_list, input_method_hook): New functions.
+	(command_list, variable_list): New variables.
+	(minput__init): Put input_method_hook to Minput_method.
+	Initialize M_description, M_command, M_variable, Mdetail_text,
+	load_im_info_keys, command_list, variable_list.
+	(minput__fini): Unref command_list, variable_list, load_im_info_keys.
+	(Mdetail_text): New variable.
+	(minput_get_description, minput_get_commands)
+	(minput_assign_command_keys, minput_get_variables)
+	(minput_set_variable): New functions.
+
+	* m17n.h (Mdetail_text, minput_get_description, minput_get_commands)
+	(minput_assign_command_keys, minput_get_variables)
+	(minput_set_variable): Extern them.
+
+	* plist.c (UNGETC): Just decrement st->p.
+	(read_mtext_element): New arg skip.
+	(read_integer_element): Likewise.
+	(read_symbol_element): Likewise.
+	(read_element): New arg KEYS.
+	(mplist__from_plist): Don't increment ref-count of NULL object.
+	(mplist__from_file): New arg KEYS.
+	(mplist_put): Don't increment ref-count of NULL object.
+	(mplist_add): Likewise.
+	(mplist_push): Likewise.
+	(mplist_set): Likewise.  Call M17N_OBJECT_UNREF unconditionally.
+
+	* plist.h (mplist__from_file): Prototype adjusted.
+
+	* database.c (mdatabase__dir_list): Renamed from mdb_dir_list.
+	(get_database_stream): New function.
+	(load_database): Use get_database_stream.
+	(M_database_hook): New variable
+	(mdatabase__init): Initialize M_database_hook.
+	(mdatabase__load_for_keys): New function.
+	(mdatabase_find, mdatabase_list, mdatabase_define): Check hook
+	function.
+	(mdatabase_define): Free mdb->extra_info if necessary.
+
+	* database.h (mdatabase__dir_list, M_database_hook)
+	(mdatabase__load_for_keys): Extern them.
+	(MDatabaseHookFunc): New type.
+
+	* internal.h (M17N_OBJECT_UNREF): When freed, set OBJECT to NULL.
+
+2004-12-27  Kenichi Handa  <handa@m17n.org>
+
+	* Version 1.2.0 released.
+
+2004-12-27  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (minput_filter): Don't reset ic->xxx_changed.
+
+	* mtext.c (mtext_from_data): Fix documentation.
+
+2004-12-25  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-core.h (M17NLIB_MINOR_VERSION): Update to 2.
+	(M17NLIB_VERSION_NAME): Update to "1.2.".
+
+2004-12-24  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (reset_ic): Set key_unhandled to 0.
+
+2004-12-21  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-gui.h (mfont_from_spec): Delete extern.
+
+	* input-gui.c (win_callback): Handle Minput_reset.
+	(minput__win_init): Register reset_ic as a callback for
+	Minput_reset.
+
+	* input.c (reset_ic): New arg IGNORE which is ignored.  Caller
+	changed.  At first, shift to the initial state.
+	(minput__init): Initialize Minput_reset.  Register reset_ic as a
+	callback for Minput_reset.
+	(Minput_reset): New variable.
+	(minput_filter): Always set ic->xxx_changed to 0.
+	(minput_reset_ic): New function.
+	(integer_value): Fix typo ('>' -> '<') and calculation of length
+	of preedit text.
+
+	* m17n-core.c (merror_code): Change type to `int'.
+
+	* m17n-misc.h (merror_code): Adjust type.
+
+	* m17n.h (Minput_reset, minput_reset_ic): Extern them.
+
+	* m17n-core.h (MTEXT_FORMAT_UTF_16, MTEXT_FORMAT_UTF_32): Adjust types.
+	(mtext_change_prop): Delete extern.
+
+	* mtext.c (MTEXT_FORMAT_UTF_16, MTEXT_FORMAT_UTF_32): Change types
+	to `int'.  Move the documents to m17n-core.h.
+
+2004-12-13  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-core.h (m17n_object): Rename extern from m17n_object_setup.
+	(MTextProperty): Document it.
+
+2004-12-09  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-core.h: Fix typo (MTextStatus -> M17NStatus).
+
+2004-12-03  Kenichi Handa  <handa@m17n.org>
+
+	* internal.h (m17n__core_initialized, m17n__shell_initialized,
+	m17n__gui_initialized): New externs.
+
+	* m17n-core.h (enum M17NStatus): New enum.
+	(m17n_status): Extern it.
+
+	* m17n-core.c (core_initialized): Delete this variable.
+	(m17n__core_initialized, m17n__shell_initialized,
+	m17n__gui_initialized): New variables.
+	(m17n_init_core, m17n_fini_core): Check m17n__core_initialized
+	instead of core_initialized.
+	(m17n_status): New function.
+
+	* m17n.c (shell_initialized): Delete this variable.
+	(m17n_init, m17n_fini): Check m17n__shell_initialized instead of
+	shell_initialized.
+
+	* m17n-gui.h (m17n_init_win): Adjust the prototype.
+
+	* m17n-gui.c (win_initialized): Delete this variable.
+	(m17n_init_win, m17n_fini_win): Check m17n__gui_initialized
+	instead of gui_initialized.
+
+2004-11-19  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (reset_ic): Check if ic_info->state is NULL.
+	(filter): If ic_info->state is NULL, return 0.
+	(load_input_method): Don't unref `maps' it it's not created.
+
+2004-11-15  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (find_candidates_group): If INDEX is -1, find the last
+	candidate group.
+	(take_action_list): If the previous of the first candidate is
+	requested, select the last candidate.
+
+2004-11-08  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-X.c (device_open): Try at most 32 fonts to find a
+	non-autoscaled font.
+
+	* font.c (xlfd_parse_name): Fix previous change.
+
+2004-11-05  Kenichi Handa  <handa@m17n.org>
+
+	* font.c: (commont_style): Include dummy elements "slanted" and
+	"rslanted" to prefer "o" to "r" if "i" is requested.
+
+	* font-ft.c (ft_to_prop): Fix "oblique" entry.
+
+2004-10-29  Kenichi Handa  <handa@m17n.org>
+
+	* font.c (xlfd_parse_name): If avgwidth is 0, set the size to 0.
+
+	* m17n-X.c (MXFont): Change type of the member `sizes' to int.
+	New members smallest and larger.
+	(SET_SIZE, HAVE_SIZE): Adjusted for the above change.
+	(xfont_registry_list): Likewise.
+	(xfont_select): Likewise.
+	
+
+2004-10-28  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-X.c (xfont_registry_list): Include '-' before PIXEL_SIZE in
+	font name comparison.
+	(xfont_select): Fix logic for selecting a larger size font.
+
+2004-10-25  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (take_action_list): Initialize `ret' to 0 for "=", "<",
+	">" actions.
+
+2004-10-22  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (update_candidate): Renamed from udpate_candidate.
+	(take_action_list): Show more debugging info on arithmetic commands.
+
+	* m17n-X.c (device_open): Fix previous change.
+
+	* draw.c (compose_glyph_string): Don't get face property at the
+	end of M-text.
+
+2004-10-21  Kenichi Handa  <handa@m17n.org>
+
+	* draw.c (compose_glyph_string): Fix for the case of category
+	being Mnil.
+
+2004-10-19  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (mdebug_mask): New variable.
+	(shift_state): Print debug information.
+	(take_action_list): Likewise.
+	(handle_key): Likewise.
+
+2004-10-14  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-X.c (device_open): Accept Mxft as the value of key Mfont.
+
+2004-10-13  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-X.c (device_open): Be sure to register at least one font
+	driver.
+
+	* font-ft.c: Include <freetype/ftbdf.h> conditionally.  Check
+	HAVE_FTBDF_H before calling FT_Get_BDF_Property.
+
+2004-10-12  Kenichi Handa  <handa@m17n.org>
+
+	* draw.c (alloc_gstring): Fix previous change.
+
+	* font-ft.c (ft_list_generic): Fix for the case of not
+	HAVE_FONTCONFIG.
+
+	* m17n-X.c (mwin__parse_event): Fix for non-ASCII keys.
+
+	* font.c (mfont_list): If no font is found, return NULL.
+	(load_font_encoding_table): Put entries of nil registry first.
+	(find_encoding): Adjust for the above change.
+
+2004-10-11  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-gui.h (mfont_list): Adjust prototype.
+
+	* m17n-X.c (xfont_list): New arg maxnum.
+
+	* font.h (struct MFontDriver): Change prototype of <list>.
+
+	* font-ft.c (fc_generic_family_list): Delete it.
+	(Mserif, Msans_serif, Mmonospace): Delete them.
+	(M_generic_family_info): New variable.
+	(enum GenericFamilyType): New enum.
+	(struct GenericFamilyInfo): New struct.
+	(generic_family_table): New variable.
+	(set_font_info): New arg style. Don't check 0xA0..0xBF to decide
+	iso8859-1.
+	(add_font_info): Get style here.
+	(ft_list_family): Don't initialize fc_config here.  Don't list
+	generic families.
+	(ft_list_generic): New function.
+	(ft_select): Pay attention to generic familes here.
+	(ft_open): Fix calculation of ascent and descent.
+	(ft_list): Pay attention to generic families.
+	(mfont__ft_init): Initialize M_generic_family_info,
+	generic_family_table, and fc_config..
+	(mfont__ft_fini): Finalize generic_family_table.
+
+	* draw.c (compose_glyph_string): Use more constant font for
+	glyphs.  Adjust for the member change in MGlyph.
+	(layout_glyph_string): Adjust for the member change in MGlyph.
+	(alloc_gstring): Intilize scracth_glyph to avoid
+	compose_glyph_string on it.
+	(get_gstring): Don't call compose_glyph_string on scracth_glyph.
+	(mdraw_coordinates_position): Fix previous change.
+
+	* internal-gui.h (glyph_category): New enum.
+	(MGlyph): Change type of <category> to enum glyph_category.
+
+	* face.c (mface__realize): Delete args language and charset.
+	(mface__for_chars): Fix for the case that glyphs have different
+	rfaces.
+	(mface__update_frame_face): Adjust for mface__realize change.
+
+	* face.h (mface__realize): Adjust prototype.
+
+2004-10-05  Kenichi Handa  <handa@m17n.org>
+
+	* language.c (mlang__init): Add Akan.
+
+2004-10-04  Kenichi Handa  <handa@m17n.org>
+
+	* font-ft.c (add_font_info): Add instead of push the element.
+	(ft_list_family): For generic fonts, try all
+	substituted. families.
+
+	* font-flt.c (UPDATE_CLUSTER_RANGE): New macro.
+	(run_rule): Don't update cluster range here.
+	(run_command): Update cluster range on appending a glyph.
+	(run_otf): Update cluster range for glyphs generated by OTF.
+
+2004-10-02  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-X.c (device_open): Handle Mfont key in PLIST.
+
+2004-09-30  Kenichi Handa  <handa@m17n.org>
+
+	* font-ft.c (ft_select): Ignore family on calling mfont__score.
+
+2004-09-30  Kenichi Handa  <handa@m17n.org>
+
+	* font.h: Include <fontconfig/fontconfig.h>.
+	(MFTInfo): New member langset.
+	(mfont__encoding_list): Extern it.
+
+	* font.c (mfont__encoding_list): New function.
+	(mdebug_dump_font_list): New function.
+
+	* font-ft.c: Don't include <fontconfig/fontconfig.h> here.
+	(Mserif, Msans_serif, Mmonospace, Mmedium, Mr, Mnull): New
+	variables.
+	(ft_family_list): New variable.
+	(set_font_info): New arg basep.  Callers changed.
+	(fc_list): Check the return value of FcPatternGetString.
+	(add_font_info): New arg plist.  Callers changed. Update
+	ft_family_list.
+	(ft_list_family): New function (merged fc_list and ft_list_all).
+	(ft_select): Use ft_list_family.
+	(ft_list): Likewise.  If FONT is not NULL, check all fonts.  Fix
+	typo (== -> !=).
+	(mfont__ft_init): Initialize above new variables.
+	(mfont__ft_fini): Free ft_family_list.
+	(STRDUP_LOWER): New macro.
+	(set_font_info): Use STRDUP_LOWER.
+	(ft_list_family): Avoid duplicate addition of font path.  Use
+	STRDUP_LOWER.
+	(fc_decode_prop): Fix typo.
+
+	* m17n-X.c (MDisplayInfo): New member all_fonts_scaned.
+	(xfont_registry_list): Change argument disp_info to frame.
+	Callers changed.
+	(xfont_list_all): New function.
+	(xfont_list): If FONT is not NULL, check all fonts.
+
+2004-09-28  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-X.c (MXFont, MXFontList): New types.
+	(MDisplayInfo): Delete members font_registry_list,
+	iso8859_1_family_list, iso10646_1_family_list, new members
+	font_list, base_font_list.
+	(free_display_info): Adusted for the change of MDisplayInfo.
+	(xfont_driver): Initialize with xfont_list.
+	(font_compare): New function.
+	(build_font_list): Deleted.
+	(xfont_registry_list): New function.
+	(xfont_select): Use xfont_registry_list.
+	(xfont_list): New function.
+	(device_open): Adusted for the change of MDisplayInfo.
+
+	* font-ft.c (add_font_info): New arg languages.  Callers changed.
+	(fc_list): Get languages from fonts..
+	(ft_list_all): Renamed from ft_list.  Callers changed.
+	(ft_list): New function.
+	(mfont__ft_driver): Initalize with ft_list.
+
+	* font.c (mfont_list): New function.
+
+	* font.h (struct MFontDriver): New member `list'.
+	(MFTInfo): New member languages.
+
+	* m17n-gui.h (mfont_list): Extern it.
+
+2004-09-27  Kenichi Handa  <handa@m17n.org>
+
+	* internal-gui.h (struct MGlyphString): Delete members mt,
+	sub_width, sub_lbrearing, sub_rbearing, and region.
+
+	* draw.c (MSubTextExtents): New type.
+	(layout_glyphs): New arg extents.  Set its members.
+	(layout_glyph_string): Adjusted for the above change.
+	(alloc_gstring): Don't set gstring->mt.
+	(truncate_gstring): Call line_break function with mt instead of
+	gstring->mt.
+
+2004-09-22  Kenichi Handa  <handa@m17n.org>
+
+	* mtext.c (count_utf_16_chars): Count each code of invalid
+	surrogates as one.
+
+2004-09-19  Kenichi Handa  <handa@m17n.org>
+
+	* mtext.c (default_utf_16, default_utf_32): Rename them to
+	MTEXT_FORMAT_UTF_16 and MTEXT_FORMAT_UTF_32 respectively.  Caller
+	changed.
+
+	* m17n-core.h (MTEXT_FORMAT_UTF_16, MTEXT_FORMAT_UTF_32): Extern
+	them.
+
+2004-09-13  Kenichi Handa  <handa@m17n.org>
+
+	* draw.c (Mlatin): Don't declare it here.
+	(visual_order): Fix reordering of combining characters.
+	(compose_glyph_string): Fix detection of script.
+	(layout_glyphs): Don't fix reordering of combining characters
+	here.
+	(layout_glyph_string): Pay attention to
+	control->disable_overlapping_adjustment.
+	(truncate_gstring): Include at least on character in a line.
+	(get_gstring): Always scan one full line.
+	(mdraw__init): Don't initialize Mlatin here.
+	(mdraw_text_per_char_extents): Fix iteration.  If a glyph doesn't
+	have a font, use ascent/descent of an ASCII font.  Allow
+	ink_array_return and logical_array_return to be NULL.
+	(mdraw_coordinates_position): Fix iteration.
+
+	* font-ft.c (MFTtoProp): Member completely changed.
+	(ft_to_prop): Adjusted for the above change.
+	(ft_to_prop_size): Likewise.
+	(set_font_info): Adjusted for the change of MFTtoProp.
+	(fc_generic_family_list): New variable.
+	(fc_list): Add special handling of generic font names.
+	(mfont__ft_init): Adjusted for the change of MFTtoProp.
+	Initialize fc_generic_family_list.
+	(mfont__ft_fini): Don't free ft_to_prop.  Free
+	fc_generic_family_list.
+	(FC_vs_M17N_font_prop): New type.
+	(fc_weight_table, fc_slant_table, fc_width_table): New variables.
+	(fc_decode_prop, fc_encode_prop): New functions.
+	(mfont__ft_parse_name): Use fc_decode_prop.
+	(mfont__ft_unparse_name): Use fc_encode_prop.
+
+	* m17n-X.c (MDisplayInfo): Delete member realized_font_list.
+	(MWDevice): Add member realized_font_list.
+	(free_display_info): Don't free disp_info->realized_font_list.
+	(free_device): Free device->realized_fontset_list.
+	(xft_find_metric): Use gstring->frame instead of rfont->frame.
+	(device_open): Don't initialize disp_info->realized_font_list.
+	(device_open): Initialize device->realized_font_list and set it to
+	frame->realized_font_list.
+
+	* fontset.c (try_font_group): New function.
+	(mfont__lookup_fontset): Use try_font_group.
+
+	* font.c (common_weight): Change the order of "regular".
+
+	* face.c (Mlatin): Don't make it static.
+	(mface__realize): Be sure to set work_gstring.frame.
+	(mface__for_chars): Likewise.
+
+	* mtext.c (mdebug_dump_mtext): Fix for the case of mt->format >
+	MTEXT_FORMAT_UTF_8.
+
+	* internal-gui.h (Mlatin): Extern it.
+
+	* m17n-gui.h (MDrawControl): New member
+	disable_overlapping_adjustment.
+
+2004-09-06  Kenichi Handa  <handa@m17n.org>
+
+	* font-flt.c (run_otf): Fix typo ('}'->']').
+
+	* internal-gui.h (MAKE_PRECOMPUTED_COMBINDING_CODE)
+	(COMBINING_PRECOMPUTED_P): New macros.
+
+	* draw.c (layout_glyphs): Handle precomputed combining code.
+
+	* font-ft.c (mfont__ft_drive_otf): Set g->combining_code to a
+	precomupted combining code.
+
+2004-09-03  Kenichi Handa  <handa@m17n.org>
+
+	* font-ft.c (mfont__ft_drive_otf): Use malloc and free for
+	otf_gstring.glyphs.
+
+2004-08-27  Kenichi Handa  <handa@m17n.org>
+
+	* face.c (mface_put_prop): If the new value is the same as the
+	current one, don't increment frame->tick.
+
+2004-08-25  Kenichi Handa  <handa@m17n.org>
+
+	* fontset.c (mfontset): Initialize font_spec_list member.
+	(mfontset_copy): Load fontset if necessary.
+
+	* m17n-gui.h (MDrawGlyphInfo): Change the member name 'this' to
+	'metrics' to for C++.
+
+	* draw.c (mdraw_glyph_info): Adjusted for the member name change
+	(this -> metics).
+
+2004-08-16  Kenichi Handa  <handa@m17n.org>
+
+	* Version 1.1.0 released.
+
+2004-08-13  Kenichi Handa  <handa@m17n.org>
+
+	* language.c (mlang__init): Add Dhivehi.
+
+	* m17n-gui.c (Mx, Mfreetype): Delete it.
+	(m17n_init_win): Don't initialize Mx and Mfreetype here.
+
+	* m17n-gui.h (Mfreetype, Mxft): Extern them.
+	(mfont_resize_ratio): Extern it.
+	(MDrawGlyphInfo): New member logical_width;
+	(MDrawGlyph): New type.
+	(mdraw_glyph_list): Prototype adjusted.
+
+	* m17n-X.c (xfont_open): Set type and fontp members.
+	(xft_open): Likewise.
+
+	* internal-gui.h (Mx, Mfreetype): Delete extern.
+
+	* font.h (struct MRealizedFont): New member type and fontp.
+
+	* font.c (mfont__init): Initialize Mx, Mfreetype, and Mxft.
+	(Mx, Mfreetype): Declare here.
+	(Mxft): New variable.
+	(mfont_resize_ratio): New function.
+
+	* font-ft.c (ft_open): Set type and fontp members.
+
+	* draw.c (mdraw_glyph_list): Argument type changed.  Don't set
+	glyph_code member.
+
+2004-08-11  Kenichi Handa  <handa@m17n.org>
+
+	* font-ft.c (ft_find_metric): Call FT_Load_Glyph with
+	FT_LOAD_DEFAULT.
+
+2004-08-06  Kenichi Handa  <handa@m17n.org>
+
+	* font-ft.c (mfont__ft_drive_otf): Fix for the case that no GSUB
+	feature to apply.
+
+	* font-flt.c (run_otf): Print debugging information if necessary.
+
+2004-08-05  Kenichi Handa  <handa@m17n.org>
+
+	* font-ft.c (mfont__ft_drive_otf): Fix sign of g->yoff.  Support
+	positioning_type 5 and 6.  Switch simplified.
+
+2004-08-04  Kenichi Handa  <handa@m17n.org>
+
+	* font-ft.c (mfont__ft_drive_otf): Call OTF_drive_gdef.
+
+2004-08-02  Kenichi Handa  <handa@m17n.org>
+
+	* font.c (mfont__score): If prop is MFONT_FOUNDRY or MFONT_FAMILY,
+	set val to 1 even if it is greater than 1.
+
+	* fontset.c (mfontset_modify_entry): Fix handling of the arg `how'.
+
+2004-07-29  Kenichi Handa  <handa@m17n.org>
+
+	* font-flt.c (run_rule, run_command, mfont__flt_run): Print more
+	debugging information.
+
+	* internal.h (MDEBUG_PRINT5): New macro.
+
+	* draw.c (layout_glyphs): Don't combine a zero width glyph with
+	the previous one if the zero width glyph has left or right
+	padding.
+
+2004-07-26  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-X.c (xft_render): Pay attention to members left_padding and
+	right_padding of MGlyph.
+
+	* draw.c (visual_order): Allocate one more elements for arrays as
+	a workaround of fribidi bug.
+	(layout_glyphs): Fix previous change. Check MGlyph->combining_code
+	instead of MGlyph->bidi_sensitive.
+	(layout_glyph_string): Pay attentinon to
+	control->orientation_reversed when padding at the head or tail.
+	Fix adjustment of space glyph width.
+	(get_gstring): If cursor_width or cursor_bidi is changed, don't
+	use a cache.
+
+	* font-ft.c (mfont__ft_drive_otf): Set MGlyph->combining_code
+	instead of MGlyph->bidi_sensitive.
+
+	* internal-gui.h (MGlyph): Delete member bidi_sensitive.
+
+2004-07-26  Kenichi Handa  <handa@m17n.org>
+
+	* draw.c (visual_order): Don't treat combined glyphs specially.
+	(layout_glyphs): Don't get metrics glyphs that are already ready.
+	Pay attention to MGlyph->bidi_sensitive.  Combine a glyph of zero
+	width with the previous one. 
+	(draw_background): Fix bar cursor position on a r2l glyph.
+
+	* font-flt.c (FontLayoutCmdOTF): Move back from internal-gui.h.
+	(run_rule): Fix place of updating cluster_begin_pos and
+	cluster_end_pos here.
+	(run_otf): Don't set left_padding.
+
+	* font-ft.c (adjust_anchor): Type of argument `code' changed.
+	Caller changed.
+	(mfont__ft_drive_otf): Renamed back from mfont__ft_drive_gsub.
+	Fix handling of GPOS.
+	(mfont__ft_drive_gpos): Delete this function.
+
+	* font.h (mfont__ft_drive_otf): Renamed back from
+	mfont__ft_drive_gsub.
+	(mfont__ft_drive_gpos): Delete extern.
+
+	* internal-gui.h (FontLayoutCmdOTF): Move back to font-flt.c.
+	(MGlyph): Delete member otf_cmd, add member bidi_sensitive.
+
+2004-07-23  Kenichi Handa  <handa@m17n.org>
+
+	* draw.c (layout_glyphs): Call mfont__ft_drive_gpos with glyphs of
+	the same bidi level.
+
+	* font-ft.c (mfont__ft_drive_gpos): Check bidi-level.
+
+2004-07-22  Kenichi Handa  <handa@m17n.org>
+
+	* font-flt.c (load_flt): Treat the symbol Mend as end-of-file.
+
+2004-07-20  Kenichi Handa  <handa@m17n.org>
+
+	* draw.c (render_glyphs): Fix checking of g->code validity.
+
+	* face.c (mface__realize): Set g.type.
+
+2004-07-18  Kenichi Handa  <handa@m17n.org>
+
+	* Makefile.am: Prepend ${top_srcdir} to all *.la in
+	*_LIBADD/*_LDADD.
+
+	* m17n-gui.c (mframe): Print error message give by dlopen to
+	stderr.
+
+2004-07-16  Kenichi Handa  <handa@m17n.org>
+
+	* draw.c (compose_glyph_string): Improve the way of deciding a
+	script.  For a character that doesn't have script property, use
+	the last non-latin script.
+
+	* font-ft.c (fc_list): Cancel previous change.
+	(mfont__ft_init): Add more entries in ft_to_prop_name.
+
+2004-07-15  Kenichi Handa  <handa@m17n.org>
+
+	* draw.c (mdraw_glyph_list): Add the width of padding glyphs to
+	previous or next character glyphs.
+
+2004-07-14  Kenichi Handa  <handa@m17n.org>
+
+	* draw.c (compose_glyph_string): Be sure to set codes for glyphs
+	of type GLYPH_SPACE.
+
+	* fontset.c (mfont__lookup_fontset): If glyph type is
+	GLYPH_SPACE, get codes for SPACE.
+
+	* internal-gui.h (Mfont): Delete extern.
+
+	* m17n-gui.h (Mfont): Delete duplicated extern.
+
+2004-07-13  Kenichi Handa  <handa@m17n.org>
+
+	* font-ft.c (DEVICE_DELTA): New macro.
+	(adjust_anchor): New function.
+	(mfont__ft_drive_gsub): Renamed from mfont__ft_drive_otf.  Drive
+	only GSUB.
+	(mfont__ft_drive_gpos): New function.
+
+	* font-flt.c (FontLayoutCmdOTF): Moved to internal-gui.h.
+	(FontLayoutContext): Delete member `rfont'.
+	(run_otf): Set g->otf_cmd.  Call 
+	(mfont__flt_run): Don't set ctx.rfont.  Call mfont__ft_decode_otf
+	only whne HAVE_OTF is defined.
+
+	* fontset.c: Include "config.h".
+
+	* internal-gui.h (FontLayoutCmdOTF): Moved from font-flt.c.
+	(MGlyph): New member otf_cmd.
+
+	* font.h (mfont__ft_drive_gsub): Changed from mfont__ft_drive_otf.
+	(mfont__ft_drive_gpos): Extern it.
+
+	* face.c: Include "config.h".
+
+	* draw.c (layout_glyphs): Call mfont__ft_drive_gpos.
+
+	* input-gui.c: Include "config.h".
+
+	* plist.c: Include "config.h".
+
+2004-07-06  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-gui.c, m17n-gui.h, m17n-gd.c, m17n-X.h, m17n-X.c,
+	internal-gui.h: Cancel previous changes.
+
+	* m17n-gd.h: Delete it.
+
+	* Makefile.am (libm17n_core_la_LIBADD): New variable.
+	(libm17n_core_la_LDFLAGS): Add -export-dynamic, move
+	@XML2_LD_FLAGS@ to above.
+	(libm17n_la_LIBADD): Add -ldl.
+	(libm17n_la_LDFLAGS): Add -export-dynamic.
+	(X_LD_FLAGS): Fix the order of linking.
+	(libm17n_gui_la_LIBADD): Add ${OPTIONAL_LD_FLAGS}.
+	(libm17n_gui_la_LDFLAGS): Add -export-dynamic, delete above.
+	(libm17n_X_la_LDFLAGS): Add -module.
+	(libm17n_gd_la_SOURCES): Delete m17n-gd.h.
+	(libm17n_gd_la_LIBADD): Add @GD_LD_FLAGS@.
+	(libm17n_gd_la_LDFLAGS): Add -module.
+	(include_HEADERS): Delete m17n-gd.h.
+
+2004-06-30  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-gui.c: Adjusted for the change of struct MDeviceDriver.
+	(MDeviceLibraryInterface): Delete it.
+	(register_device_library): Delete it.
+	(m17n__device_library_list): Renamed from device_library_list.
+
+	* m17n-gui.h (M17N_INIT_X, M17N_INIT_GD): New macros.
+	(m17n_init_win): Adjust prototype.
+
+	* m17n-gd.c: Adjusted for the change of struct MDeviceDriver.
+	(m17n_init_gd): New function. 
+
+	* m17n-gd.h: New file.
+
+	* m17n-X.h: Include <m17n-gui.h>.
+	(m17n_init_X): Extern it.
+	(M17N_INIT): Redefine it.
+
+	* m17n-X.c: Adjusted for the change of struct MDeviceDriver.
+	(m17n_init_X): New function.
+
+	* internal-gui.h (m17n__device_library_list): Extern it.
+	(struct MDeviceDriver): New members initialized, init, and fini.
+
+	* Makefile.am (libm17n_X_la_LIBADD): Add ${X_LD_FLAGS} and
+	@XFT2_LD_FLAGS@.
+	(libm17n_X_la_LIBADD): Delete aboves.
+	(libm17n_gd_la_SOURCES): Add m17n-gd.h.
+	(libm17n_gd_la_LIBADD): Add @GD_LD_FLAGS@.
+	(libm17n_gd_la_LDFLAGS): Delete it.
+	(include_HEADERS): Add m17n-gd.h.
+
+2004-06-25  Kenichi Handa  <handa@m17n.org>
+
+	* Makefile.am (libm17n_X_la_LDFLAGS): Cancel previous change.
+	(libm17n_gd_la_LDFLAGS): Cancel previous change.
+
+	* m17n-gd.c (gd_render): Don't call FT_Get_Char_Index.
+
+	* font-ft.c (fc_list): If FcFontList finds no font, try
+	FcFontMatch.
+
+	* draw.c (compose_glyph_string): Terminate the last loop after
+	doing default combining if necessary.
+
+2004-06-24  Kenichi Handa  <handa@m17n.org>
+
+	* draw.c (mdraw_glyph_list): Unref gstring->top at the tail.
+
+	* character.c (mchar_define_property): Add const to an arg.
+
+	* charset.c (mchar_define_charset): Add const to an arg.
+
+	* coding.c (MCodingSystem): Add const to an arg or decoder.
+	(finish_decoding): Add const to an arg.
+	(decode_coding_charset, decode_coding_utf_8)
+	(decode_coding_utf_16, decode_coding_utf_32)
+	(decode_coding_iso_2022, decode_coding_sjis)
+	(mconv_define_coding): Likewise.
+
+	* m17n-X.c (xft_find_metric): Delete unused variable.
+
+	* m17n-core.h (mchar_define_property, mtext_from_data): Adjust
+	prototypes.
+
+	* m17n.h (mchar_define_charset, mconv_define_coding): Adjust
+	prototypes.
+
+	* mtext.c (count_utf_8_chars, count_utf_16_chars)
+	(mtext__from_data, mtext_from_data): Add `const' to an arg.
+
+	* mtext.h (mtext__from_data): Ajust prototype.
+
+2004-06-23  Kenichi Handa  <handa@m17n.org>
+
+	* draw.c (compose_glyph_string): Always get glyph codes by
+	mface__for_char.
+	(mdraw_glyph_info): Set info->glyph_code and info->logical_width.
+	(mdraw_glyph_list): New function.
+
+	* font-flt.c (mfont__flt_run): Be sure to call
+	rfont->driver->encode_char.
+
+	* font-ft.c (ft_find_metric): Don't call FT_Get_Char_Index.
+	(ft_encode_char): Delete arg C.
+	(ft_render): Don't call FT_Get_Char_Index.
+
+	* font.c (mfont__encodable_p): Delete it.
+	(mfont__encode_char): Be sure to call rfont->driver->encode_char.
+
+	* font.h (struct MFontDriver): Delete arg C of encode_char.
+	(mfont__encodable_p): Delete extern.
+
+	* m17n-X.c (xfont_encode_char): Delete arg C.
+	(xft_find_metric): Don't cal FT_Get_Char_Index.
+	(xft_render): Likewise.
+
+	* m17n-gui.h (MDrawGlyphInfo): New members glyph_code and
+	logical_width.
+	(mdraw_glyph_list): Extern it.
+
+	* Makefile.am (libm17n_X_la_LDFLAGS): Don't include ${X_LD_FLAGS}.
+
+2004-06-22  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-gui.h (mfontset_lookup): Extern it.
+
+	* m17n-gui.c (m17n_init_win): Delete unnecessary printing.
+
+	* fontset.c (realize_fontset_elements)
+	(free_realized_fontset_elements, update_fontset_elements): New
+	functions.
+	(mfont__realize_fontset): Call realize_fontset_elements.
+	(mfont__free_realized_fontset): Call free_realized_fontset_elements.
+	(mfont__lookup_fontset): If a fontset was modified, update
+	the realized fontset.
+	(mfontset_modify_entry): Increment fontset->tick.
+	(mfontset_lookup): New function.
+
+2004-06-21  Kenichi Handa  <handa@m17n.org>
+
+	* font-ft.c (mfont__ft_parse_name): Cast the arg to FcNameParse.
+
+	* mtext.c (mtext_dup, mtext_cat, mtext_ncat, mtext_cpy)
+	(mtext_ncpy, mtext_duplicate): Pay attention to the case that the
+	length of source text 0.
+
+2004-06-21  Kenichi Handa  <handa@m17n.org>
+
+	* mtext.c (INC_POSITION): Use CHAR_UNITS_BY_HEAD_UTF16.
+	(compare): Pay attention to format other than utf-8.
+	(copy): Delete this function.
+	(count_by_utf_8, count_by_utf_16, insert): New functions.
+	(count_utf_16_chars): Fix handling of a surrogate pair.
+	(find_char_forward, find_char_backward): Likewise.
+	(mtext__from_data): Delete unnecessary check.  Fix number of
+	allocated bytes.
+	(mtext_from_data): Don't count items.
+	(mtext_ref_char): Optimize the code.
+	(mtext_set_char): Pay attention to format other than utf-8.
+	(mtext_cat_char): Likewise.
+	(mtext_dup): Don't call copy, instead do allocation here.
+	(mtext_cat): Call insert instead of copy.
+	(mtext_ncat): Likewise.
+	(mtext_cpy): Delete character at first and call insert instead of
+	copy.
+	(mtext_ncpy): Likewise.
+	(mtext_copy): Likewise.
+	(mtext_duplicate): Call insert instead of copy.
+	(mtext_del): Pay attention to format other than utf-8.
+	(mtext_ins): Simply call insert.
+	(mtext_ins_char): Pay attention to format other than utf-8.
+	(mtext_tok): Call insert instead of copy.
+	(mtext_text): Call UNIT_BYTES.
+
+	* textprop.c (mtext__adjust_plist_for_change): New function.
+
+	* character.h (USHORT_SIZE, UINT_SIZE, UNIT_BYTES): New macros.
+	(CHAR_UNITS_UTF16, CHAR_UNITS): Simplified.
+	(CHAR_UNITS_AT): Fix typo.
+	(CHAR_UNITS_BY_HEAD): Fix typo.
+	(STRING_CHAR_AND_UNITS): Fix typo.
+
+	* internal.h (MTEXT_READ_ONLY_P): New macro. 
+
+	* mtext.h (mtext__replace): Delete the extern.
+	(mtext__adjust_foramt): Adjust prototype.
+
+	* plist.c (mplist_deserialize): Adjust the format of MT to utf-8
+	if possible.  Otherwise make a copy of mmt.
+
+	* coding.c (mconv_decode, mconv_gets): Adjust the format of MT to
+	utf-8.
+
+2004-06-18  Kenichi Handa  <handa@m17n.org>
+
+	* character.h (CHAR_STRING_UTF16): Fix syntax.
+
+2004-06-16  Kenichi Handa  <handa@m17n.org>
+
+	* Makefile.am (libm17n_gd_la_LIBADD): Delete it.
+	(libm17n_X_la_LIBADD): Delete it.
+	(libm17n_gd_la_LDFLAGS): Don't include @GD_LD_FLAGS@.
+
+	* m17n-X.c (device_open): Add parens in `if' condition.
+
+	* mtext.c (INC_POSITION): Handle format other than utf8 and utf16.
+	(DEC_POSITION): Likewise.
+	(compare): Fix case that mt1->format is MTEXT_FORMAT_UTF_8.
+
+2004-06-15  Kenichi Handa  <handa@m17n.org>
+
+	* fontset.c (mfont__lookup_fontset): Fix selection of font groups
+	by language.
+
+	* draw.c (compose_glyph_string): If language is specified, call
+	mface__for_chars even if a text is all latin.  Fix condition for
+	setting non_ascii_found.
+
+	* m17n-X.c (xft_find_metric): Fix setting of g->lbrearing.
+
+	* m17n.h (minput_char_to_key): Delete extern.
+
+	* m17n-gui.h (minput_event_to_key): Cancel previous change.
+
+	* m17n-gui.c (null_device_open): Set several members of frame.
+
+2004-06-14  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-gui.h (minput_event_to_key): Delete extern.
+
+	* symbol.h (struct MSymbolStruct): Renamed from MSymbol.
+
+	* m17n-core.h (MSymbol): Defined as "struct MSymbolStruct *".
+
+	* Makefile.am (AM_CPPFLAGS): Refer to @M17NDIR@.
+
+2004-06-08  Kenichi Handa  <handa@m17n.org>
+
+	* character.c (mchar_put_prop): Don't increment the ref-count of
+	record->table.
+
+2004-06-04  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-core.c (mdebug__register_object): New function.
+	(mdebug__unregister_object): Likewise.
+
+	* internal.h (mdebug__register_object, mdebug__unregister_object):
+	Extern them.
+	(M17N_OBJECT_REGISTER, M17N_OBJECT_UNREGISTER): Call them
+	respectively.
+
+	* charset.c (mcharset__load_from_database): Don't call
+	mconv__register_charset_coding here.
+
+	* coding.c (find_coding): Get a real name from an element of
+	coding_definition_list.
+	(mconv__register_charset_coding): Set the real name at the top of
+	param.
+	(mcoding__load_from_database): Likewise.
+	(mconv_list_codings): Adjusted for the above change.
+
+2004-06-03  Kenichi Handa  <handa@m17n.org>
+
+	* coding.c (find_coding): Find by canonicalized name.  Don't have
+	to modify the element of coding_definition_list by
+	mplist__from_plist.
+	(mconv__define_coding_from_charset): Delete it.
+	(mconv__register_charset_coding): Canonicalize sym.
+	(mcoding__load_from_database): Register plist modified by
+	mplist__from_plist.
+
+	* coding.h (mconv__define_coding_from_charset): Don't extern it.
+
+	* font-ft.c (ft_open): Fix setting of rfont->descent.
+
+2004-06-02  Kenichi Handa  <handa@m17n.org>
+
+	* font.c (enum xlfd_field_idx): Moved from m17n-X.c.
+	(xlfd_parse_name): Merge split_font_name and xfont_parse_name.
+	(xlfd_unparse_name): Renamed from xfont_build_name.
+	(mfont__init): Initialized Mfontconfig.
+	(mfont__free_realized): Unconditionally unref rfont->info.
+	(mfont__select): Free `this' if it's not best.
+	(mfont__open): Don't check frame->realized_font_list.
+	(mfont__parse_name_into_font): New function.
+	(Mfontconfig): New variable.
+	(mfont_from_name): Call mfont_parse_name.
+	(mfont_name): Call mfont_unparse_name.
+	(mdebug_dump_font): Likewise.
+
+	* font.h (struct MFontDriver): Delete members parse_name and
+	build_name.
+	(mfont__ft_parse_name, mfont__ft_unparse_name): Extern them.
+	(mfont__parse_name_into_font): Extern it.
+
+	* font-ft.c: Include "symbol.h".
+	(close_ft): Unconditionally free filename and charmap_list of
+	ft_into.
+	(ft_open): Duplicate base->filename.  Increment ref-count of
+	ft_info->charmap_list.  Free ft_info->charmap_list and
+	ft_info->filename on error.
+	(mfont__ft_parse_name, mfont__ft_unparse_name): New functions.
+
+	* m17n-X.c (xfont_driver): Don't include xfont_parse_name and
+	xfont_build_name.
+	(enum xlfd_field_idx): Moved to font.c.
+	(split_font_name, build_font_name): Likewise.
+	(build_font_list): Call mfont__parse_name_info_font.
+	(xfont_open): Call mfont__unparse_name.  Free name.
+	(xfont_parse_name, xfont_build_name): Moved to font.c
+	(xft_select): Prototype deleted.
+	(device_open): Check HAVE_FREETYPE on using mfont__ft_driver.
+	Call mfont_pase_name.
+
+	* m17n-gui.c (free_frame): Unref frame->font_driver_list.
+	(m17n_fini_win): Add check HAVE_FREETYPE on using null_interface.
+	(mframe): Likewise.
+
+	* m17n-gui.h (mfont_parse_name, mfont_unparse_name, Mfontconfig):
+	Extern them.
+
+	* Makefile.am (linkgui_LDADD): Add libm17n-X.la and libm17n-gd.la.
+
+2004-06-01  Kenichi Handa  <handa@m17n.org>
+
+	* fontset.c (mfontset_modify_entry): Pay attention to the case
+	that fontset->font_spec_list is NULL.
+
+2004-05-31  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-gui.c: Include <dlfcn.h> only when HAVE_DLFCN_H is defined.
+
+	* input.c: Include <dlfcn.h> only when HAVE_DLFCN_H is defined.
+
+	* font.c (mfont__select): Print score the a font for debugging.
+
+	* Makefile.am (libm17n_la_LIBADD): Delete -ldl.
+
+	* coding.c (reset_coding_sjis): Check kanji and kana instead of
+	kanji_sym and kana_sym.
+
+2004-05-28  Kenichi Handa  <handa@m17n.org>
+
+	* Makefile.am (VINFO): New variable.
+	(libm17n_core_la_LDFLAGS, libm17n_la_LDFLAGS)
+	(libm17n_gd_la_LDFLAGS): Include ${VINFO}.
+
+2004-05-27  Kenichi Handa  <handa@m17n.org>
+
+	The following chanages are to make device dependent functions
+	accessible only from MDeviceDriver structure, and to add GD and
+	null device drivers.  Font drivers get also device dependent.
+
+	* m17n.c (m17n_init): Increament shell_initialized.
+	(m17n_fini): Decremented shell_initialized.
+
+	* m17n-misc.h (enum MErrorCode): New element MERROR_GD.
+
+	* m17n-gui.h (Mdevice, Mdisplay, Mscreen, Mdrawable, Mdepth)
+	(Mwidget, Mcolormap, Mx): Extern them.
+
+	* m17n-gui.c: Include <dlfcn.h> and "config.h".
+	(free_frame): Call frame->driver->close instead of
+	mwin__close_device.
+	(DLOPEN_SHLIB_EXT): New macro.
+	(MDeviceLibraryInterface): New type.
+	(device_library_list): New variable.
+	(register_device_library): New function.
+	(null_device): New variable.
+	(null_device_close, null_device_get_prop)
+	(null_device_realize_face, null_device_free_realized_face): New
+	function.
+	(null_driver): New variable.
+	(null_device_init, null_device_fini, null_device_open): New
+	functions.
+	(null_interface): New variable.
+	(Mfreetype, Mdevice): Declare them.
+	(m17n_init_win): Increment win_initialized.  Initialize Mx, Mgd,
+	Mfreetype, Mdevice, Mdisplay, Mscreen, Mdrawable, Mdevice, and
+	Mwin__Close_Device.  Register drivers for Mx and Mgd.
+	(m17n_fini_win): Decremented win_initialized.  Call "fini"
+	function of all opened devices.  Don't call mwin__fini.
+	(Mdisplay, Mscreen, Mdrawable, Mdepth, Mwidget, Mcolormap):
+	Declare them here.
+	(mframe): Handle Mdevice key of PLIST.
+	(mframe_get_prop): Call frame->device->get_prop instead of
+	mwin__device_get_prop.
+
+	* m17n-gd.c: New file.
+
+	* m17n-core.h (M17NLIB_MAJOR_VERSION, M17NLIB_MINOR_VERSION)
+	(M17NLIB_PATCH_LEVEL, M17NLIB_VERSION_NAME): Updated to 1.1.0.
+
+	* m17n-core.c (m17n_init_core): Increate core_initialized.
+	(m17n_fini_core): Decremented core_initialized.
+
+	* m17n-X.h (Mdisplay, Mscreen, Mdrawable, Mdepth, Mwidget)
+	(Mcolormap): Don't extern them here.
+
+	* m17n-X.c (FRAME_DEVICE): New macro.
+	(FRAME_DISPLAY, FRAME_SCREEN, FRAME_CMAP): Use FRAME_DEVICE.
+	(free_display_info): Use MPLIST_DO.
+	(free_device): Free rface->info.
+	(xft_close): Delete it.
+	(device_init): Renamed from mwin__init.
+	(device_fini): Renamed from mwin__fini.
+	(device_open): Renamed from mwin__open_device.
+	(x_driver): New variable.
+	(MXFontInfo): Delete member frame, add member display.
+	(Mdisplay, Mscreen, Mdrawable, Mdepth, Mwidget, Mcolormap, Mxim):
+	Don't declare them here.
+
+	* internal-gui.h (MDeviceType): New enum.
+	(MWDefice): Delete it.
+	(struct MFrame): Change type of device to void *.  New members
+	device_type, driver, font_driver_list.
+	(M_CHECK_WRITABLE, M_CHECK_READABLE): New macros.
+	(MDeviceDriver): New type.
+	(Mx, Mgd, Mfreetype): Extern them.
+	(mwin__XXX): Delete all of them.
+
+	* input-gui.c (win_create_ic): Call frame->driver->XXX instead of
+	mwin__XXX.
+	(win_destroy_ic): Likewise.
+	(adjust_window_and_draw): Likewise.
+	(win_callback): Likewise.
+	(Mxim): Declare it here.
+	(minput_event_to_key): Call M_CHECK_READABLE.
+
+	* fontset.c (mfont__lookup_fontset): Delete local variable
+	font_group.
+
+	* font.h (struct MFontDriver): Delete member close, add members
+	parse_name and build_name.
+	(mfont__driver_list): Delete extern.
+	(mfont__close): Delete extern.
+
+	* font.c (mfont__init): Don't set mfont__driver_list.
+	(mfont__fini): Don't unref mfont__driver_list.
+	(mfont__select): Try font drivers in frame->font_driver_list.  Set
+	driver member of a realized font.
+	(mfont__close): Delete it.
+	(mfont_from_name, mfont_name, mdebug_dump_font): Call driver
+	functions of the default frame.
+
+	* font-ft.c (close_ft): Check ft_info->ft_face and work
+	differently.
+	(add_font_info): Allocate ft_info by M17N_OBJECT.
+	(ft_close): Delete it.
+	(mfont__ft_driver): Don't set ft_close.
+	(ft_select): Increment ref-count of best_font.
+	(ft_open): Decremented ref-count of base.  On error, call
+	FT_Done_Face and free ft_info.
+	(ft_find_metric): Always use XXX_MONO in load_flags.
+	(ft_render): Fix setting of width.  Call
+	frame->driver->draw_points instead of mwin__draw_points.
+	(ft_to_prop): Don't set mfont__driver_list.
+	(mfont__ft_fini): Just unref ft_info.
+
+	* face.c (mface__init): Exchange foreground and background of
+	mface__default.  Call mface_put_prop to set hline of
+	mface_underline,
+	(mface__realize): Call frame->driver->XXX instead of mwin__XXX.
+	(mface__free_realized): Don't call mwin__free_realized_face.
+
+	* draw.c (Mdepth): Don't declare it here.
+	(draw_background): Call frame->driver->XXX instead of mwin__XXX.
+	(render_glyphs, render_glyph_string): Likewise.
+	(mdraw__init): Don't set Mdepth.
+	(mdraw_text, mdraw_image_text, mdraw_text_with_control): Call
+	M_CHECK_WRITABLE.
+	(mdraw_text_per_char_extents): Return 0 on success and -1 on
+	error.
+	(mdraw_text_items): Check FRAME is writable.
+	(mdraw_per_char_extents): Implement body.
+
+	* Makefile.am (lib_LTLIBRARIES): Include libm17n-gui.la and
+	libm17n-gd.la.
+	(OPTIONAL_LD_FLAGS): Include @FONTCONFIG_LD_FLAGS@.
+	(GUI_SOURCES): Delete it.
+	(libm17n_X_la_SOURCES): Don't include ${GUI_SOURCES}.
+	(libm17n_gui_la_SOURCES, libm17n_gui_la_LIBADD)
+	(libm17n_gui_la_LDFLAGS, libm17n_gd_la_SOURCES)
+	(libm17n_gd_la_LIBADD, libm17n_gd_la_LDFLAGS): New targets.
+	(linkgui_LDADD): Set to libm17n-gui.la
+	(linkgui_LDFLAGS): New target.
+	(SRC): Include ${libm17n_gui_la_SOURCES} and
+	${libm17n_gd_la_SOURCES}.
+
+2004-05-24  Kenichi Handa  <handa@m17n.org>
+
+	* draw.c (draw_background): Don't draw background even if
+	rface->face.property[MFACE_BACKGROUND] is not Mnil.
+
+2004-05-22  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-X.c (xft_open_font): Fix anti_alias setting.
+
+2004-05-20  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-gui.h (MFaceHookFunc): Change this function type to void.
+
+	* m17n-gui.c: Include "plist.h".
+	(mframe): If PLIST is NULL, initialize it to emply plist.
+
+	* m17n-X.c (build_font_list): Don't set property[MFONT_TYPE].
+	(xft_driver): New variable.
+	(xft_select, close_xft, xft_open_font, xft_open, xft_close)
+	(xft_find_metric, xft_render): New function.
+	(mwin__init): Adjusted for the new mfont__driver_list.
+	(mwin__open_device): Assume arg PARAM is not NULL.  Push a newly
+	generated face to PARAM.
+	(mwin__realize_face): Fix setting of box colors.  Don't call hook
+	function here.
+	(mwin__draw_hline): New function.
+	(mwin__xft_close, mwin__xft_open, mwin__xft_get_metric)
+	(mwin__xft_render): Delete these function.
+
+	* internal-gui.h (struct MFrame): New member tick.
+	(struct MGlyphString): New member tick.
+	(mwin__draw_rect, mwin__draw_empty_boxes): Extern them.
+	(mwin__xft_open, mwin__xft_close, mwin__xft_get_metric)
+	(mwin__xft_render): Delete extern.
+
+	* fontset.c (mfont__lookup_fontset): Make the code simpler.
+	(mfontset): Always increment the reference count of returned
+	object.
+
+	* font-ft.c (mfont__ft_fini): Don't include <otf.h> here.
+	(MFTInfo): Moved to font.h.
+	(ft_iso8859_1_font_list): Delete this variable.
+	(set_font_info): Don't set font->property[MFONT_TYPE].
+	(set_font_info): Don't udpate ft_iso8859_1_font_list.
+	(add_font_info): Change type to void.
+	(fc_list): Change anme from xft_list.  Caller changed.  Include
+	FC_FOUNDRY and FC_PIXEL_SIZE in FcObjectSet.
+	(mfont__ft_driver): Change name from ft_driver.  Caller changed.
+	(ft_select): Check HAVE_FONTCONFIG instead of HAVE_XFT2.
+	(close_ft): Don't call mwin__xft_close.  Unref
+	ft_info->extra_info.
+	(ft_open): Don't setup ft_info->fontname.  Don't call
+	mwin__xft_open.
+	(ft_find_metric): Don't call mwin__xft_get_metric.
+	(ft_encode_char): Call rfont->driver->open instead of ft_open.
+	(ft_render): Don't check HAVE_XFT2.  Don't call mwin__xft_render.
+	(mfont__ft_init): Adjusted for new mfont__driver_list.
+	(mfont__ft_fini): Don't unref ft_iso8859_1_font_list.
+
+	* font.c (mfont__driver_list): Make it MPlist.
+	(mfont__init): Adjust initialization of mfont__driver_list.
+	(mfont__fini): Free mfont__driver_list.
+	(mfont__set_spec_from_face): Don't set spec->property[MFONT_TYPE].
+	(mfont__select): Adjusted for the new mfont__driver_list.
+
+	* font.h (enum MFontProperty): Delete MFONT_TYPE.
+	(mfont__drirver_list): Adjust prototype.
+	(MFTInfo): Move to here from fron.c.  Deleve member fontname.
+
+	* face.h (struct MFace): Delete member realized_face_list, add
+	member frame_list.
+	(struct MRealizedFace): Delete member need_update
+	andnofont_rface, add member non_ascii_list.
+	(mface__update_frame_face): Extern it.
+
+	* face.c (hline_prop_list, box_prop_list, noop_hook): New
+	variables.
+	(get_hline_create, get_box_create): New functions.
+	(find_realized_face): Cancel previous change.  Arg RFONT deleted.
+	Use memcmp.
+	(free_face): Cancep previous change.  Free face->frame_list.
+	(serialize_hline): Do nothing if hline->width is zero.
+	(serialize_box): Do nothing if box->width is zero.
+	(mface__init): Setup all properties of mface__default.
+	(mface__fini): Free hline_prop_list and box_prop_list.
+	(mface__realize): Cancel previous change.  Update
+	face->frame_list.  Setup rface->non_ascii_list.
+	(mface__for_chars): Update rface->non_ascii_list.
+	(mface__free_realized): Free rface->non_ascii_list.
+	(mface__update_frame_face): New function.
+	(mface): Initialize face->frame_list.
+	(mface_copy): Likewise.  Just copy MFACE_HLINE and MFACE_BOX
+	properties.
+	(mface_merge): Likewise.
+	(mface_put_prop): If key is Mhline or Mbox, get value by
+	get_hline_create or get_box_create respectively.
+	(mface_put_prop): Update frame->tick and call
+	mface__update_frame_face if necessary.
+	(mface_update): Do nothing if func is noop_hook.
+
+	* draw.c (render_glyphs): If a font is not found, use
+	mwin__draw_empty_boxes.
+	(alloc_gstring): Initialize gstring->tick.
+	(get_gstring): Check gstring->tick.
+
+2004-05-17  Kenichi Handa  <handa@m17n.org>
+
+	* face.c (find_realized_face): Return value changed.  If RFONT is
+	NULL, avoid unnecessary checking.
+	(free_face): Free face->realized_face_list.
+	(mface__realize): Adjusted for the change of find_realized_face.
+	If it returns a realized face that needs update, free it and
+	realize a new one.  Push a new realized face to
+	frame->realized_face_list instead of appending.
+	(mface__for_chars): Adjusted for the change of find_realized_face.
+	Short cut if the required font is in rface->ascii_rface.
+	(mface_put_prop): Free old value if necessary.  Set need_update
+	member of realized faces to 1.
+
+	* face.h (struct MFace): Delete member tick, add member
+	realized_face_list.
+	(struct MRealizedFace): Delete member tick, add member
+	need_update.
+
+2004-05-13  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-X.c (mwin__xft_open): Destroy unnecessary patterns.
+
+2004-05-12  Kenichi Handa  <handa@m17n.org>
+
+	* internal-gui.h (mwin__xft_open): Arguemnt name changed.
+
+	* m17n-X.c (mwin__xft_open): Argument changed to fontname and
+	parse it XftNameParse.
+
+	* font-ft.c (MFTInfo) [HAVE_XFT2]: New member fontname.
+	(all_fonts_scaned): New variable.
+	(set_font_info): FAMILY may be Mnil.
+	(add_font_info): Argument changed.
+	(xft_list): Call add_font_info in it.
+	(ft_list): Likewise.
+	(ft_select): Make it work in the case family is Mnil.
+	(ft_open) [HAVE_XFT2]: Setup ft_info->fontname.
+	(mfont__ft_fini): Set all_fonts_scaned to 0.
+
+	* fontset.c (mfont__lookup_fontset): Don't repeatedly try a font
+	that is failed to open.
+
+2004-05-10  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-X.c (mwin__xft_render): Don't use anti-alias if the
+	device's depth is 1 (i.e. monochrome).
+
+	* Makefile.am (OPTIONAL_LD_FLAGS): Change the order of elements
+	to work around the problem of libtool.
+
+	* font-ft.c: Include <freetype/ftbdf.h>.
+	(Municode_bmp, Municode_full, Miso10646_1, Miso8859_1): New
+	variables.
+	(mfont__ft_init): Initialize them.
+	(ft_iso8859_1_font_list): New variable.
+	(set_font_info): Detect a font containing iso8859-1 glyphs and
+	register it in ft_iso8859_1_font_list.  If the font is not
+	scalable, assume it as BDF or PCF font and setup SIZE and RESY
+	properties of the font from its properties.
+	(add_font_list): If the font is not scalable, check if it is BDF
+	or PCF font.  If not, ignore it.
+	(ft_select): If FAMILY is Mnil, return NULL only if the requested
+	registry is not iso8859-1.
+	(ft_select) [not HAVE_XFT2]: If FAMILY is Mnil, select one from
+	ft_iso8859_1_font_list.
+	(ft_find_metric): If the font is not scalable, assume it as BDF
+	or PCF, and get a metric from its properties.
+	(mfont__ft_fini): Free ft_iso8859_1_font_list.
+
+2004-05-07  Kenichi Handa  <handa@redhat.m17n.org>
+
+	* Makefile.am (libm17n_la_LIBADD): Include -ldl.
+	(libm17n_la_LDFLAGS): Delete it.
+	(noinst_PROGRAMS): Renamed from bin_PROGRAMS.
+	(install-binPROGRAMS, uninstall-binPROGRAMS): Delete them.
+
+2004-05-06  Kenichi Handa  <handa@m17n.org>
+
+	* draw.c (compose_glyph_string): Fix previous change.
+
+2004-04-30  Kenichi Handa  <handa@m17n.org>
+
+	* font-ft.c (ft_list): Delete unused variable `result'.
+	(ft_render): Fix for the case that bitmap.pitch < bitmap.width.
+
+2004-04-27  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-X.c: Include config.h
+	[HAVE_XFT2]: Include <X11/Xft/Xft.h>.
+	(GCInfo) [HAVE_XFT2]: New member xft_color_fore, xft_color_back.
+	(MWDevice) [HAVE_XFT2]: New member xft_draw.
+	(FRAME_CMAP, FRAME_VISUAL): New macros.
+	(free_device) [HAVE_XFT2]: Destroy device->xft_draw.
+	(xfont_driver): Make it static.
+	(mwin__open_device) [HAVE_XFT2]: Setup device->xft_draw.
+	(mwin__realize_face) [HAVE_XFT2]: Setup info->xft_color_fore and
+	info->xft_color_back.
+	(MXftFontInfo) [HAVE_XFT2]: New type.
+	(mwin__xft_close) [HAVE_XFT2]: New function.
+	(mwin__xft_open) [HAVE_XFT2]: New function.
+	(mwin__xft_get_metric) [HAVE_XFT2]: New function.
+	(mwin__xft_render) [HAVE_XFT2]: New function.
+
+	* internal-gui.h [HAVE_FREETYPE]: Include FT_FREETYPE_H.
+	(mwin__xft_open, mwin__xft_close) [HAVE_FREETYPE]: New externs.
+	(mwin__xft_get_metric, mwin__xft_render) [HAVE_FREETYPE]: New
+	externs.
+
+	* font.h [HAVE_FREETYPE]: Include FT_FREETYPE_H.
+
+	* font-ft.c: Don't include FT_FREETYPE_H here.
+	[HAVE_XFT2]: Include <fontconfig/fontconfig.h>.
+	(fontconfig_initialized, fc_config) [HAVE_XFT2]: New variables.
+	(MFTInfo): New member charmap_index.
+	(MFTInfo) [HAVE_XFT2]: New member xft_info.
+	(check_otf_filename): Renamed from check_filename.  Return value
+	changed.
+	(ft_set_property): This function deleted.
+	(set_font_info): New function.
+	(add_font_list): Argument changed.  Add multiple fonts.
+	(xft_list) [HAVE_XFT2]: New function.
+	(ft_list) [not HAVE_XFT2]: New function.
+	(ft_select): Add code for Xft.
+	(close_ft): Likewise.
+	(ft_open): Likewise.
+	(ft_find_metric): Likewise.
+	(ft_encode_char): Likewise.
+	(ft_render): Likewise.
+
+	* makefile.am (OPTIONAL_LD_FLAGS): Include @XFT2_LD_FLAGS@.
+
+2004-04-26  Kenichi Handa  <handa@m17n.org>
+
+	* textprop.c (mtext_attach_property): Declare the return type as
+	`int'.
+
+2004-04-21  Kenichi Handa  <handa@m17n.org>
+
+	* Makefile.am (OPTIONAL_LD_FLAGS): Include @XFT2_LD_FLAGS@
+
+2004-04-09  Kenichi Handa  <handa@m17n.org>
+
+	* font-flt.c (struct): New members seq_beg, seq_end, seq_from,
+	seq_to.
+	(load_command): Setup above members.
+
+2004-04-05  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-X.c (xfont_encode_char): Fix checking of byte1 and byte2.
+
+2004-03-30  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-X.c (xfont_encode_char): Return MCHAR_INVALID_CODE if code
+	>= 0x10000.
+
+	* m17n-core.h (M17NLIB_PATCH_LEVEL): Changed to 2.
+	(M17NLIB_VERSION_NAME): Changed to 1.0.2.
+
+2004-03-29  Kenichi Handa  <handa@m17n.org>
+
+	* Version 1.0 Patch Level 2 released.
+
+2004-03-29  Kenichi Handa  <handa@m17n.org>
+
+	* charset.c (make_charset): Set charset->fully_loaded and
+	charset->simple correctly.  Don't try to get charset->min_char and
+	charset->max_char for a charset of method subset and superset.
+	Don't load a mapping file here.
+	(mcharset__init): Set unified_max.
+	(mcharset__load_from_database): Free a working plist.
+
+	* coding.c (mcoding__fini): Free all malloced data.
+
+	* input-gui.c (win_create_ic): Set control.as_image for preediting
+	to 0.
+
+	* internal.h (M17N_OBJECT_REGISTER): Check the member `used' (not
+	`count') to initialize the array.
+
+	* locale.c (mlocale_set): Fix the order of M17N_OBJECT_REF and
+	M17N_OBJECT_UNREF.
+
+	* m17n-X.c (xfont_render): If rface->rfont is null, draw a
+	rectangle.
+	(mwin__create_window): Fix bug of setting a background pixel of a
+	new window.
+	(mwin__adjust_window): Clear the window before drawing.
+
+	* m17n-core.c (mdebug__report_object): Free array->objectes if
+	necessary.
+	(m17n_init_core): Don't set report_header_printed to 0 here.
+	Fix debugging information.
+	(m17n_fini_core): Set report_header_printed to 0 here.
+
+	* m17n-core.h (mplist_deserialize): Extern it.
+
+	* m17n-gui.c (m17n_fini_win): Fix debugging information.
+
+	* m17n.c (m17n_fini): Fix debugging information.
+
+	* mtext.c (mtext__adjust_foramt): New function.
+
+	* mtext.h (mtext__adjust_foramt): Extern it.
+
+	* plist.c (mplist_deserialize): Renamed from mplist__deserialize.
+
+	* plist.h (mplist__deserialize): Don't extern it.
+
+	* symbol.c (msymbol__fini): Set freed_symbols to 0.  Set all
+	elements of symbol_table to NULL.  Report about created and freed
+	symbols if MDEBUG_FINI is set.
+
+2004-03-22  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-core.c (m17n_init_core): Set merror_code to MERROR_NONE.
+
+	* m17n.c (m17n_init): Fix the way of checking merror_code.
+
+	* m17n-gui.c (m17n_init_win): Fix the way of checking merror_code.
+
+2004-03-22  Kenichi Handa  <handa@m17n.org>
+
+	* fontset.c (realize_font_group): Adjust the font size by
+	mfont__resize before selecting a font.
+
+	* font-ft.c (mfont__ft_init): Add oblique and boldoblique.
+
+2004-03-19  Kenichi Handa  <handa@m17n.org>
+
+	* Version 1.0 Patch Level 1 released.
+
+2004-03-19  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-core.h (M17NLIB_PATCH_LEVEL): New macro.
+
+	* m17n-core.c (M17NLIB_PATCH_LEVEL): Describe it.
+
+2004-03-19  Kenichi Handa  <handa@m17n.org>
+
+	Re-apply the changes forgotten in the released version.
+
+	* charset.c (mcharset__load_from_database): Call
+	mchar_define_charset.
+
+	* coding.c (encode_unsupporeted_char): Put Mcoding text property.
+	(mconv_encode_range): Put Mcoding text property.
+
+2004-03-18  Kenichi Handa  <handa@m17n.org>
+
+	* draw.c (Mdepth): New variable.
+	(visual_order): Delete unused local var `pos'.
+	(compose_glyph_string): Fix for the case that gstring->glyphs is
+	realloced.  Stop generating glyphs at TO.  Fix handling of
+	control charaters.
+	(layout_glyphs): Get metrics of all glyphs in advance.  Set
+	lbearing and rbearing of base of composition glyph correctly.
+	Handle left-overhang glyphs correctly.
+	(alloc_gstring): New arg frame.  Set gstring->anti_alias.  Caller
+	changed.
+	(dump_combining_code): Change the defualt off_x character to ".".
+	(mdraw__init): Initialize Mdepth.
+
+	* face.c (work_gstring): New variable
+	(mface__init): Initialize work_gstring.
+	(mface__fini): Free work_gstring.glyphs.
+	(mface__realize): Don't handle videomode property here.  Adjusted
+	for the change of mfont__get_metric.
+	(mface__for_chars): Adjusted for the change of mfont__get_metric.
+
+	* face.h (enum face_gc): Moved to m17n-X.c.
+
+	* font.h (struct MFontDriver): Arguments of find_metric changed.
+	(mfont__select): Prototype adjusted.
+	(mfont__get_metric): Likewise.
+	(mfont__ft_drive_otf): Likewise.
+	(mfont__flt_run): Likewise.
+	
+	* font.c (mfont__select): New argument layouter.  If layouter is
+	different in the registered font, make a new copy of realized
+	font.
+	(mfont__get_metric): Argument changed.  Get metrics of multiple
+	glyphs.
+	(mfont_find): Call mfont__select with layouter as Mnil.
+
+	* font-flt.c (FontLayoutContext): New member rfont.
+	(run_otf): Adjusted for the change of mfont__ft_drive_otf.
+	(mfont__flt_run): Argument changed.  Initialize ctx.rfont.
+
+	* font-ft.c (ft_find_metric): Arguments changed.  Get metrics of
+	multiple glyphs.
+	(NUM_POINTS): New macro.
+	(MPointTable): New type.
+	(ft_render): Use mwin__draw_points instead of mwin__draw_bitmap.
+	(mfont__ft_drive_otf): New argument rfont.
+
+	* fontset.c (realize_font_group): Adjusted for the changed of
+	mfont__select.
+	(check_fontset_element): This function deleted.
+
+	* input-gui.c (adjust_window_and_draw): Locate a preedit window
+	off the parent window if the preedit text is zero length.
+
+	* internal-gui.h (struct MFrame): New members foreground,
+	background, videomode, font.
+	(struct MGlyphString): New member anti_alias.
+	(MDrawPoint): New type.
+	(mwin__draw_bitmap): Prototype deleted.
+	(mwin__draw_points): Prototype added.
+
+	* m17n-gui.h (MDrawControl): New member anti_alias.
+
+	* m17n-gui.c (free_frame): Free frame->font.
+	(mframe): Set the fontset of frame->face to the default fontset.
+
+	* m17n-X.c (RGB_GC): New type.
+	(enum gc_index): Renamed from enum face_gc.  Member names changed.
+	(GCInfo): New typel
+	(struct MWDevice): Members foreground and background deleted.  New
+	member scratch_gc, gc_list.
+	(DEFAULT_FONT, FALLBACK_FONT): New macros.
+	(free_device): Free GCs in device->gc_list.
+	(get_rgb_gc): New function.
+	(get_gc): Renamed and argument changed from get_color.
+	(get_gc_for_anti_alias): New function.
+	(xfont_find_metric): Arguments changed.  Get metrics of multiple
+	glyphs.
+	(set_region): Argument changed.  Caller changed.
+	(xfont_render): Allways set a font in gc.
+	(x_error_handler, x_io_error_handler): Define only if
+	X_SET_ERROR_HANDLER is defined.
+	(mwin__open_device): Create device->scratch_gc.  Set members
+	foreground, background, and videomode of frame.  Call
+	XSetErrorHandler and XSetIOErrorHandler only if
+	X_SET_ERROR_HANDLER is defined.
+	(struct gc_list): Deleted.
+	(REGISTER_GC, UNREGISTER_GC): These macros deleted.
+	(mwin__realize_face): Adjusted for the change of the format of
+	rface->info and the charge of set_region.
+	(mwin__free_realized_face, mwin__fill_space, mwin__draw_hline)
+	(mwin__draw_box): Likewise.
+	(mwin__draw_bitmap): This function deleted.
+	(mwin__draw_points): New function.
+	(mwin__verify_region): Adjusted for the change of the format of
+	rface->info and the charge of set_region.
+	(mwin__create_window): Inherit backgound pixel from parent.
+	(mwin__dump_gc): Adjusted for the change of the format of
+	rface->info.
+
+2004-03-16  Kenichi Handa  <handa@m17n.org>
+
+	* m17n-X.c (mwin__parse_event): Fix handling of modifier keys.
+
+	* input.c (M_key_alias): New variable.
+	(handle_key): Try M_key_alias property of a key too.
+	(minput__init): Initialize M_key_alias.  Give that property to
+	symbols in one_char_symbol.  Fix bug of initializing
+	one_char_symbol.
+
+	* draw.c (compose_glyph_string): Don't handle
+	ignore_formatting_char here.  Include formatting characters in the
+	range processed by a FTL.
+	(layout_glyph_string): Handle ignore_formatting_char here.
+
+2004-03-12  Kenichi Handa  <handa@m17n.org>
+
+	* input-gui.c (win_create_ic): Enable bidi in status control.
+
+	* draw.c (visual_order): Avoid re-ordering of combining glyphs only.
+
+2004-03-09  Kenichi Handa  <handa@m17n.org>
+
+	* input.c (load_input_method): If title is not specified, use the
+	input method name as title.
+
+	* m17n-X.c (get_color): Make it static.
+	(xim_create_ic, xim_destroy_ic, x_error_handler)
+	(x_io_error_handler): Likewise.
+
+2004-03-01  Kenichi Handa  <handa@m17n.org>
+
+	* Version 1.0 released.
+
+
+Copyright (C) 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012
+  2013, 2014
+  National Institute of Advanced Industrial Science and Technology (AIST)
+  Registration Number H15PRO112
+
+This file is part of the m17n library.
+
+The m17n library is free software; you can redistribute it and/or
+modify it under the terms of the GNU Lesser General Public License
+as published by the Free Software Foundation; either version 2.1 of
+the License, or (at your option) any later version.
+
+The m17n library is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+Lesser General Public License for more details.
+
+You should have received a copy of the GNU Lesser General Public
+License along with the m17n library; if not, write to the Free
+Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+Boston, MA 02110-1301, USA.

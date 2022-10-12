@@ -1,0 +1,370 @@
+m17n-lib (1.8.0-3) unstable; urgency=medium
+
+  * Team upload.
+  * Rebuild after Debian 11 release.
+  * Refresh packaging:
+    + Bump Standards-Version to 4.6.0.
+    + Bump debhelper compat to v13.
+  * debian/rules: Remove dbgsym transition code.
+  * debian/control: Do not include ${shlibs:Depends} in libm17n-dev
+    dependency field.
+
+ -- Boyuan Yang <byang@debian.org>  Tue, 12 Oct 2021 14:17:41 -0400
+
+m17n-lib (1.8.0-2) unstable; urgency=medium
+
+  * Team upload.
+  * debian/patches: Add patch to fix compatibility with libfreetype2
+    2.9+. (Closes: #892350).
+
+ -- Boyuan Yang <byang@debian.org>  Sat, 20 Oct 2018 10:58:12 -0400
+
+m17n-lib (1.8.0-1) unstable; urgency=medium
+
+  * Team upload.
+  * New upstream release 1.8.0.
+  * debian/control:
+    + Bump Standards-Version to 4.2.1.
+    + Update Vcs-* fields and use git repo in Salsa input-method-team group
+      (Closes: #908794).
+    + Add Input Method Team onto uploaders.
+    + Bump debhelper compat to v11.
+    + Drop unnecessary build-dependency dh-autoreconf, libtool, automake, etc.
+  * debian/watch:
+    + Update to v4 format and use https protocol.
+    + Add gpgmode=auto
+  * debian: Apply "wrap-and-sort -abst".
+  * debian/patches: Refresh patches.
+  * debian/rules:
+    + Modernize packaging.
+    + Disable parallel build to circumvent FTBFS.
+  * debian: Drop -dbg package for automatic debug package migration.
+  * debian/install:
+    + Do not install nonexistent /usr/bin/m17n-config into libm17n-dev.
+    + Install .a files into -dev package.
+  * debian/symbols: Refreshed.
+
+ -- Boyuan Yang <byang@debian.org>  Fri, 19 Oct 2018 22:27:17 -0400
+
+m17n-lib (1.7.0-4) unstable; urgency=low
+
+  * debian/control: libm17n-0-dbg: Priority changed to "optional".
+
+ -- Harshula Jayasuriya <harshula@debian.org>  Wed, 15 Nov 2017 19:16:54 +1100
+
+m17n-lib (1.7.0-3) unstable; urgency=low
+
+  * debian/control: libm17n-dev depends on dpkg-dev
+
+ -- Harshula Jayasuriya <harshula@debian.org>  Mon, 11 Jan 2016 00:31:20 +1100
+
+m17n-lib (1.7.0-2) unstable; urgency=low
+
+  * debian/control: update multi-arch metadata. All binary packages covered.
+  * m17n-config: add 0001-m17n-config-remove-libtool-user-switches.patch
+  * m17n-config: add 0002-m17n-config-modify-to-support-multi-arch.patch
+                 Thanks to Jakub Wilk <jwilk@debian.org> (Closes: #796770).
+
+ -- Harshula Jayasuriya <harshula@debian.org>  Sat, 09 Jan 2016 13:39:39 +1100
+
+m17n-lib (1.7.0-1) unstable; urgency=low
+
+  * New upstream release 1.7.0.
+  * Update Standards-Version to Debian Policy 3.9.6. (No changes)
+  * debian/patches/0001-mconv-fix-checking-of-command-line-arguments.patch
+    not required.
+  * debian/libm17n-0.symbols: added new symbol minput_parse_im_names.
+  * debian/copyright: updated
+  * Create libm17n-dev.lintian-overrides and m17n-lib-bin.lintian-overrides
+  * Enable Multi-arch support
+
+ -- Harshula Jayasuriya <harshula@debian.org>  Sat, 22 Aug 2015 00:46:35 +1000
+
+m17n-lib (1.6.4-3) unstable; urgency=low
+
+  * debian/control:
+    - Build-Depends: s/libgd2-noxpm-dev/libgd-dev/
+    - Add Vcs-Git & Vcs-Browser
+    - Depends: remove m17n-contrib. (Closes: #746928)
+    - Update Standards-Version to Debian Policy 3.9.5. (No changes)
+  * Fix debian-changelog-has-wrong-weekday
+  * Use dh-autoreconf (Closes: #750672).
+
+ -- Harshula Jayasuriya <harshula@debian.org>  Tue, 09 Sep 2014 21:43:30 +1000
+
+m17n-lib (1.6.4-2) unstable; urgency=low
+
+  * The Mayhem Team reported the following bug:
+    http://www.forallsecure.com/bug-reports/69409d6ddf6f28f4f8f8f0c26b7c9c61d70d879e/
+     - Upstream patch: 0001-mconv-fix-checking-of-command-line-arguments.patch
+  * debian/control: DM-Upload-Allowed removed
+
+ -- Harshula Jayasuriya <harshula@debian.org>  Sun, 07 Jul 2013 16:31:49 +1000
+
+m17n-lib (1.6.4-1) unstable; urgency=low
+
+  * New upstream release 1.6.4.
+  * Upstream has moved to https://savannah.nongnu.org/projects/m17n.
+  * Updated to debhelper 9.
+  * debian/copyright: update tarball location, homepage, copyright dates.
+  * debian/rules: use dpkg-buildflags
+
+ -- Harshula Jayasuriya <harshula@debian.org>  Wed, 12 Dec 2012 00:47:08 +1100
+
+m17n-lib (1.6.3-2) unstable; urgency=low
+
+  * Update maintainer email address.
+  * Update Standards-Version to Debian Policy 3.9.3. (No changes)
+  * Fix debian-rules-missing-recommended-target.
+
+ -- Harshula Jayasuriya <harshula@debian.org>  Mon, 27 May 2012 22:39:39 +1000
+
+m17n-lib (1.6.3-1) unstable; urgency=low
+
+  * New upstream release 1.6.3.
+  * Update Standards-Version to Debian Policy 3.9.2. (No changes)
+  * locale.c.patch: drop, included in upstream.
+  * add-FONTCONFIG_LD_FLAGS-to-libm17n_X_la_LIBADD.patch: drop, included
+    in upstream.
+  * debian/control:
+      - Subpackage anthy, ispell modules into m17n-lib-mimx. (Closes: 582797)
+      - m17n-lib-mimx: Depends on anthy and ispell.
+  * debian/libm17n-0.symbols: added: minput_list@Base 1.6.3
+
+ -- Harshula Jayasuriya <harshula@gmail.com>  Sun, 15 Oct 2011 21:45:56 +1100
+
+m17n-lib (1.6.2-3) unstable; urgency=low
+
+  * FTBFS fix: add-FONTCONFIG_LD_FLAGS-to-libm17n_X_la_LIBADD.patch
+               (Closes: 618080)
+
+ -- Harshula Jayasuriya <harshula@gmail.com>  Sun, 20 Mar 2011 22:53:25 +1100
+
+m17n-lib (1.6.2-2) unstable; urgency=low
+
+  * debian/control: BUGFIX: add ispell to Build-Depends.
+
+ -- Harshula Jayasuriya <harshula@gmail.com>  Mon, 10 Jan 2011 00:39:16 +1100
+
+m17n-lib (1.6.2-1) unstable; urgency=low
+
+  * New upstream release 1.6.2.
+  * Update Standards-Version to Debian Policy 3.9.1. (No changes)
+  * debian/control: Depends: m17n-db and m17n-contrib. (Closes: #599643)
+  * PATCH: (make_locale): Don't call setlocale.  Just parse the arg NAME.
+           (Closes: #601858)
+
+ -- Harshula Jayasuriya <harshula@gmail.com>  Tue, 23 Nov 2010 01:39:29 +1100
+
+m17n-lib (1.6.1-1) unstable; urgency=low
+
+  * New upstream release 1.6.1.
+  * Update Standards-Version to Debian Policy 3.8.4. (No changes)
+  * debian/source/format: 3.0 (quilt).
+  * debian/README.source: deleted.
+  * debian/rules: remove all references to patch and dpatch.
+  * debian/copyright: update dates.
+  * debian/control:
+      - Build-depends: remove dpatch.
+      - Build-depends: libotf >= 0.9.11
+      - Recommends: m17n-db >= 1.6.0
+  * debian/patches/fix_loadable_modules_path.dpatch: removed, fixed upstream.
+  * debian/patches/fix_soversion.patch: removed, fixed upstream.
+  * debian/libm17n-0.install: module directory changed from /usr/lib/m17n-lib/
+    to /usr/lib/m17n/1.0/ .
+  * debian/libm17n-0.symbols: updated.
+  * debian/libm17n-dev.install: remove modules.
+
+ -- Harshula Jayasuriya <harshula@gmail.com>  Sat, 26 Jun 2010 02:21:26 +1000
+
+m17n-lib (1.5.5-1) unstable; urgency=low
+
+  * New upstream release 1.5.5.
+  * Update Standards-Version to Debian Policy 3.8.3. (No changes)
+  * debian/control:
+      - build-depend on libgd2-noxpm-dev, not libgd2-xpm-dev. (Closes: #543985)
+      - DM-Upload-Allowed: yes.
+      - Specified versioned build tools for Build-Depends.
+      - Add versioned Depends.
+  * debian/copyright: specify the version of the license file.
+  * debian/README.source: Created this file.
+  * Add debian/libm17n-0.symbols. (Closes: #555437)
+
+ -- Harshula Jayasuriya <harshula@gmail.com>  Sun, 10 Jan 2010 20:58:16 +1100
+
+m17n-lib (1.5.4-1+b1) unstable; urgency=low
+
+  * Binary-only non-maintainer upload for i386; no source changes.
+  * Rebuild against libthai 0.1.11-3 to drop dependency on libdatrie.
+
+ -- i386 Build Daemon <buildd_i386-puccini@buildd.debian.org>  Fri, 17 Apr 2009 09:40:39 +0000
+
+m17n-lib (1.5.4-1) unstable; urgency=low
+
+  * New upstream release 1.5.4.
+  * Do not add the *.la files to the -dev package. (Closes: #510330)
+  * Update Standards-Version to Debian Policy 3.8.1. (No changes)
+  * debian/control:
+      - inherit Section from source package.
+      - the -dbg package moved to the debug section.
+  * debian/copyright:
+      - add the string "Copyright" as instructed by Lintian.
+      - update the copyright dates.
+  * debian/rules:
+      - BUGFIX: add the required "\" to the multi-line configure call.
+      - BUGFIX: remove space between "-Wl," and "--as-needed".
+      - replace dh_clean -k with dh_prep.
+      - add "-Wl,-z,defs".
+      - dynamically discover the version and major number.
+
+ -- Harshula Jayasuriya <harshula@gmail.com>  Thu, 09 Apr 2009 22:03:37 +1000
+
+m17n-lib (1.5.2-1) unstable; urgency=low
+
+  * New upstream release 1.5.2.
+  * Update Standards-Version to Debian Policy 3.8.0. (No changes)
+  * Fixed upstream, removed: debian/patches/40_makefile_link_with_libs.dpatch.
+
+ -- Harshula Jayasuriya <harshula@gmail.com>  Tue, 22 Jul 2008 00:32:53 +1000
+
+m17n-lib (1.5.1-1) unstable; urgency=low
+
+  * New upstream release 1.5.1. (Closes: #434041)
+  * debian/control: changed to Section: utils.
+  * debian/{copyright,rules}: updated.
+  * Updated to debhelper 7.
+  * Enable patch fix_loadable_modules_path.
+
+ -- Harshula Jayasuriya <harshula@gmail.com>  Mon, 23 Jun 2008 23:02:47 +1000
+
+m17n-lib (1.3.4-2) unstable; urgency=high
+
+  * libm17n-dev Depends on libxml2-dev and libthai-dev. (Closes: #473957)
+
+ -- Harshula Jayasuriya <harshula@gmail.com>  Fri, 04 Apr 2008 23:15:32 +1100
+
+m17n-lib (1.3.4-1) unstable; urgency=low
+
+  * New upstream release 1.3.4. (Closes: #376077)
+  * New Maintainer.
+  * Update Standards-Version to Debian Policy 3.7.3. (No changes)
+  * Update debian/{compat,control,copyright,rules}.
+  * Add debian/{docs,watch}.
+  * Remove debian/libm17n-0.dirs.
+  * Disable patches fix_no_family, fix_loadable_modules_path.
+  * Add patch debian/patches/40_makefile_link_with_libs.dpatch.
+
+ -- Harshula Jayasuriya <harshula@gmail.com>  Mon, 10 Mar 2008 00:21:19 +1100
+
+m17n-lib (1.3.1-1.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Hardlink dlopen to use .so.0-files - not too nice, but works for now, and
+    reduces severity of bug #325528 to "only" important. Closes: #325528
+
+ -- Andreas Barth <aba@not.so.argh.org>  Fri,  1 Dec 2006 14:15:15 +0000
+
+m17n-lib (1.3.1-1) unstable; urgency=low
+
+  * New upstream release.
+  * Previous NMU acknowledged (Closes: #348806, #325528, #347002).
+  * Changed to make use of dpatch.
+  * Added a new package for debugging; libm17n-0-dbg.
+  * Moved libmimx* to /usr/lib/m17n-lib subdirectory.
+
+ -- Hidetaka Iwai <tyuyu@debian.or.jp>  Mon, 13 Feb 2006 23:03:40 +0900
+
+m17n-lib (1.2.0-5.1) unstable; urgency=low
+
+  * Non-Maintainer Upload.
+  * Handle fonts with no "family"; patch from Brendan O'Dea.
+    (Closes: #325528)
+  * Replace xlibs-dev build-dependency with explicit build-dependencies on
+    the required libraries. (Closes: #347002)
+
+ -- Steinar H. Gunderson <sesse@debian.org>  Thu, 19 Jan 2006 02:09:17 +0100
+
+m17n-lib (1.2.0-5) unstable; urgency=high
+
+  * debian/control: Added build-dependencies on libgd2-xpm-dev.  This
+  change will not affect the ABI compatibility  (closes: #325520).
+  * Adapted to debian policy 3.6.2.
+
+ -- Hidetaka Iwai <tyuyu@debian.or.jp>  Tue, 30 Aug 2005 03:56:10 +0900
+
+m17n-lib (1.2.0-4) unstable; urgency=high
+
+  * Applied tha patch which fixes FTBFS on Hurd due to PATH_MAX.
+  Thank to Michael Banck <mbanck@debian.org> (closes: #314528).
+
+ -- Hidetaka Iwai <tyuyu@debian.or.jp>  Sat, 25 Jun 2005 00:39:02 +0900
+
+m17n-lib (1.2.0-3) unstable; urgency=low
+
+  * debian/control: Added build-dependencies on libfontconfig1-dev.  This
+  change will not affect the ABI compatibility.
+
+ -- Hidetaka Iwai <tyuyu@debian.or.jp>  Mon, 13 Jun 2005 03:44:41 +0900
+
+m17n-lib (1.2.0-2) unstable; urgency=low
+
+  * debian/rules, debian/libm17n-dev.install: Fixed to install
+  /usr/lib/pkgconfig/* (closes: #298409).
+
+ -- Hidetaka Iwai <tyuyu@debian.or.jp>  Sun,  3 Apr 2005 07:23:50 +0900
+
+m17n-lib (1.2.0-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Hidetaka Iwai <tyuyu@debian.or.jp>  Tue, 28 Dec 2004 21:22:48 +0900
+
+m17n-lib (1.1.0+0.0.cvs20041208-1) unstable; urgency=low
+
+  * CVS update(trunk)
+  * Upstream fixed the problem with multiple M17N_FINI calling and now
+  gtk programs terminate correclty even with both scim-m17n and scim-uim.
+  (closes: #283126)
+  * debian/control: Add dependency on libxml2-dev (closes: #284405)
+
+ -- Hidetaka Iwai <tyuyu@debian.or.jp>  Wed,  8 Dec 2004 20:51:55 +0900
+
+m17n-lib (1.1.0-3) unstable; urgency=low
+
+  * src/input.c: Applied the patch from Kenichi Handa <handa@m17n.org>
+  (for detail, please see
+  http://freedesktop.org/pipermail/scim/2004-October/001102.html)
+
+ -- Hidetaka Iwai <tyuyu@debian.or.jp>  Sun, 29 Aug 2004 00:59:05 +0900
+
+m17n-lib (1.1.0-2) unstable; urgency=low
+
+  * debian/control: Add versioned dependency on libotf (closes: #268666)
+
+ -- Hidetaka Iwai <tyuyu@debian.or.jp>  Sun, 29 Aug 2004 00:52:15 +0900
+
+m17n-lib (1.1.0-1) unstable; urgency=low
+
+  * New upstream release
+
+ -- Hidetaka Iwai <tyuyu@debian.or.jp>  Thu, 26 Aug 2004 23:07:03 +0900
+
+m17n-lib (1.0.2-3) unstable; urgency=low
+
+  * debian/control: Add build dependency on xlibs-dev (closes: #250469).
+
+ -- Hidetaka Iwai <tyuyu@debian.or.jp>  Sun, 23 May 2004 16:33:58 +0900
+
+m17n-lib (1.0.2-2) unstable; urgency=low
+
+  * debian/rules: defined DLOPEN_SHLIB_EXT explicitly to avoid
+    loading libmimx-*.so with no version (closes: #250297).
+
+ -- Hidetaka Iwai <tyuyu@debian.or.jp>  Sun, 23 May 2004 03:23:32 +0900
+
+m17n-lib (1.0.2-1) unstable; urgency=low
+
+  * Initial Release.  Close wnpp bug (closes: #244373).
+
+ -- Hidetaka Iwai <tyuyu@debian.or.jp>  Mon, 19 Apr 2004 20:46:54 +0900
+

@@ -1,0 +1,3 @@
+0001-m17n-config-remove-libtool-user-switches.patch
+0002-m17n-config-modify-to-support-multi-arch.patch
+0003-configure.ac-Use-pkg-config-to-detect-libfreetype2.patch
